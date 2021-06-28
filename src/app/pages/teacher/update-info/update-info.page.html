@@ -1,0 +1,48 @@
+<ion-header>
+    <ion-toolbar color="appbar">
+        <ion-buttons slot="start" [routerLink]="['/teacher/dashboard']">
+            <ion-back-button defaultHref></ion-back-button>
+        </ion-buttons>
+        <ion-title>Cập nhật hồ sơ</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+    <form #formUpdateInfo (ngSubmit)="onUpdateProfile(address.value, numphone.value, email.value)" #form="ngForm">
+        <ion-item>
+            <ion-label>
+                <ion-icon name="key-outline"></ion-icon>
+            </ion-label>
+            <ion-input type="text" disabled [placeholder]="infoTeacher?.teacher_id">
+            </ion-input>
+        </ion-item>
+
+        <ion-item>
+            <ion-label>Họ tên</ion-label>
+            <ion-input type="text" disabled [placeholder]="infoTeacher?.teacher_name">
+            </ion-input>
+        </ion-item>
+
+        <ion-item>
+            <ion-label position="floating">Địa chỉ</ion-label>
+            <ion-textarea type="text" required #address [value]="infoTeacher?.teacher_address">
+            </ion-textarea>
+        </ion-item>
+
+        <ion-item>
+            <ion-label position="floating">Số điện thoại</ion-label>
+            <ion-input type="text" required #numphone [value]="infoTeacher?.teacher_numphone">
+            </ion-input>
+        </ion-item>
+
+        <ion-item>
+            <ion-label position="floating">Email</ion-label>
+            <ion-input type="email" required #email [value]="infoTeacher?.teacher_email">
+            </ion-input>
+        </ion-item>
+        <ion-button type="submit">
+            Cập nhật hồ sơ
+        </ion-button>
+    </form>
+
+</ion-content>

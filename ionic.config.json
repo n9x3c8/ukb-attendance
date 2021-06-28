@@ -1,0 +1,7 @@
+{
+  "name": "UKB Attendance",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

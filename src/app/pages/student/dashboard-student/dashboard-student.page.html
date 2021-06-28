@@ -1,0 +1,59 @@
+<ion-content [fullscreen]="true">
+  <div id="container">
+    <header>
+      <ion-avatar>
+        <img [src]="avatar" />
+      </ion-avatar>
+      <div class="info">
+        <div class="student-name">
+          Sinh viên: <span>{{ student?.student_name }}</span>
+        </div>
+        <div class="class-name">Lớp: {{ student?.class_id }}</div>
+      </div>
+      <div class="profile">
+        <ion-icon name="ellipsis-vertical-outline"></ion-icon>
+      </div>
+    </header>
+
+
+    <div class="dashboard-name">Bảng điều khiển</div>
+
+    <div class="main-dashboard">
+      <div class="feture" (click)="onAttendanceGPS()">
+        <ion-thumbnail>
+          <img src="assets/images/attendance-student.png" />
+        </ion-thumbnail>
+        <div class="feture-name">điểm danh</div>
+      </div>
+
+      <div class="feture" [routerLink]="['/student/take-leave']">
+        <ion-thumbnail>
+          <img src="assets/images/take-leave.png" />
+        </ion-thumbnail>
+        <div class="feture-name">xin nghỉ</div>
+      </div>
+
+      <div class="feture" [routerLink]="['/student/statistical']">
+        <ion-thumbnail>
+          <img src="assets/images/statistical.png" />
+        </ion-thumbnail>
+        <div class="feture-name">thống kê</div>
+      </div>
+
+      <div class="feture" [routerLink]="['/student/leave-application']">
+        <ion-thumbnail>
+          <img src="assets/images/statistical.png" />
+        </ion-thumbnail>
+        <div class="feture-name">danh sách đơn xin nghỉ</div>
+      </div>
+
+      <div class="feture" (click)="onLogout()">
+        <ion-thumbnail>
+          <img src="assets/images/logout.png" />
+        </ion-thumbnail>
+        <div class="feture-name">đăng xuất</div>
+      </div>
+    </div>
+
+  </div>
+</ion-content>

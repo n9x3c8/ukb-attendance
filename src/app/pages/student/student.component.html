@@ -1,0 +1,18 @@
+<div id="container">
+    <div class="content">
+        <ion-router-outlet></ion-router-outlet>
+    </div>
+
+    <attendance-nav-bottom
+        [classActiveName]="'active'"
+        [tab1]="['/student/dashboard']"
+        [iconTab1]="'apps-outline'"
+        [tab2]="['/student/notifications']"
+        [iconTab2]="'notifications-outline'"
+        [badgeContent]="notifications.length"
+        [tab3]="['/student/update-profile']"
+        [iconTab3]="'person-outline'"
+        [tab4]="['/student/dashboard']"
+        [iconTab4]="'help-circle-outline'">
+    </attendance-nav-bottom>
+</div>

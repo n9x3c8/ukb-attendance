@@ -1,0 +1,29 @@
+<ion-content fullscreen="true">
+  <form id="container" (ngSubmit)="onLogin(username.value, password.value)" #formLogin>
+    <div class="edit-text">
+      <ion-icon name="person-circle"></ion-icon>
+      <input
+        type="text"
+        required 
+        placeholder="Mã GV / SV" #username />
+    </div>
+    
+    <div class="edit-text">
+      <ion-icon name="key"></ion-icon>
+      <ion-icon
+        class="hide-show-password"
+        [name]="isShowPassword ? 'eye-off' : 'eye'"
+        (click)="onChangeHideState()">
+      </ion-icon>
+      <input
+        required
+        placeholder="Mật khẩu"
+        #password
+        [type]="isShowPassword ? 'text' : 'password'" />
+    </div>
+
+    <button type="submit">
+      <span>Đăng Nhập</span>
+    </button>
+  </form>
+</ion-content>

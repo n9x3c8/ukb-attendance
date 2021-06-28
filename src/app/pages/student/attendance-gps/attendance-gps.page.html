@@ -1,0 +1,32 @@
+<ion-app>
+    <ion-header>
+        <ion-toolbar color="appbar">
+            <ion-buttons slot="start" [routerLink]="['/student/dashboard']">
+                <ion-back-button defaultHref></ion-back-button>
+            </ion-buttons>
+            <ion-title>Điểm danh</ion-title>
+        </ion-toolbar>
+    </ion-header>
+
+    <ion-content class="ion-padding">
+        <section class="container">
+            <div class="info" *ngIf="infoDetailAttendance">
+                <div class="info-text">Tên môn học: <span>{{ infoDetailAttendance[0]?.subject_name }}</span></div>
+                <div class="info-text">Tên giảng viên: <span>{{ infoDetailAttendance[0]?.teacher_name }}</span></div>
+                <div class="info-text">Buổi thứ: <span>{{ infoDetailAttendance[0]?.learn_session }}</span></div>
+                <div class="info-text">Số buổi nghỉ: <span>{{ infoDetailAttendance[0]?.leave_session ? infoDetailAttendance[0]?.leave_session : 0 }}</span></div>
+                <div class="info-text">Tổng số buổi: <span>{{ infoDetailAttendance[0]?.total_session }}</span></div>
+            </div>
+            
+            <div class="attendance-control" *ngIf="infoDetailAttendance">
+                <ion-button
+                    color="secondary"
+                    [disabled]="isEnableAttendance"
+                    (click)="onAttendanceGPS()"
+                    >
+                    {{ isEnableAttendance ? 'Đã điểm danh' : 'Mời điểm danh' }}
+                </ion-button>
+            </div>
+        </section>
+    </ion-content>
+</ion-app>

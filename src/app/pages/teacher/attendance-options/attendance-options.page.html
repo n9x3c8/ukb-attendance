@@ -1,0 +1,65 @@
+<ion-app>
+    <ion-header>
+        <ion-toolbar color="appbar">
+            <ion-buttons slot="start" [routerLink]="['/teacher/dashboard']">
+                <ion-back-button defaultHref></ion-back-button>
+            </ion-buttons>
+            <ion-title>Bật điểm danh</ion-title>
+        </ion-toolbar>
+    </ion-header>
+
+    <ion-content class="ion-padding">
+        <ion-item>
+            <ion-label>Chọn Lớp: </ion-label>
+            <ion-select
+                interface="action-sheet"
+                class="custom-options"
+                [disabled]="!isEnableAttendance"
+                (ionChange)="onChangeClass($event)"
+                [(ngModel)]="selectedClass">
+                <ion-select-option *ngFor="let c of class" [value]="c.class_id">{{ c.class_name }}</ion-select-option>
+            </ion-select>
+        </ion-item>
+
+        <ion-item>
+            <ion-label>Chọn Môn Học: </ion-label>
+            <ion-select
+                interface="action-sheet"
+                class="custom-options"
+                [disabled]="!isEnableSelectSubject"
+                [(ngModel)]="selectedSubject"
+                >
+                <ion-select-option
+                    *ngFor="let subject of subjects"
+                    [value]="subject.subject_id">
+                    {{ subject.subject_name }}
+                </ion-select-option>
+            </ion-select>
+        </ion-item>
+
+        <ion-item>
+            <ion-label>Bán kính (đơn vị mét)</ion-label>
+            <ion-range
+                min="5" max="100"
+                dualKnobs="true"
+                pin="true"
+                snaps="true"
+                step="1"
+                ticks="true"
+                value="0"
+                [disabled]="!isEnableAttendance"
+                (ionChange)="onChangeRadius($event)">
+            </ion-range>
+        </ion-item>
+        <div class="ion-text-center" style="font-size: 1.8rem;">{{ radius }} mét</div>
+        <ion-button
+            expand="block"
+            #btnAttendance
+            (click)="onProcessAttendance()"
+        >
+            <span #txtAttendance>
+                Bật Điểm Danh
+            </span>
+        </ion-button>
+    </ion-content>
+</ion-app>

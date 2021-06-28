@@ -1,0 +1,58 @@
+<ion-header>
+  <ion-toolbar color="appbar">
+      <ion-buttons slot="start" (click)="onGotoDashBoard()">
+          <ion-icon slot="start" name="arrow-back-outline"></ion-icon>
+      </ion-buttons>
+      <ion-title>Thông Báo</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-list *ngIf="notifications">
+      <ion-item-sliding
+          *ngFor="let notification of notifications; index as idx; trackBy: trackByFn">
+          <ion-item
+            [ngClass]="notification?.is_seen == '0' ? 'item2' : 'item1'"
+            (click)="onViewDetail(notification, idx)">
+              <img src="assets/images/avatar.jpg" />
+              <div class="detail">
+                  <div class="notification-title">
+                      <strong>{{ notification?.teacher_name }} </strong> đã phản hồi đơn xin nghỉ.
+                  </div>
+                  <div class="take-leave-reason" *ngIf="notification?.denine_reason">
+                      Lý do: {{ notification?.denine_reason | sliceReasonPipe:0:25 }}
+                  </div>
+              </div>
+          </ion-item>
+      </ion-item-sliding>
+  </ion-list>
+
+
+  <ion-list *ngIf="!notifications">
+    <ion-item *ngFor="let item of [1,1,1,1,1,1,1]">
+      <ion-avatar slot="start">
+        <ion-skeleton-text animated></ion-skeleton-text>
+      </ion-avatar>
+      <ion-label>
+        <h3>
+          <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
+        </h3>
+        <p>
+          <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
+        </p>
+        <p>
+          <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
+        </p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <attendance-no-data
+    [icon]="'notifications-off-sharp'"
+    [condition]="!notifications"
+    [content]="'Không có thông báo nào'"
+    [contentBtn]="'Thử lại'"
+    (eventNoData)="onHandleNoData($event)">
+  </attendance-no-data>
+
+</ion-content>

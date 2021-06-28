@@ -1,0 +1,46 @@
+<ion-content [fullscreen]="true">
+    <h1>{{ title }}</h1>
+  
+    <div class="tab-group">
+      <div class="tab">
+        <input type="checkbox" id="tab-one" checked/>
+        <label for="tab-one">
+          <div class="number">1</div>
+          <span>Tại sao chọn UKBApp?</span>
+        </label>
+        <div class="tab-content">
+          <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eligendi cupiditate illo esse amet nemo optio
+            obcaecati, repellat consectetur provident ipsam minus, architecto neque sint explicabo quibusdam officia error
+            laudantium corporis.</p>
+        </div>
+      </div>
+  
+      <div class="tab">
+        <input type="checkbox" id="tab-two" />
+        <label for="tab-two">
+          <div class="number">2</div>
+          <span>Ứng dụng của UKBApp là gì?</span>
+        </label>
+        <div class="tab-content">
+          <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eligendi cupiditate illo esse amet nemo optio
+            obcaecati, repellat consectetur provident ipsam minus, architecto neque sint explicabo quibusdam officia error
+            laudantium corporis.</p>
+        </div>
+      </div>
+  
+      <div class="tab">
+        <input type="checkbox" id="tab-three" />
+        <label for="tab-three">
+          <div class="number">3</div>
+          <span>Em ăn cơm chưa?</span>
+        </label>
+        <div class="tab-content">
+          <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eligendi cupiditate illo esse amet nemo optio
+            obcaecati, repellat consectetur provident ipsam minus, architecto neque sint explicabo quibusdam officia error
+            laudantium corporis.</p>
+        </div>
+      </div>
+
+      <ng-content></ng-content>
+    </div>
+  </ion-content>

@@ -1,0 +1,62 @@
+<ion-header>
+    <ion-toolbar color="appbar">
+        <ion-buttons slot="start" [routerLink]="['/teacher/dashboard']">
+            <ion-icon slot="start" name="arrow-back-outline"></ion-icon>
+        </ion-buttons>
+        <ion-title>Thông Báo</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+    <ion-list *ngIf="!stateLoadData && studentTakeLeave">
+        <ion-item-sliding
+            *ngFor="let student of studentTakeLeave; index as idx; trackBy: trackByFn">
+            <ion-item class="item" (click)="onShowDetail(student)">
+                <img src="assets/images/avatar.jpg" />
+                <div class="detail">
+                    <div class="notification-title">
+                        <strong>{{ student?.student_name }} </strong> lớp <strong>{{ student?.class_id }}</strong> đã
+                        gửi đơn
+                        xin nghỉ phép.
+                    </div>
+                    <div class="take-leave-reason">
+                        Lý do: {{ student?.leave_reason | sliceReasonPipe:0:25 }}
+                    </div>
+                </div>
+            </ion-item>
+
+            <ion-item-options side="end">
+                <ion-item-option color="danger" (click)="onConfirm(student, false, idx)">
+                    Từ chối
+                </ion-item-option>
+
+                <ion-item-option color="success" (click)="onConfirm(student, true, idx)">
+                    Phê duyệt
+                </ion-item-option>
+            </ion-item-options>
+        </ion-item-sliding>
+    </ion-list>
+
+    <ion-list *ngIf="stateLoadData && !studentTakeLeave">
+        <div
+            class="fake-box"
+            *ngFor="let fake of fakes">
+            <ion-item class="item">
+                <ion-thumbnail class="image">
+                    <ion-skeleton-text class="avt-fake"></ion-skeleton-text>
+                </ion-thumbnail>
+                <ion-skeleton-text class="nofification-title-fake" animated style="width: 80%"></ion-skeleton-text>
+            </ion-item>
+        </div>
+    </ion-list>
+
+    <attendance-no-data
+        [icon]="'notifications-off-sharp'"
+        [condition]="!studentTakeLeave"
+        [content]="'Không có thông báo nào'"
+        [contentBtn]="'Thử lại'"
+        (eventNoData)="onHandleNoData($event)">
+    </attendance-no-data>
+
+</ion-content>

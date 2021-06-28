@@ -1,0 +1,15 @@
+ion-card {
+    ion-card-header {
+        ion-card-subtitle {
+            color: #333;
+            font-size: 1.6rem;
+            font-weight: 500;
+            span {
+                font-weight: 700;
+            }
+        }
+    }
+    ion-card-content {
+        font-size: 1.2rem;
+    }
+}

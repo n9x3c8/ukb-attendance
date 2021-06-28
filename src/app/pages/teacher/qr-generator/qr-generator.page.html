@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-toolbar color="appbar">
+    <ion-buttons slot="start" [routerLink]="['/teacher/dashboard']">
+      <ion-back-button defaultHref></ion-back-button>
+    </ion-buttons>
+    <ion-title>Lấy mã QR</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ngx-qrcode 
+  [elementType]="elementType" 
+  [value]="value"
+  [errorCorrectionLevel]="level">
+</ngx-qrcode>
+<ion-button>
+  Tải về
+</ion-button>
+</ion-content>

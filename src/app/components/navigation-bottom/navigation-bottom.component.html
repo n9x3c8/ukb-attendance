@@ -1,0 +1,37 @@
+<div class="navigation-bottom">
+
+    <div
+        class="tab"
+        [routerLink]="tab1"
+        [routerLinkActive]="classActiveName">
+        <ion-icon [name]="iconTab1"></ion-icon>
+    </div>
+
+    <div
+        class="tab tab2"
+        [routerLink]="tab2"
+        [routerLinkActive]="classActiveName">
+        <ion-icon [name]="iconTab2"></ion-icon>
+        <ion-badge
+            color="danger"
+            mode="ios"
+            *ngIf="badgeContent">
+            {{ badgeContent }}
+        </ion-badge>
+    </div>
+
+    <div
+        class="tab"
+        [routerLink]="tab3"
+        [routerLinkActive]="classActiveName">
+        <ion-icon [name]="iconTab3"></ion-icon>
+    </div>
+
+    <div
+        class="tab"
+        *ngIf="tab4"
+        [routerLink]="tab4"
+        [routerLinkActive]="classActiveName">
+        <ion-icon [name]="iconTab4"></ion-icon>
+    </div>
+</div>

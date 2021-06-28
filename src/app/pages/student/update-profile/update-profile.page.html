@@ -1,0 +1,50 @@
+<ion-app>
+    <ion-header>
+        <ion-toolbar color="primary">
+            <ion-buttons slot="start" [routerLink]="['/student/dashboard']">
+                <ion-back-button defaultHref></ion-back-button>
+            </ion-buttons>
+        </ion-toolbar>
+    </ion-header>
+
+    <ion-content class="ion-padding">
+        <ion-avatar>
+            <img *ngIf="avatarUrl" [src]="avatarUrl" />
+        </ion-avatar>
+        <form (ngSubmit)="onUpdateProfile(address.value, numphone.value, email.value)" #formUpdateProfile>
+            <ion-item>
+                <ion-label>
+                    <ion-icon name="key-outline"></ion-icon>
+                </ion-label>
+                <ion-input disabled #name [placeholder]="student?.student_id" type="text"></ion-input>
+            </ion-item>
+
+            <ion-item>
+                <ion-label>Họ tên</ion-label>
+                <ion-input disabled [placeholder]="student?.student_name" type="text"></ion-input>
+            </ion-item>
+
+            <ion-item>
+                <ion-label position="floating">Địa chỉ</ion-label>
+                <ion-textarea required #address [value]="student?.student_address" type="text"></ion-textarea>
+            </ion-item>
+
+            <ion-item>
+                <input type="file" accept="image/*" (change)="selectFile($event)">
+            </ion-item>
+
+            <ion-item>
+                <ion-label position="floating">Số điện thoại</ion-label>
+                <ion-input required #numphone [value]="student?.student_numphone" type="number"></ion-input>
+            </ion-item>
+
+            <ion-item>
+                <ion-label position="floating">Email</ion-label>
+                <ion-input required #email [value]="student?.student_email" type="email"></ion-input>
+            </ion-item>
+            <ion-button [disabled]="!formUpdateProfile.checkValidity()" type="submit">
+                Cập nhật hồ sơ
+            </ion-button>
+        </form>
+    </ion-content>
+</ion-app>

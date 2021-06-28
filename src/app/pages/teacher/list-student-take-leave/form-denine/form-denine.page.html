@@ -1,0 +1,19 @@
+<ion-header>
+    <ion-toolbar color="appbar">
+        <ion-buttons slot="start" (click)="onDismiss()">
+            <ion-back-button defaultHref></ion-back-button>
+        </ion-buttons>
+        <ion-title>Nhập lý do từ chối</ion-title>
+    </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+    <ion-item>
+        <ion-textarea [(ngModel)]="data" placeholder="Nhập lý do"></ion-textarea>
+    </ion-item>
+    <ion-button
+        color="appbar"
+        expand="block"
+        (click)="onDenine()">
+        Từ chối
+    </ion-button>
+</ion-content>

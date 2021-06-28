@@ -1,0 +1,31 @@
+<ion-header>
+    <ion-toolbar color="appbar">
+        <ion-buttons slot="start" [routerLink]="['/teacher/statistical']">
+            <ion-back-button defaultHref></ion-back-button>
+        </ion-buttons>
+
+        <ion-buttons slot="end" >
+            <ion-button slot="ion-only" (click)="onPrint()">
+                <ion-icon style="width: 24px; height: 24px;" name="print-outline"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-title>{{ classId }}</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+    <ion-list *ngFor="let student of listStudentStatis">
+        <ion-item>
+            <ion-label slot="start">{{ student?.student_name }}</ion-label>
+            <ion-label slot="end">
+                <span class="agree"> {{ !student?.leave_permission ? 0 : student?.leave_permission }} </span>
+                -
+                <span class="denine"> {{ !student?.leave_denine ? 0 : student?.leave_denine }} </span>
+                /
+                <span>
+                    {{ totalSession - student?.leave_permission - student?.leave_denine }}
+                </span>
+            </ion-label>
+        </ion-item>
+    </ion-list>
+</ion-content>

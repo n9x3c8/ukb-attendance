@@ -1,0 +1,59 @@
+<ion-header>
+  <ion-toolbar color="appbar">
+    <ion-buttons slot="start" [routerLink]="['/student/dashboard']">
+      <ion-back-button defaultHref></ion-back-button>
+    </ion-buttons>
+    <ion-title>Danh sách đơn xin nghỉ</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <ion-card *ngFor="let itemTakeLeave of listLeaveApp; index as idx; trackBy: trackByFn">
+    <ion-card-header>
+
+      <ion-card-subtitle>
+        Tên môn:
+        <span>{{ itemTakeLeave?.subject_name }}</span>
+      </ion-card-subtitle>
+    </ion-card-header>
+
+    <ion-card-content>
+
+      <div class="info">
+        Ngày nộp đơn: {{ itemTakeLeave?.leave_time | date:'dd-MM-YYYY'}}
+      </div>
+
+      <div class="info">
+        Ngày muôn nghỉ: {{ itemTakeLeave?.take_leave_date | date:'dd-MM-YYYY' }}
+      </div>
+
+      <div class="info">
+        Lý do nghỉ: {{ itemTakeLeave?.leave_reason }}
+      </div>
+
+      <div class="info">
+        Phản hồi: {{ itemTakeLeave?.is_enable == 1 ? 'Đồng ý' : itemTakeLeave?.is_enable == 0 ? 'Từ chối' : 'Chưa phê duyệt' }}
+      </div>
+
+      <div class="info" *ngIf="itemTakeLeave?.is_enable != 1 && itemTakeLeave?.is_enable != null">
+        Lý do từ chối: {{ itemTakeLeave?.denine_reason }}
+      </div>
+
+      <ion-button
+        color="danger"
+        slots="only-icon"
+        *ngIf="itemTakeLeave?.isDelete == 1"
+        (click)="onHandleDel(itemTakeLeave?.leave_id_leaves, idx)">
+        <ion-icon name="trash-outline"></ion-icon>
+      </ion-button>
+
+      <ion-button 
+        color="appbar" 
+        slots="only-icon" 
+        *ngIf="!itemTakeLeave?.leave_id_list_leave"
+        (click)="onHandleEdit(itemTakeLeave, idx)">
+        <ion-icon name="create-outline"></ion-icon>
+      </ion-button>
+
+    </ion-card-content>
+  </ion-card>
+</ion-content>

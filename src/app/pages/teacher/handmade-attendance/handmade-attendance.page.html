@@ -1,0 +1,40 @@
+<ion-header>
+  <ion-toolbar color="appbar">
+    <ion-title>Điểm danh thủ công</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <div class="container">
+    <ion-list *ngIf="stateLoadData && listHandMadeAT">
+      <ion-item *ngFor="let handMadeAT of listHandMadeAT; index as idx">
+        <ion-label>
+          {{ handMadeAT?.student_name }}
+          <ion-button 
+            color="success" 
+            slots="end"
+            (click)="onHandleConfirm(handMadeAT?.student_id, 1, idx)">
+            Có mặt
+          </ion-button>
+          <ion-button 
+            color="danger"
+            (click)="onHandleConfirm(handMadeAT?.student_id, 0, idx)">
+            Vắng mặt
+          </ion-button>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+
+    <!-- FAKE --->
+    <ion-list *ngIf="stateLoadData && !listHandMadeAT">
+      <ion-item *ngFor="let item of [1,1,1,1,1,1,1,1,1,1,1,1]">
+        <ion-label>
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+
+
+
+  </div>
+</ion-content>

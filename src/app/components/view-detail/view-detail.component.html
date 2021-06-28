@@ -1,0 +1,36 @@
+<ion-content class="ion-padding">
+    <section class="student-take-leave" *ngIf="notificatonDetail">
+        <div class="detail">
+            <span>Tên giảng viên: </span> {{ notificatonDetail?.teacher_name }}
+        </div>
+        <div class="detail">
+            <span>Môn: </span> {{ notificatonDetail?.subject_name }}
+        </div>
+        <div class="detail">
+            <span>Ngày nghỉ: </span> 
+            {{  notificatonDetail?.leave_date | date:"dd-MM-YYYY" }}
+        </div>
+        <div class="detail">
+            <span>Trạng thái: </span> 
+            {{  notificatonDetail?.is_enable == '1' ? 'Phê duyệt' : !notificatonDetail?.leave_id ? "Nghỉ không phép" : "Từ chối"  }}
+        </div>
+        <div class="detail" *ngIf="notificatonDetail?.denine_reason">
+            <span>Lý do: </span> {{ notificatonDetail?.denine_reason }}
+        </div>
+    </section>
+
+    <section class="student-take-leave" *ngIf="student">
+        <div class="detail">
+            <span>Môn: </span> {{ student?.subject_name }}
+        </div>
+        <div class="detail">
+            <span>Ngày nộp đơn: </span> {{ student?.leave_time | date:'hh:mm dd-MM-YYYY' }}
+        </div>
+        <div class="detail">
+            <span>Ngày muốn nghỉ: </span> {{ student?.take_leave_date | date:'dd-MM-YYYY' }}
+        </div>
+        <div class="detail">
+            <span>Lý do: </span> {{ student?.leave_reason }}
+        </div>
+    </section>
+</ion-content>

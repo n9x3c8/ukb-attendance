@@ -1,0 +1,35 @@
+ion-content {
+    --padding-top: 0;
+    --padding-bottom: 0;
+    --padding-start: 0;
+    --padding-end: 0;
+    --background: rgba(0, 0, 0, .5);
+    #notificaton-detail {
+        width: 100%;
+        background-color: rgb(245, 220, 220);
+        box-shadow: 0 -2px 8px rgba(152, 186, 224, 0.25);
+    }
+
+    .student-take-leave {
+        height: auto;
+        background-color: #FAFDFD;
+        padding: 8px 16px 0 16px;
+        margin: 0 16px 16px 16px;
+        border-radius: 4px;
+        .detail {
+            font-size: 16px;
+            color: #02463E;
+            text-align: justify;
+            padding-top: 8px;
+            span {
+                font-weight: 700;
+            }
+        }
+        .detail:last-child {
+            padding-bottom: 8px;
+        }
+    }
+    .student-take-leave::-webkit-scrollbar {
+        display: none;
+    }
+}

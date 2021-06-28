@@ -1,0 +1,5 @@
+<div class="no-data" *ngIf="condition">
+  <ion-icon [name]="icon"></ion-icon>
+  <div class="content">{{ content }}</div>
+  <ion-button (click)="onHandleEventNoData()">{{ contentBtn }}</ion-button>
+</div>
