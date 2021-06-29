@@ -13,12 +13,14 @@
         <ion-item-sliding
             *ngFor="let student of studentTakeLeave; index as idx; trackBy: trackByFn">
             <ion-item class="item" (click)="onShowDetail(student)">
-                <img src="assets/images/avatar.jpg" />
+                <img
+                    [src]="(student?.student_avatar ? url + student?.student_avatar : +student?.student_gender === 1 ? 'assets/images/avatar-male.webp' : 'assets/images/avatar-female.webp')"
+                    [alt]="student?.student_name" />
                 <div class="detail">
                     <div class="notification-title">
-                        <strong>{{ student?.student_name }} </strong> lớp <strong>{{ student?.class_id }}</strong> đã
-                        gửi đơn
-                        xin nghỉ phép.
+                        <strong>{{ student?.student_name }} </strong> lớp <strong>{{ student?.class_id }}</strong>
+                        gửi đơn xin nghỉ phép 
+                        môn <strong>{{ student?.subject_name }}</strong>
                     </div>
                     <div class="take-leave-reason">
                         Lý do: {{ student?.leave_reason | sliceReasonPipe:0:25 }}
@@ -28,11 +30,17 @@
 
             <ion-item-options side="end">
                 <ion-item-option color="danger" (click)="onConfirm(student, false, idx)">
-                    Từ chối
+                    <div class="confirm">
+                        <ion-icon class="denine" name="backspace-outline"></ion-icon>
+                        <div class="confirm-text">Từ chối</div>
+                    </div>
                 </ion-item-option>
 
-                <ion-item-option color="success" (click)="onConfirm(student, true, idx)">
-                    Phê duyệt
+                <ion-item-option color="agree" (click)="onConfirm(student, true, idx)">
+                    <div class="confirm">
+                        <ion-icon class="agree" name="checkbox-outline"></ion-icon>
+                        <div class="confirm-text">Chấp nhận</div>
+                    </div>
                 </ion-item-option>
             </ion-item-options>
         </ion-item-sliding>

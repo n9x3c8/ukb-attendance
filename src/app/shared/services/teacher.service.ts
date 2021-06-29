@@ -30,6 +30,13 @@ export class TeacherService  extends DomainAPI{
     return this.http.get(url);
   }
 
+  // dem thong bao sv xin nghi cho giang vien
+  public async getCountNotifications(currentTime: string) {
+    this.username = await this._storageService.get('username');
+    let url: string = `${this.domain}/mvc/public/leave/count_notification_take_leave/${this.username}/${currentTime}`;
+    return this.http.get(url);
+  }
+
   //Teacher
   public async  infoTeacher() {
     this.username = await this._storageService.get('username');

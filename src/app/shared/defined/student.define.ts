@@ -27,6 +27,8 @@ export type InputValue = string | number;
 export interface IStudentTakeLeave {
     student_id: string;
     student_name: string;
+    student_avatar: string;
+    student_gender: number;
     class_id: string;
     subject_id: string;
     subject_name: string;

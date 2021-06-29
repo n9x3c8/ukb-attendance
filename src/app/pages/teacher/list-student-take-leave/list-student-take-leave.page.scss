@@ -69,6 +69,29 @@ ion-content {
             ion-item-option {
                 color: #E8FAF8;
                 border-bottom: .1rem solid rgba(49, 196, 171, 0.87);
+                .confirm {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+                    text-align: center;
+                    ion-icon.denine {
+                        width: 2.8rem;
+                        height: 2.8rem;
+                        margin-bottom: .4rem;
+                    }
+
+                    ion-icon.agree {
+                        width: 2.6rem;
+                        height: 2.6rem;
+                        margin-bottom: .6rem;
+                    }
+                    &-text {
+                        font-weight: 500;
+                        font-size: 1.6rem;
+                    }
+                }
+
             }
         }
     }

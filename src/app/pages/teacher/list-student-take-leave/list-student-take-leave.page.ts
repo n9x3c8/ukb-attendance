@@ -21,7 +21,7 @@ export class ListStudentTakeLeavePage extends DomainAPI implements ViewDidEnter,
         })
     }
 
-    deninePage: any = FormDeninePage;
+    public url: string;
     public studentTakeLeave: IStudentTakeLeave[];
     public stateLoadData: boolean = true;
     public fakes: any = Array(8);
@@ -35,6 +35,7 @@ export class ListStudentTakeLeavePage extends DomainAPI implements ViewDidEnter,
         private readonly _teacherService: TeacherService,
     ) {
         super();
+        this.url = `${this.domain}mvc/public/images/`;
     }
 
     ionViewDidEnter() {
@@ -55,6 +56,7 @@ export class ListStudentTakeLeavePage extends DomainAPI implements ViewDidEnter,
     }
 
     public async onConfirm(student: IStudentTakeLeave, state: boolean, idx: number) {
+        let randomNum: number = Math.floor(Math.random() * 100);
         if (state) {
             await this._sharedService.showLoading('Xin chờ...');
             let url: string = `${this.domain}/mvc/public/leave/teacher_agree`;
@@ -68,7 +70,7 @@ export class ListStudentTakeLeavePage extends DomainAPI implements ViewDidEnter,
             };
             return await this._http.post(url, data, this.options).subscribe((res: any) => {
                 this.studentTakeLeave.splice(idx, 1);
-                this.setQueryParam(idx);
+                this.setQueryParam(randomNum);
                 this._sharedService.loading.dismiss();
             });
         }
@@ -98,7 +100,7 @@ export class ListStudentTakeLeavePage extends DomainAPI implements ViewDidEnter,
                 denine_reason
             };
             return await this._http.post(url, data, this.options).subscribe((res: any) => {
-                this.setQueryParam(idx);
+                this.setQueryParam(randomNum);
                 const msg: string = `Từ chối sinh viên ${student.student_name} thành công!`;
                 this.studentTakeLeave.splice(idx, 1);
                 this._sharedService.loading.dismiss();
