@@ -11,6 +11,15 @@ export class PrintComponent implements OnInit {
 
     ngOnInit() {
       console.log(this.students);
+    }
+
+    onClick() {
+      let print = document.getElementById('print');
+
+
+      console.log(print.innerHTML);
+            
+      
       
     }
 

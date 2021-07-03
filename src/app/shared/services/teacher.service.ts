@@ -97,6 +97,12 @@ export class TeacherService  extends DomainAPI{
       return this.http.get(URL);
     }
 
+    // lay ra ds nghi cua sinh vien | chuc nang thong ke
+    public getListLeaveDate(studentId: string, subjectId: string, currentDate: string) {
+      const URL: string = `${this.domain}/mvc/public/statistical/list_leave_date/${studentId}/${subjectId}/${currentDate}`;
+      return this.http.get(URL);
+    }
+
     //trong chi tiet buoi hoc (nghi k phep) GV cap nhap
     public deleteWithoutLeave(studentId: string, subjectId: string, currentDate: string) {
       const URL: string = `${this.domain}/mvc/public/leave/rm_without_leave/${studentId}/${subjectId}/${currentDate}`;

@@ -35,7 +35,7 @@ export class ListStudentTakeLeavePage extends DomainAPI implements ViewDidEnter,
         private readonly _teacherService: TeacherService,
     ) {
         super();
-        this.url = `${this.domain}mvc/public/images/`;
+        this.url = `${this.domain}/mvc/public/images/`;
     }
 
     ionViewDidEnter() {

@@ -9,7 +9,7 @@
 
 
 <ion-content class="ion-padding">
-  <ion-card
+  <!-- <ion-card
     *ngFor="let statis of infoStatistical"
     (click)="onViewDetail(statis?.class_id, statis?.subject_id, statis?.subject_credit)"
     >
@@ -39,5 +39,38 @@
         {{ !statis?.learn_session ? 0 : statis?.learn_session }}/{{ statis?.subject_credit == '3' ? '12' : 8 }}
       </div>
     </ion-card-content>
-  </ion-card>
+  </ion-card> -->
+
+  <ion-virtual-scroll [items]="infoStatistical" approxItemHeight="320px">
+    <ion-card
+      *virtualItem="let statis; let itemBounds = bounds;"
+      (click)="onViewDetail(statis?.class_id, statis?.subject_id, statis?.subject_credit)">
+      <ion-card-header>
+
+        <ion-card-subtitle>
+          Tên môn:
+          <span>{{ statis?.subject_name }}</span>
+        </ion-card-subtitle>
+      </ion-card-header>
+  
+      <ion-card-content>
+        <div class="info">
+          Mã lớp: {{ statis?.class_id }}
+        </div>
+        <div class="info">
+          Tên lớp: {{ statis?.class_name }}
+        </div>
+        <div class="info" *ngIf="statis?.year">
+          {{ statis?.month | convertMonthToSemester }}
+          - 
+          {{ statis?.year }}
+        </div>
+  
+        <div class="info">
+          Tổng buổi đã giảng dạy:
+          {{ !statis?.learn_session ? 0 : statis?.learn_session }}/{{ statis?.subject_credit == '3' ? '12' : 8 }}
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </ion-virtual-scroll>
 </ion-content>

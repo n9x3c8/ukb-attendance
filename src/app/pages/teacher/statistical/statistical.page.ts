@@ -38,11 +38,12 @@ export class StatisticalPage implements OnInit, OnDestroy {
             return;
         });
     }
-
+    
     public onViewDetail(classId: string, subjectId: string, subjectCredit: string) {
         let totalSession: number = subjectCredit == '3' ? 12 : 8;
         return this._router.navigate(['teacher', 'view-detail-statistical', classId, subjectId, totalSession]);
     }
+
 
     ngOnDestroy() {
         this.subscription.unsubscribe();

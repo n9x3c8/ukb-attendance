@@ -1,5 +1,5 @@
 <ion-header>
-    <ion-toolbar>
+    <ion-toolbar color="appbar">
         <ion-buttons slot="start" [routerLink]="['/student/dashboard']">
             <ion-back-button defaultHref></ion-back-button>
         </ion-buttons>
@@ -38,7 +38,7 @@
             (ionChange)="validLeaveReason($event)">
         </ion-textarea>
     </ion-item>
-    <ion-button (click)="onAddStudentInLeave()" expand="block" fill="clear" shape="round">
+    <ion-button (click)="onAddStudentInLeave()" color="primary" expand="block">
         Gửi đơn xin nghỉ
     </ion-button>
 </ion-content>

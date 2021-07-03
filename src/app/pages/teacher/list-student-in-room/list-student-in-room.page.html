@@ -60,7 +60,7 @@
 
       <!---     state khi chưa tắt điểm danh là 1, sau khi tắt điểm danh là 0 (sv nghỉ)     -->
       <ion-label
-        [ngStyle]="{color: student?.leave_session >= 2 ? 'red' : 'inherit'}">
+        [ngStyle]="{color: student?.state == 0 ? 'red' : 'inherit'}">
       {{ idx + 1 }} - {{ student?.student_name }}
     </ion-label>
 

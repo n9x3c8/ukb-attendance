@@ -1,71 +1,78 @@
-<style>
-    @font-face {
-    font-family: time_news_roman;
-    src: url(./assets//times.ttf) format("ttf");
-    font-weight: 200;
-  }
-  </style>
-  <ion-content class="ion-padding" style="--background: #fff; --color: #000; --padding-end: 0; --padding-start: 0;" [fullscreen]="true">
-    <div id="print" style="font-family: time_news_roman !important; width: 100%; display: flex; flex-direction: column; padding: 0 16px;">
-      <div class="slogan" style=" width: 100%; display: flex; justify-content: space-around; align-items: center;">
-        <div class="title" style="font-size: 14px;">
-          BỘ GIÁO DỤC VÀ ĐÀO TẠO
-          <div class="i" style="font-size: 13px; font-weight: 700; text-decoration: underline; text-align: center;">
-            TRƯỜNG ĐẠI HỌC KINH BẮC
-          </div>
-        </div>
-        <div class="title" style="font-size: 14px;">
-          CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
-          <div class="i" style="font-size: 13px; font-weight: 700; text-decoration: underline; text-align: center;">ĐỘC
-            LẬP TỰ DO HẠNH PHÚC</div>
+<ion-content class="ion-padding" style="--background: #fff; --color: #000; --padding-end: 0; --padding-start: 0;"
+  [fullscreen]="true">
+  <button (click)="onClick()">Get innerHTML</button>
+  <div id="print"
+    style="font-family: test !important; width: 100%; display: flex; flex-direction: column; padding: 0 16px; display: none;">
+    <style>
+      @font-face {
+      font-family: test;
+      src: url(../../../../../assets/times.ttf) format("truetype");
+      font-weight: 200;
+    }
+    </style>
+    <div class="slogan" style="font-family: test !important; width: 100%; display: flex; justify-content: space-around; align-items: center;">
+      <div class="title" style="font-family: test !important; font-size: 14px;">
+        BỘ GIÁO DỤC VÀ ĐÀO TẠO
+        <div class="i" style="font-family: test !important; font-size: 13px; font-weight: 700; text-decoration: underline; text-align: center;">
+          TRƯỜNG ĐẠI HỌC KINH BẮC
         </div>
       </div>
-  
-  
-      <h1 style="  font-size: 18px; font-weight: 700; text-align: center; margin: 16px 0 4px 0;">BẢNG ĐIỂM QUÁ TRÌNH</h1>
-      <h2 style="  font-size: 16px; font-weight: 600; text-align: center;  margin: 4px 0 4px 0;">Lần học: 1 Học kỳ: 2 - Năm học: 2020 -2021</h2>
-      <div class="info-subject">
-        Học phần:............................................
-        (Số tín chỉ:.....) - Lớp: <span style="color: red;">{{ classId }}</span>
-      </div>
-  
-      <table border="1px" style="width: 100%; border: 1px solid #333; border-collapse: collapse;  margin-top: 16px;">
-        <thead>
-          <tr style="text-align: center;">
-            <th rowspan="2">TT</th>
-            <th rowspan="2">MSV</th>
-            <th rowspan="2">Họ tên</th>
-            <th rowspan="2">Ngày sinh</th>
-            <th colspan="3">Điểm quá trình</th>
-            <th rowspan="2">Ký tên</th>
-          </tr>
-          <tr style="text-align: center;">
-            <th>KT1</th>
-            <th>KT2</th>
-            <th>CC</th>
-          </tr>
-        </thead>
-  
-        <tbody>
-          <tr *ngFor="let student of students; index as idx" style="text-align: center;">
-            <td style="padding: 4px 0;">{{ idx + 1 }}</td>
-            <td style="padding: 4px 0;">{{ student?.student_id }}</td>
-            <td class="name" style=" text-align: left; padding: 4px 0; padding-left: 8px;">{{ student?.student_name }}</td>
-            <td>{{ student?.birthday }}</td>
-            <td style="padding: 4px 0;"></td>
-            <td style="padding: 4px 0;"></td>
-            <td style="padding: 4px 0;"></td>
-            <td style="padding: 4px 0;"></td>
-          </tr>
-        </tbody>
-      </table>
-  
-      <div class="footer" style="width: 100%; padding: 0 32px; margin-top: 16px; display: flex; flex-direction: column; align-items: flex-end;">
-        <div class="pen" style=" font-size: 14px; font-weight: 600;">
-          Bắc Ninh, Ngày ..... tháng ..... năm 2021
-        </div>
-        <h2 class="teacher" style="text-align: center; font-size: 18px; text-transform: uppercase; margin-top: 16px; margin-right: 80px;">giảng viên</h2>
+      <div class="title" style="font-family: test !important; font-size: 14px;">
+        CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
+        <div class="i" style="font-family: test !important; font-size: 13px; font-weight: 700; text-decoration: underline; text-align: center;">ĐỘC
+          LẬP TỰ DO HẠNH PHÚC</div>
       </div>
     </div>
-  
-  </ion-content>
+
+
+    <h1 style="font-family: test !important;  font-size: 18px; font-weight: 700; text-align: center; margin: 16px 0 4px 0;">BẢNG ĐIỂM QUÁ TRÌNH</h1>
+    <h2 style="font-family: test !important;  font-size: 16px; font-weight: 600; text-align: center;  margin: 4px 0 4px 0;">Lần học: 1 Học kỳ: 2 -
+      Năm học: 2020 -2021</h2>
+    <div style="font-family: test !important; text-align: center; font-weight: bold;">
+      Học phần:.........................................................
+      (Số tín chỉ:......) - Lớp: <span style="color: red;">{{ classId }}</span>
+    </div>
+
+    <table border="1px" style="font-family: test !important; width: 100%; border: 1px solid #333; border-collapse: collapse;  margin-top: 16px;">
+      <thead>
+        <tr style="text-align: center;">
+          <th rowspan="2">TT</th>
+          <th rowspan="2">MSV</th>
+          <th rowspan="2">Họ tên</th>
+          <th rowspan="2">Ngày sinh</th>
+          <th colspan="3">Điểm quá trình</th>
+          <th rowspan="2">Ký tên</th>
+        </tr>
+        <tr style="text-align: center;">
+          <th>KT1</th>
+          <th>KT2</th>
+          <th>CC</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let student of students; index as idx" style="text-align: center;">
+          <td style="padding: 4px 0;">{{ idx + 1 }}</td>
+          <td style="padding: 4px 0;">{{ student?.student_id }}</td>
+          <td class="name" style=" text-align: left; padding: 4px 0; padding-left: 8px;">{{ student?.student_name }}
+          </td>
+          <td>{{ student?.birthday }}</td>
+          <td style="padding: 4px 0;"></td>
+          <td style="padding: 4px 0;"></td>
+          <td style="padding: 4px 0;"></td>
+          <td style="padding: 4px 0;"></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="footer"
+      style="font-family: test !important; width: 100%; padding: 0 32px; margin-top: 16px; display: flex; flex-direction: column; align-items: flex-end;">
+      <div class="pen" style="font-family: test !important; font-size: 14px; font-weight: 600;">
+        Bắc Ninh, Ngày ..... tháng ..... năm 2021
+      </div>
+      <h2 class="teacher"
+        style="font-family: test !important; text-align: center; font-size: 18px; text-transform: uppercase; margin-top: 16px; margin-right: 80px;">
+        giảng viên</h2>
+    </div>
+  </div>
+</ion-content>

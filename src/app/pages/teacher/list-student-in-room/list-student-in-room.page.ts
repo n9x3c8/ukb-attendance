@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { Subscription } from "rxjs";
 import { IinfoStateAT, Ipagination } from "src/app/shared/defined/info.define";
 import { AttendanceService } from "src/app/shared/services/attendance.service";
@@ -26,6 +26,8 @@ export class ListStudentInRoomPage implements OnInit, OnDestroy {
 
 
     constructor(
+        private _router: Router,
+        private _activedRoute: ActivatedRoute,
         private _activedRouter: ActivatedRoute,
         private _attendanceService: AttendanceService,
         private _sharedService: SharedService,
@@ -71,7 +73,27 @@ export class ListStudentInRoomPage implements OnInit, OnDestroy {
         this.currentPage = 1;
         this.currentTime = this._sharedService.getDatetime();
         const complete = () => ev.target.complete();
-        this.getAllStudent(this.classId, this.subjectId, this.currentTime, complete);
+        
+        this._activedRoute.queryParams.subscribe(param => {
+            const { filter } = param;
+            if(filter === 'with-out-permission') {
+                this.cb = async (classId: string, subjectId: string, currentTime: string) => {
+                    const data = await this._teacherService.getListStudentWithoutPermission(classId, subjectId, currentTime);
+                    this.subscription = data.subscribe((res: any) => {
+                        if (res) {
+                            this.setQueryParam('with-out-permission');
+                            this.listStudent = [...res];
+                            this.isUpdate = true;
+                        }
+                        return;
+                    });
+                }
+                this.cb(this.classId, this.subjectId, this.currentTime);
+                complete();
+            }
+            this.getAllStudent(this.classId, this.subjectId, this.currentTime, complete);
+        })
+
     }
 
     public loadData(ev) {
@@ -90,7 +112,6 @@ export class ListStudentInRoomPage implements OnInit, OnDestroy {
     private getAllStudent(classId: string, subjectId: string, currentTime: string, complete?: Function, pagination?: Ipagination) {
         let listStudent = this._teacherService.getListStudent(classId, subjectId, currentTime, pagination);
         listStudent.subscribe((res: any) => {
-            // this.listStudent = [...res.data];
             this.totalPage = res.total_page;
             this.listStudent = this.listStudent.concat(res.data);
             if (typeof complete === 'function') {
@@ -114,6 +135,7 @@ export class ListStudentInRoomPage implements OnInit, OnDestroy {
         await this._sharedService.showLoading('Xin chờ...');
 
         if (value === 'all') {
+            this.listStudent = [];
             this.getAllStudent(this.classId, this.subjectId, this.currentTime);
             this.isUpdate = false;
             this._sharedService.loading.dismiss();
@@ -150,6 +172,7 @@ export class ListStudentInRoomPage implements OnInit, OnDestroy {
                 const data = await this._teacherService.getListStudentWithoutPermission(classId, subjectId, currentTime);
                 this.subscription = data.subscribe((res: any) => {
                     if (res) {
+                        this.setQueryParam('with-out-permission');
                         this.listStudent = [...res];
                         this.isUpdate = true;
                     }
@@ -179,6 +202,12 @@ export class ListStudentInRoomPage implements OnInit, OnDestroy {
 
         })
 
+    }
+
+    private setQueryParam(value: string) {
+        this._router.navigate([], {
+            queryParams: { filter: value }
+        });
     }
 
     public trackByFn(index: number, student: any): number {

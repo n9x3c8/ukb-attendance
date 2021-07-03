@@ -97,24 +97,13 @@ export class TakeLeavePage implements ViewDidEnter {
 
     public validLeaveReason(ev) {
         let { value } = ev.detail;
-        if(value.length > 80) {
+        if(value.length > 200) {
             this.leaveReason = '';
-            return this._sharedService.showToast('Lý do phải nhỏ hơn 80 ký tự!', 'danger');
+            return this._sharedService.showToast('Lý do phải nhỏ hơn 200 ký tự!', 'danger');
         }
         this.leaveReason = value;
         return;
     }
-
-    // public getCurrentTime(): string {
-    //     let date = new Date();
-    //     let year = date.getFullYear();
-    //     let month = this._sharedService.formatDate(date.getMonth() + 1);
-    //     let dateInMonth = this._sharedService.formatDate(date.getDate());
-    //     let hours = this._sharedService.formatDate(date.getHours());
-    //     let min = this._sharedService.formatDate(date.getMinutes());
-    //     let seconds = this._sharedService.formatDate(date.getSeconds());
-    //     return `${year}${month}${dateInMonth}${hours}${min}${seconds}`;
-    // }
 
     public async onAddStudentInLeave() {
         await this._sharedService.showLoading('Xin chờ...');

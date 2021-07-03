@@ -38,7 +38,7 @@ export class DashboardStudentPage extends DomainAPI implements OnInit, ViewDidEn
       if (res.length !== 0) {
         this.student = res[0];
         if(!this.student?.student_avatar) {
-          return this.avatar = this.student?.student_gender == 1 ? 'assets/images/avatar-male.jpg' : 'assets/images/avatar-female.jpg';
+          return this.avatar = this.student?.student_gender == 1 ? 'assets/images/avatar-male.webp' : 'assets/images/avatar-female.webp';
         }
         return this.avatar = `${this.domain}/mvc/public/images/${this.student?.student_avatar}`;
       }

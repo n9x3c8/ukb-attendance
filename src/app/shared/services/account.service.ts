@@ -17,8 +17,9 @@ export class AccountService extends DomainAPI {
     super();
   }
 
-  public async login(username: string | number, password: string | number) {
-    const data = { username, password };
+  public async login(username: string | number, password: string | number, serial: any) {
+    const { uuid } = serial;
+    const data = { username, password, uuid };
 
     const options = {
       headers: new HttpHeaders({
