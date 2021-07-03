@@ -33,7 +33,8 @@ export class SharedService extends DomainAPI {
 
   async getSubjects(classId: string) {
     this.username = await this._storageService.get('username');
-    let url: string = `${this.domain}/mvc/public/subject/get_all_subject_by_teacher/${this.username}/${classId}`;
+    let uuid = await this.getIdDevice();
+    let url: string = `${this.domain}/mvc/public/subject/get_all_subject_by_teacher/${this.username}/${uuid}/${classId}`;
     return await this.http.get(url);
   }
 
@@ -47,7 +48,8 @@ export class SharedService extends DomainAPI {
 
   async getClass() {
     let username = await this._storageService.get('username');
-    let url: string = `${this.domain}/mvc/public/classRoom/get_all_class_by_teacher/${username}`;
+    let uuid: any = await this.getIdDevice();
+    let url: string = `${this.domain}/mvc/public/classRoom/get_all_class_by_teacher/${username}/${uuid}`;
     return await this.http.get(url);
   }
 

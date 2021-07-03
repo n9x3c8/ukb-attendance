@@ -9,6 +9,7 @@ import { ViewDetailComponent } from "src/app/components/view-detail/view-detail.
 import { Router } from "@angular/router";
 import { Subscription } from "rxjs";
 import { DomainAPI } from 'src/app/shared/class/domain.class';
+import { StorageService } from "src/app/shared/services/storage.service";
 @Component({
     selector: 'attendance-student-take-leave',
     templateUrl: 'list-student-take-leave.page.html',
@@ -33,6 +34,7 @@ export class ListStudentTakeLeavePage extends DomainAPI implements ViewDidEnter,
         private _sharedService: SharedService,
         private _http: HttpClient,
         private readonly _teacherService: TeacherService,
+        private _storage: StorageService
     ) {
         super();
         this.url = `${this.domain}/mvc/public/images/`;
@@ -57,9 +59,11 @@ export class ListStudentTakeLeavePage extends DomainAPI implements ViewDidEnter,
 
     public async onConfirm(student: IStudentTakeLeave, state: boolean, idx: number) {
         let randomNum: number = Math.floor(Math.random() * 100);
+        let username = await this._storage.get('username');
+        let uuid = await this.getIdDevice();
         if (state) {
             await this._sharedService.showLoading('Xin chờ...');
-            let url: string = `${this.domain}/mvc/public/leave/teacher_agree`;
+            let url: string = `${this.domain}/mvc/public/leave/teacher_agree/${username}/${uuid}`;
             let take_leave_date: string = this._sharedService.convertDateToString(student.take_leave_date);
             let data = {
                 student_id: student.student_id,
@@ -88,8 +92,10 @@ export class ListStudentTakeLeavePage extends DomainAPI implements ViewDidEnter,
             return;
         }
         if (denine_reason) {
+            let username = await this._storage.get('username');
+            let uuid = await this.getIdDevice();
             await this._sharedService.showLoading('Loading...');
-            let url: string = `${this.domain}/mvc/public/leave/teacher_denine`;
+            let url: string = `${this.domain}/mvc/public/leave/teacher_denine/${username}/${uuid}`;
             let take_leave_date: string = this._sharedService.convertDateToString(student.take_leave_date);
             let data = {
                 student_id: student.student_id,

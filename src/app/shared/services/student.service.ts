@@ -21,7 +21,9 @@ export class StudentService extends DomainAPI {
   //Student
   public async infoStudent() {
     this.username = await this._storageService.get('username');
-    let url: string = `${this.domain}/mvc/public/account/info_details_student/${this.username}`;
+    let uuid: any = await this.getIdDevice();
+    
+    let url: string = `${this.domain}/mvc/public/account/info_details_student/${this.username}/${uuid}`;
     return this.http.get(url);
   }
 
@@ -35,7 +37,8 @@ export class StudentService extends DomainAPI {
 
   public async countTakeLeave(subject_id: string) {
     this.username = await this._storageService.get('username');
-    let url: string = `${this.domain}/mvc/public/leave/count_take_leave`;
+    let uuid = await this.getIdDevice();
+    let url: string = `${this.domain}/mvc/public/leave/count_take_leave/${this.username}/${uuid}`;
     let data = {
       student_id: this.username,
       subject_id
@@ -47,7 +50,8 @@ export class StudentService extends DomainAPI {
   // toi da so lan nghi cua sinh vien la 3
   public async checkTakeLeaveNumber(subject_id: string, take_leave_date: string) {
     this.username = await this._storageService.get('username');
-    let url: string = `${this.domain}/mvc/public/leave/check_take_leave`;
+    let uuid = await this.getIdDevice();
+    let url: string = `${this.domain}/mvc/public/leave/check_take_leave/${this.username}/${uuid}`;
     let data = {
       student_id: this.username,
       subject_id,
@@ -58,8 +62,10 @@ export class StudentService extends DomainAPI {
 
 
   // them du lieu vao bang leaves
-  public addStudentInLeaves(subject_id: string, leave_time: string, leave_reason: string, take_leave_date: string) {
-    let url: string = `${this.domain}/mvc/public/leave/add_student_in_leaves`;
+  public async addStudentInLeaves(subject_id: string, leave_time: string, leave_reason: string, take_leave_date: string) {
+    this.username = await this._storageService.get('username');
+    let uuid: any = await this.getIdDevice();
+    let url: string = `${this.domain}/mvc/public/leave/add_student_in_leaves/${this.username}/${uuid}`;
     const data = {
       student_id: this.username,
       subject_id,
@@ -73,14 +79,17 @@ export class StudentService extends DomainAPI {
 
   public async notifications() {
     this.username = await this._storageService.get('username');
-    const URL: string = `${this.domain}/mvc/public/notifications/notify_for_student/${this.username}`;
+    let uuid: any = await this.getIdDevice();
+    const URL: string = `${this.domain}/mvc/public/notifications/notify_for_student/${this.username}/${uuid}`;
     return this.http.get(URL);
   }
 
 
   //SV xem thong bao
   public async updateSeenNotify(list_leave_id: number) {
-    const URL: string = ` ${this.domain}/mvc/public/notifications/check_seen_notification/${list_leave_id}`;
+    this.username = await this._storageService.get('username');
+    let uuid: any = await this.getIdDevice();
+    const URL: string = ` ${this.domain}/mvc/public/notifications/check_seen_notification/${this.username}/${uuid}/${list_leave_id}`;
     return this.http.get(URL);
   }
 
@@ -89,21 +98,25 @@ export class StudentService extends DomainAPI {
 
   //thong ke
   public async getStudentDetail( currentDate: string ) {
-    let username: string = await this._storageService.get('username');
-    const URL: string = `${this.domain}/mvc/public/statistical/student_detail/${username}/${currentDate}`;
+    this.username = await this._storageService.get('username');
+    let uuid: any = await this.getIdDevice();
+    const URL: string = `${this.domain}/mvc/public/statistical/student_detail/${this.username}/${uuid}/${currentDate}`;
     return this.http.get(URL);
   }
 
   //danh sach don xin nghi
   public async getListLeaveApplication( currentDate: string ) {
-    let username: string = await this._storageService.get('username');
-    const URL: string = `${this.domain}/mvc/public/student/leave_application/${username}/${currentDate}`;
+    this.username = await this._storageService.get('username');
+    let uuid: any = await this.getIdDevice();
+    const URL: string = `${this.domain}/mvc/public/student/leave_application/${this.username}/${uuid}/${currentDate}`;
     return this.http.get(URL);
   }
 
   //chinh sua don xin nghi
-  public updateTakeLeave( leaveId: number, leaveTime: string, leaveReason: string, takeLeaveDate: string ) {
-    const URL: string = `${this.domain}/mvc/public/student/edit_take_leave/${leaveId}/${leaveTime}/${leaveReason}/${takeLeaveDate}`;
+  public async updateTakeLeave( leaveId: number, leaveTime: string, leaveReason: string, takeLeaveDate: string ) {
+    this.username = await this._storageService.get('username');
+    let uuid: any = await this.getIdDevice();
+    const URL: string = `${this.domain}/mvc/public/student/edit_take_leave/${this.username}/${uuid}/${leaveId}/${leaveTime}/${leaveReason}/${takeLeaveDate}`;
     let data = {
       leave_id: leaveId,
       leave_time: leaveTime,
@@ -114,8 +127,10 @@ export class StudentService extends DomainAPI {
   }
 
   //xoa don xin nghi
-  public removeTakeLeave( leaveId: number ) {
-    const URL: string = `${this.domain}/mvc/public/student/remove_take_leave/${leaveId}`;
+  public async removeTakeLeave( leaveId: number ) {
+    this.username = await this._storageService.get('username');
+    let uuid: any = await this.getIdDevice();
+    const URL: string = `${this.domain}/mvc/public/student/remove_take_leave/${this.username}/${uuid}/${leaveId}`;
     return this.http.get(URL, this.options);
   }
 

@@ -32,9 +32,9 @@ export class ViewDetailComponent implements OnInit {
         });
     }
 
-    private getListStudent() {
+    private async getListStudent() {
         let currentDate: string = this._sharedService.getDatetime();
-        let listStudentStatis$ = this._teacherService.getStudentStatistical(this.classId, this.subjectId, currentDate);
+        let listStudentStatis$ = await this._teacherService.getStudentStatistical(this.classId, this.subjectId, currentDate);
         listStudentStatis$.subscribe((res: IStudentStatistical[]) => {
             if (res.length !== 0) {
                 this.listStudentStatis = [...res];
@@ -42,10 +42,10 @@ export class ViewDetailComponent implements OnInit {
         });
     }
 
-    public onViewDetailStudent(data: {id: string, count: string | null}) {
+    public async onViewDetailStudent(data: {id: string, count: string | null}) {
         if(data.count !== null) {
             let currentDate: string = this._sharedService.getDatetime();
-            let listLeaveDate$ = this._teacherService.getListLeaveDate(data.id, this.subjectId, currentDate);
+            let listLeaveDate$ = await this._teacherService.getListLeaveDate(data.id, this.subjectId, currentDate);
             listLeaveDate$.subscribe(res => {
                 console.log(res);
             })     

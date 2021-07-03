@@ -201,9 +201,9 @@ export class AttendanceOptionPage implements OnInit, OnDestroy {
         return num < 10 ? '0' + num : '' + num;
     }
 
-    private checkEmptyTakeLeave() {
+    private async checkEmptyTakeLeave() {
         let currentTime: string = this._sharedService.getDatetime();
-        let listStudent$ = this._attendanceService.onCheckExistTakeLeave(this.selectedClass, this.selectedSubject, currentTime);
+        let listStudent$ = await this._attendanceService.onCheckExistTakeLeave(this.selectedClass, this.selectedSubject, currentTime);
         this.subscription = listStudent$.subscribe((res: { state: boolean }) => {
             if (res.state) {
                 return this.validEmptyTakeLeave = -1;

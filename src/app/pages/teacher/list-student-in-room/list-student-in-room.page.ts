@@ -109,8 +109,8 @@ export class ListStudentInRoomPage implements OnInit, OnDestroy {
         ev.target.complete();
     }
 
-    private getAllStudent(classId: string, subjectId: string, currentTime: string, complete?: Function, pagination?: Ipagination) {
-        let listStudent = this._teacherService.getListStudent(classId, subjectId, currentTime, pagination);
+    private async getAllStudent(classId: string, subjectId: string, currentTime: string, complete?: Function, pagination?: Ipagination) {
+        let listStudent = await this._teacherService.getListStudent(classId, subjectId, currentTime, pagination);
         listStudent.subscribe((res: any) => {
             this.totalPage = res.total_page;
             this.listStudent = this.listStudent.concat(res.data);
@@ -188,10 +188,10 @@ export class ListStudentInRoomPage implements OnInit, OnDestroy {
     public onUpdateStateStudent(student: any, index: any) {
 
         let currentDate: string = this._sharedService.getDatetime();
-        this.subscription = this._activedRouter.paramMap.subscribe((param: any) => {
+        this.subscription = this._activedRouter.paramMap.subscribe( async (param: any) => {
             const { subjectId } = param.params;
             let studentId = student?.student_id;
-            let delWithout = this._teacherService.deleteWithoutLeave(studentId, subjectId, currentDate);
+            let delWithout = await this._teacherService.deleteWithoutLeave(studentId, subjectId, currentDate);
             this.subscription = delWithout.subscribe((res: any) => {
                 if (res.state == 1) {
                     this.listStudent.splice(index, 1);

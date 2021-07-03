@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { DomainAPI } from 'src/app/shared/class/domain.class';
 import { StorageService } from './storage.service';
@@ -8,11 +8,6 @@ import { StorageService } from './storage.service';
 })
 export class SubjectService extends DomainAPI {
   private username: string;
-  private options = {
-    headers: new HttpHeaders({
-      'Content-Type': 'application/x-www-form-urlencoded'
-    })
-  }
 
   constructor(private http: HttpClient, private _storageService: StorageService) {
     super();
@@ -21,7 +16,8 @@ export class SubjectService extends DomainAPI {
 
   public async getSubjectsByStudent() {
     this.username = await this._storageService.get('username');
-    let url: string = `${this.domain}/mvc/public/subject/list_subject_by_student/${this.username}`;
+    let uuid = await this.getIdDevice();
+    let url: string = `${this.domain}/mvc/public/subject/list_subject_by_student/${this.username}/${uuid}`;
     return this.http.get(url);
   }
 

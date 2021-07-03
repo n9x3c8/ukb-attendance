@@ -54,7 +54,7 @@ export class LeaveApplicationPage implements ViewDidEnter, OnDestroy {
       let leaveTime: string = data.data.date;
       let reason: string = data.data.leave_reason;
 
-      let editTakeLeave$ = this._studentService.updateTakeLeave(leaveId, currentDateTime, reason, leaveTime);
+      let editTakeLeave$ = await this._studentService.updateTakeLeave(leaveId, currentDateTime, reason, leaveTime);
       this.subscription = editTakeLeave$.subscribe((res: {state: number}) => {
         
         if(res.state !== -1) {
@@ -68,8 +68,8 @@ export class LeaveApplicationPage implements ViewDidEnter, OnDestroy {
     return;
   }
 
-  public onHandleDel(leave_id_leaves: string, idx: number) {
-    let removeTakeLeave$ = this._studentService.removeTakeLeave(+leave_id_leaves);
+  public async onHandleDel(leave_id_leaves: string, idx: number) {
+    let removeTakeLeave$ = await this._studentService.removeTakeLeave(+leave_id_leaves);
     this.subscription = removeTakeLeave$.subscribe((res: {state: number}) => {
       if(res.state !== -1) {
         this.listLeaveApp.splice(idx, 1);
