@@ -2,6 +2,7 @@ import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/co
 import { AlertController, IonButton } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { Geolocation, GeolocationOptions } from '@ionic-native/geolocation/ngx';
+import { LocalNotifications } from '@capacitor/local-notifications';
 import { SharedService } from '../../../shared/services/shared.service';
 import { IinfoStateAT } from 'src/app/shared/defined/info.define';
 import { AttendanceService } from 'src/app/shared/services/attendance.service';
@@ -178,6 +179,25 @@ export class AttendanceOptionPage implements OnInit, OnDestroy {
             this._sharedService.loading.dismiss();
             return this._sharedService.showToast('Bật điểm danh không thành công!', 'danger');
         });
+    }
+
+    private async notifications() {
+        return await LocalNotifications.schedule({
+            notifications: [
+               {
+                   id: 1,
+                   title: 'Hãy tắt điểm danh',
+                   body: 'Đã đến giờ, xin Thầy/Cô tắt điểm danh',
+                   schedule: {
+                       on: {
+                           hour: 12,
+                           minute: 30
+                       },
+                       allowWhileIdle: true,
+                   }
+               }
+            ],
+        })
     }
 
     public async onStopAttendance() {
