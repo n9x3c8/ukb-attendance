@@ -19,6 +19,7 @@ export class TakeLeavePage implements ViewDidEnter {
     public currentDate: string;
     public maxDate: string;
 
+    public isEnableSend: boolean;
     // ngay muon nghi
     public date: string;
 
@@ -35,6 +36,7 @@ export class TakeLeavePage implements ViewDidEnter {
         private readonly _studentService: StudentService,
         private readonly _subjectService: SubjectService,
     ) {
+        this.isEnableSend = true;
         let year: number = (new Date).getFullYear();
         this.maxDate = `${year}-12-31`;
     }
@@ -126,8 +128,8 @@ export class TakeLeavePage implements ViewDidEnter {
             (await takeLeave).subscribe( async (res: { state: number }) => {
                 if (res.state !== -1) {
                     this._sharedService.loading.dismiss();
-                    this._sharedService.showToast('Gửi đơn xin nghỉ thành công!', 'success');
-                    return this._router.navigate(['student', 'dashboard']);
+                    this.isEnableSend = false;
+                    return this._sharedService.showToast('Gửi đơn xin nghỉ thành công!', 'success');
                 }
                 this._sharedService.loading.dismiss();
                 return this._sharedService.showToast('Gửi đơn xin nghỉ không thành công!', 'danger');

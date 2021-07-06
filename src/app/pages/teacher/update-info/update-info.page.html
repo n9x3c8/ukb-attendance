@@ -1,48 +1,64 @@
-<ion-header>
-    <ion-toolbar color="appbar">
-        <ion-buttons slot="start" [routerLink]="['/teacher/dashboard']">
-            <ion-back-button defaultHref></ion-back-button>
-        </ion-buttons>
-        <ion-title>Cập nhật hồ sơ</ion-title>
-    </ion-toolbar>
-</ion-header>
+<ion-content>
+    <div id="container">
+        <section class="info">
+            <button class="back" [routerLink]="['/teacher/dashboard']">
+                <ion-icon name="arrow-back-outline"></ion-icon>
+            </button>
+            <div class="info-main">
+                Thông tin cá nhân
+                <div class="upload-avatar">
+                    <ion-avatar>
+                        <img [src]="'assets/images/avatar.jpg'" />
+                    </ion-avatar>
+                    <div class="file" (click)="onPickFile()">
+                        <ion-icon name="camera-reverse-outline"></ion-icon>
+                    </div>
+                    <input id="input-file" #inputfile type="file" accept="image/*" (change)="selectFile($event)">
+                </div>
+            </div>
+            <button
+                class="save"
+                [disabled]="!isEnableUpdate"
+                (click)="onUpdateProfile(address.value, phone.value, email.value, birthday)">
+                <ion-icon [name]="isEnableUpdate ? 'save-outline' : 'save'"></ion-icon>
+            </button>
+        </section>
 
-<ion-content class="ion-padding">
-    <form #formUpdateInfo (ngSubmit)="onUpdateProfile(address.value, numphone.value, email.value)" #form="ngForm">
-        <ion-item>
-            <ion-label>
-                <ion-icon name="key-outline"></ion-icon>
-            </ion-label>
-            <ion-input type="text" disabled [placeholder]="infoTeacher?.teacher_id">
-            </ion-input>
-        </ion-item>
-
-        <ion-item>
-            <ion-label>Họ tên</ion-label>
-            <ion-input type="text" disabled [placeholder]="infoTeacher?.teacher_name">
-            </ion-input>
-        </ion-item>
-
-        <ion-item>
-            <ion-label position="floating">Địa chỉ</ion-label>
-            <ion-textarea type="text" required #address [value]="infoTeacher?.teacher_address">
-            </ion-textarea>
-        </ion-item>
-
-        <ion-item>
-            <ion-label position="floating">Số điện thoại</ion-label>
-            <ion-input type="text" required #numphone [value]="infoTeacher?.teacher_numphone">
-            </ion-input>
-        </ion-item>
-
-        <ion-item>
-            <ion-label position="floating">Email</ion-label>
-            <ion-input type="email" required #email [value]="infoTeacher?.teacher_email">
-            </ion-input>
-        </ion-item>
-        <ion-button type="submit">
-            Cập nhật hồ sơ
-        </ion-button>
-    </form>
-
+        <section class="main">
+            <div class="item">
+                <label>Mã sinh viên</label>
+                <input type="text" disabled [placeholder]="teacher?.teacher_id" />
+            </div>
+            <div class="item">
+                <label>Họ tên</label>
+                <input type="text" disabled [placeholder]="teacher?.teacher_name" />
+            </div>
+            <div class="item">
+                <label>Giới tính</label>
+                <input type="text" disabled [placeholder]="+teacher?.teacher_gender === 1 ? 'Nam' : 'Nữ'" />
+            </div>
+            <div class="item">
+                <label>Ngày sinh</label>
+                <ion-datetime
+                    slot="start"
+                    #birthday
+                    display-format="DD/MM/YYYY"
+                    [value]="teacher?.teacher_birthday | date:'YYYY-MM-dd' "
+                    [placeholder]="teacher?.teacher_birthday | date:'dd/MM/YYYY' ">
+                </ion-datetime>
+            </div>
+            <div class="item">
+                <label>Số điện thoại</label>
+                <input type="number" #phone [value]="teacher?.teacher_numphone" />
+            </div>
+            <div class="item">
+                <label>Email</label>
+                <input type="email" #email [value]="teacher?.teacher_email" />
+            </div>
+            <div class="item">
+                <label>Địa chỉ</label>
+                <input type="text" #address [value]="teacher?.teacher_address" />
+            </div>
+        </section>
+    </div>
 </ion-content>

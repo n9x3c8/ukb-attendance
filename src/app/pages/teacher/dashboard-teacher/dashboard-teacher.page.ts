@@ -7,7 +7,7 @@ import { IinfoStateAT } from 'src/app/shared/defined/info.define';
 import { TeacherService } from 'src/app/shared/services/teacher.service';
 import { AttendanceService } from 'src/app/shared/services/attendance.service';
 import { StorageService } from 'src/app/shared/services/storage.service';
-import { ViewDidEnter } from '@ionic/angular';
+import { ActionSheetController, ViewDidEnter } from '@ionic/angular';
 
 @Component({
   selector: 'attendance-dashboard-teacher',
@@ -24,6 +24,7 @@ export class DashboardTeacherPage implements OnInit, OnDestroy, ViewDidEnter {
     private _router: Router,
     private _accountService: AccountService,
     private _sharedService: SharedService,
+    private _actionSheetController: ActionSheetController,
     private _storageService: StorageService,
     private readonly _teacherService: TeacherService,
     private readonly _attendanceService: AttendanceService,
@@ -127,6 +128,8 @@ export class DashboardTeacherPage implements OnInit, OnDestroy, ViewDidEnter {
   }
 
   public onGotoHandMadeAT() {
+    this.goToGeneratorQR();
+    return;
     let attendanceIdLast: number = this.info?.attendance_id_last;
     let classId: string = this.info.infoClass.class_id;
     let subjectId: string = this.info.infoSubject.subject_id;
@@ -149,6 +152,35 @@ export class DashboardTeacherPage implements OnInit, OnDestroy, ViewDidEnter {
       return this._router.navigate(['teacher', 'list-student-in-room', atIdLast, subjectId]);
     }
     return this._sharedService.showToast(`Thầy/cô chưa bật điểm danh`, 'danger');  
+  }
+
+  public async openMenu() {
+    const actionSheet = await this._actionSheetController.create({
+      buttons: [{
+        text: 'Đổi mật khẩu',
+        icon: 'key-outline',
+        handler: () => {
+          this._sharedService.showToast('Đang phát triển', 'danger');
+        }
+      }, {
+        text: 'Đăng Xuất',
+        icon: 'log-out-outline',
+        handler: () => this.onLogout()
+      }, {
+        text: 'Reset',
+        icon: 'log-out-outline',
+        handler: () => this.onReset()
+      },
+       {
+        text: 'Hủy',
+        icon: 'close',
+        role: 'cancel',
+        handler: () => {
+          console.log('Cancel clicked');
+        }
+      }]
+    });
+    return await actionSheet.present();
   }
 
   onReset() {

@@ -1,5 +1,5 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { AlertController, IonButton } from '@ionic/angular';
+import { Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
+import { AlertController, IonButton, ViewDidEnter } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { Geolocation, GeolocationOptions } from '@ionic-native/geolocation/ngx';
 import { LocalNotifications } from '@capacitor/local-notifications';
@@ -13,7 +13,7 @@ import { ActivatedRoute, Router } from '@angular/router';
     templateUrl: 'attendance-options.page.html',
     styleUrls: ['attendance-options.page.scss']
 })
-export class AttendanceOptionPage implements OnInit, OnDestroy {
+export class AttendanceOptionPage implements ViewDidEnter, OnDestroy {
     public class: Class[];
     public selectedClass: string;
 
@@ -48,7 +48,7 @@ export class AttendanceOptionPage implements OnInit, OnDestroy {
         this.validHandMadeAT = 0;
     }
 
-    async ngOnInit() {
+    async ionViewDidEnter() {
         await this.getInfoStateAT();
         this.subscription = this._activedRoute.queryParamMap.subscribe((param: any) => {
             const { atIdLast } = param.params;
@@ -64,6 +64,7 @@ export class AttendanceOptionPage implements OnInit, OnDestroy {
             this.initializeStateAT(+this.info?.count_number_session);
             let classId: string = this.info.infoClass.class_id;
             let subjectName: string = this.info.infoSubject.subject_name;
+            this.radius = this.info.radius;
             if (!classId) {
                 this.getClassByTeacher();
             }
@@ -131,7 +132,7 @@ export class AttendanceOptionPage implements OnInit, OnDestroy {
     }
 
     public onChangeRadius(v: any) {
-        this.radius = v.detail.value.upper;
+        this.radius = v.detail.value;
     }
 
     public async onProcessAttendance() {
@@ -174,7 +175,11 @@ export class AttendanceOptionPage implements OnInit, OnDestroy {
             if (res.state !== -1) {
                 this._sharedService.loading.dismiss();
                 this._sharedService.showToast('Bật điểm danh thành công!', 'success');
-                return this._router.navigate(['teacher', 'dashboard']);
+                this.isEnableAttendance = false;
+                this.isEnableSelectSubject = false;
+                this.btnAttendance.color = 'danger';
+                this.txtAttendance.nativeElement.textContent = 'Tắt Điểm Danh';
+                return;
             }
             this._sharedService.loading.dismiss();
             return this._sharedService.showToast('Bật điểm danh không thành công!', 'danger');

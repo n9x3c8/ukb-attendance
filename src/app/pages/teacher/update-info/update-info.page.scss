@@ -1,0 +1,128 @@
+ion-content {
+    --background: #2196f3;
+    #container {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+
+        .info {
+            width: 100%;
+            height: 12.5rem;
+            padding: 1.6rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            font-size: 1.6rem;
+            button.back, .save {
+                width: 2.4rem;
+                height: 2.4rem;
+                background-color: transparent;
+                color: #f5e3c8;
+                font-size: 24px;
+                outline: none;
+                border: none;
+            }
+            &-main {
+                color: #f5e3c8;
+                font-weight: 600;
+                text-align: center;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                .upload-avatar {
+                    width: 6.2rem;
+                    height: 6.2rem;
+                    display: flex;
+                    justify-content: center;
+                    border-radius: 50%;
+                    margin-top: 1.6rem;
+                    position: relative;
+                    ion-avatar {
+                        width: 6.2rem;
+                        height: 6.2rem;
+                    }
+                    .file {
+                        width: 2.4rem;
+                        height: 2.4rem;
+                        position: absolute;
+                        right: 0;
+                        bottom: 0;
+                        ion-icon {
+                            width: 2.4rem;
+                            height: 2.4rem;
+                            color: rgba(245, 124, 0, 87%);
+                        }
+                    }
+                    input#input-file {
+                        display: none;
+                    }
+                }
+            }
+            .save {
+                ion-icon {
+                    width: 2.4rem;
+                    height: 2.4rem;
+                    color: #f5e3c8;
+                }
+            }
+            button.save:disabled {
+                ion-icon {
+                    color: #d0cdc9;
+                }
+            }
+        }
+
+        .main {
+            width: 100%;
+            flex-grow: 1;
+            background-color: #fff;
+            border-top-left-radius: 6rem;
+            border-top-right-radius: 6rem;
+            padding: 2.4rem 1.6rem 1.6rem 1.6rem;
+            overflow: scroll;
+
+            .item {
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                margin: 0.8rem 0;
+                label {
+                    font-size: 1.6rem;
+                    color: rgba(0, 121, 107, 0.6);
+                    padding-bottom: 0.8rem;
+                }
+                input, ion-datetime {
+                    height: 4.8rem;
+                    border: none;
+                    outline: none;
+                    border-radius: 0.4rem;
+                    background-color: rgba(0, 121, 107, 16%);
+                    font-size: 1.6rem;
+                    color: rgba(3, 86, 76, 90%);
+                    padding: 1.6rem;
+                    overflow-y: hidden;
+                }
+                input[type="text"]::placeholder,
+                input[type="number"]::placeholder,
+                input[type="email"]::placeholder {
+                    color: rgba(3, 86, 76, 60%);
+                    font-size: 1.6rem;
+                }
+                input[type="text"]::placeholder {
+                    color: rgba(3, 86, 76, 90%);
+                }
+                input[type="text"]:disabled {
+                    background-color: rgba(0, 150, 136, 8%);
+                }
+
+                input[type="text"]:disabled::placeholder {
+                    color: rgba(3, 86, 76, 60%);
+                }
+            }
+        }
+        .main::-webkit-scrollbar {
+            display: none;
+        }
+    }
+}

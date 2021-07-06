@@ -1,4 +1,4 @@
-<ion-header>
+<!-- <ion-header>
     <ion-toolbar color="appbar">
         <ion-buttons slot="start" [routerLink]="['/student/dashboard']">
             <ion-back-button defaultHref></ion-back-button>
@@ -41,4 +41,47 @@
     <ion-button (click)="onAddStudentInLeave()" color="primary" expand="block">
         Gửi đơn xin nghỉ
     </ion-button>
+</ion-content> -->
+
+<ion-header>
+    <ion-toolbar color="appbar">
+        <ion-buttons slot="start" [routerLink]="['/student/dashboard']">
+            <ion-back-button defaultHref></ion-back-button>
+        </ion-buttons>
+        <ion-title>Xin nghỉ phép</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <section class="main">
+        <ion-select 
+            placeholder="Chọn môn"
+            interface="action-sheet" 
+            [(ngModel)]="selectedSubject"
+            (ionChange)="onChangeSubject($event)">
+            <ion-select-option *ngFor="let subject of subjects" [value]="subject?.subject_id">
+                {{ subject?.subject_name }}
+            </ion-select-option>
+        </ion-select>
+
+        <ion-datetime
+            placeholder="Ngày muốn nghỉ"
+            [min]="currentDate"
+            [max]="maxDate"
+            (ionChange)="getTakeLeaveDateTime($event)"
+            displayFormat="DD/MM/YYYY">
+        </ion-datetime>
+
+        <ion-textarea
+            placeholder='Lý do nghỉ...'
+            (ionChange)="validLeaveReason($event)">
+        </ion-textarea>
+
+        <ion-button
+            expand="block"
+            [disabled]="!isEnableSend"
+            (click)="onAddStudentInLeave()">
+            Gửi
+        </ion-button>
+    </section>
 </ion-content>

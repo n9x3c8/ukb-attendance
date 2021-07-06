@@ -10,6 +10,9 @@ const config: CapacitorConfig = {
             launchAutoHide: true
         }
     },
+    android: {
+        webContentsDebuggingEnabled: false
+    }
 }
 
 export default config;

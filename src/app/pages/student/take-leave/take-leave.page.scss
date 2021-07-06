@@ -1,0 +1,43 @@
+ion-content {
+    --padding-top: .8rem;
+    --padding-bottom: 0;
+    --padding-start: 1.6rem;
+    --padding-end: 1.6rem;
+    
+    .main {
+        ion-select, ion-datetime {
+            width: 100%;
+            height: 4.8rem;
+            background-color: rgba(0, 121, 107, 12%);
+            color: rgba(3, 86, 76, 87%);
+            font-size: 1.6rem;
+            --placeholder-color: rgba(3, 86, 76, 87%);
+            --placeholder-opacity: .7;
+            margin-top: .8rem;
+            border-radius: .4rem;
+            padding-right: 1.6rem;
+        }
+        ion-datetime {
+            --padding-top: 1.5rem;
+        }
+
+        ion-textarea {
+            --padding-top: 1.6rem;
+            --padding-bottom: .8rem;
+            --padding-start: 1.6rem;
+            --padding-end: 1.6rem;
+            --background:rgba(0, 121, 107, 12%);
+            --color: rgba(3, 86, 76, 87%);
+            --placeholder-color: rgba(3, 86, 76, 87%);
+            --border-radius: .4rem;
+            width: 100%;
+            height: 12rem;
+            font-size: 1.6rem;
+            margin-bottom: .8rem;
+        }
+
+        ion-button {
+            --background: #2196F3;
+        }
+    }
+}

@@ -131,7 +131,10 @@ export class ListStudentTakeLeavePage extends DomainAPI implements ViewDidEnter,
         return modal.present();
     }
 
-    public onHandleNoData(ev: boolean) {
+    public onHandleNoData(ev) {
+        console.log(ev);
+        
+        return;
         if (ev) {
             this.init();
         }

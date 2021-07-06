@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { DomainAPI } from 'src/app/shared/class/domain.class';
-import { Ipagination } from '../defined/info.define';
+import { IOptionsFilter, Ipagination } from '../defined/info.define';
 import { StorageService } from './storage.service';
 
 @Injectable({
@@ -53,33 +53,27 @@ export class TeacherService  extends DomainAPI{
     return this.http.post(url, data, this.options);
   }
 
-  public async statistical(year: number) {
+  public async statistical(year?: number) {
     this.username = await this._storageService.get('username');
     let uuid: any = await this.getIdDevice();
-    let url: string = `${this.domain}/mvc/public/statistical/teach_detail/${this.username}/${uuid}/${year}`;
+    // let url: string = `${this.domain}/mvc/public/statistical/teach_detail/${this.username}/${uuid}/${year}`;
+    let url: string = `${this.domain}/mvc/public/statistical/teach_detail/${this.username}/${uuid}`;
     return this.http.get(url);
   }
 
-  //get_list_student_leave_permission_agree
-  public async getListStudentLeavePermissionAgree(class_id: string, subject_id: string, current_date: string) {
-    this.username = await this._storageService.get('username');
-    let uuid: any = await this.getIdDevice();
-    let url: string = `${this.domain}/mvc/public/student/list_student_leave_permission_agree/${this.username}/${uuid}/${class_id}/${subject_id}/${current_date}`;
-    return this.http.get(url);
-  }
-  // list_student_leave_permission_denine
-  public async getListStudentLeavePermissionDenine(class_id: string, subject_id: string, current_date: string) {
-    this.username = await this._storageService.get('username');
-    let uuid: any = await this.getIdDevice();
-    let url: string = `${this.domain}/mvc/public/student/list_student_leave_permission_denine/${this.username}/${uuid}/${class_id}/${subject_id}/${current_date}`;
-    return this.http.get(url);
-  }
-
+  
   //list_student_without_permission
   public async getListStudentWithoutPermission(class_id: string, subject_id: string, current_date: string) {
     this.username = await this._storageService.get('username');
     let uuid: any = await this.getIdDevice();
     let url: string = `${this.domain}/mvc/public/student/list_student_without_permission/${this.username}/${uuid}/${class_id}/${subject_id}/${current_date}`;
+    return this.http.get(url);
+  }
+
+  public async getStudentsByOptions(options: IOptionsFilter) {
+    this.username = await this._storageService.get('username');
+    let uuid: any = await this.getIdDevice();
+    let url: string = `${this.domain}/mvc/public/student/get_list_student_by_options/${this.username}/${uuid}/${options?.classId}/${options.subjectId}/${options.currentDate}/${options.isEnable}/${options.leave_denine}`;
     return this.http.get(url);
   }
 
@@ -104,24 +98,29 @@ export class TeacherService  extends DomainAPI{
     // }
 
     //lay ra ds sinh vien cua tung lop-mon (trong statistical)
-    public async getStudentStatistical(classId: string, subjectId: string, currentDate: string) {
+    public async getStudentStatistical(classId: string, subjectId: string, currentDate: string, pagination?: {currentPage: number, length: number}) {
       this.username = await this._storageService.get('username');
       let uuid: any = await this.getIdDevice();
-      const URL: string = `${this.domain}/mvc/public/statistical/list_student_by_statistical/${this.username}/${uuid}/${classId}/${subjectId}/${currentDate}`;
+      let currentPage: number = pagination?.currentPage ?? 1;
+      let len: number = pagination?.length ?? 10;
+      const URL: string = `${this.domain}/mvc/public/statistical/list_student_by_statistical/${this.username}/${uuid}/${classId}/${subjectId}/${currentDate}?p=${currentPage}&length=${len}`;
       return this.http.get(URL);
     }
 
     // lay ra ds nghi cua sinh vien | chuc nang thong ke
     public async getListLeaveDate(studentId: string, subjectId: string, currentDate: string) {
+      this.username = await this._storageService.get('username');
       let uuid: any = await this.getIdDevice();
-      const URL: string = `${this.domain}/mvc/public/statistical/list_leave_date/${studentId}/${uuid}/${subjectId}/${currentDate}`;
+      const URL: string = `${this.domain}/mvc/public/statistical/list_leave_date/${this.username}/${studentId}/${uuid}/${subjectId}/${currentDate}`;
       return this.http.get(URL);
     }
 
     //trong chi tiet buoi hoc (nghi k phep) GV cap nhap
     public async deleteWithoutLeave(studentId: string, subjectId: string, currentDate: string) {
+      this.username = await this._storageService.get('username');
       let uuid: any = await this.getIdDevice();
-      const URL: string = `${this.domain}/mvc/public/leave/rm_without_leave/${studentId}/${uuid}/${subjectId}/${currentDate}`;
+
+      const URL: string = `${this.domain}/mvc/public/leave/rm_without_leave/${studentId}/${uuid}/${subjectId}/${currentDate}/${this.username}`;
       return this.http.get(URL);
     }
 

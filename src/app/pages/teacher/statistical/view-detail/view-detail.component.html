@@ -1,118 +1,151 @@
 <ion-header>
-    <ion-toolbar color="appbar">
-        <ion-buttons slot="start" [routerLink]="['/teacher/statistical']">
-            <ion-back-button defaultHref></ion-back-button>
-        </ion-buttons>
+     <ion-toolbar color="appbar">
+          <ion-buttons slot="start" [routerLink]="['/teacher/statistical']">
+               <ion-back-button defaultHref></ion-back-button>
+          </ion-buttons>
 
-        <ion-buttons slot="end" >
-            <ion-button slot="ion-only" (click)="savePDF()">
-                <ion-icon style="width: 24px; height: 24px;" name="print-outline"></ion-icon>
-            </ion-button>
-        </ion-buttons>
-        <ion-title>{{ classId }} <br> <small>{{ subjectId }}</small></ion-title>
-    </ion-toolbar>
+          <ion-buttons slot="end">
+               <ion-button slot="ion-only" (click)="savePDF()">
+                    <ion-icon style="width: 2.4rem; height: 2.4rem;" name="print-outline"></ion-icon>
+               </ion-button>
+          </ion-buttons>
+          <ion-title>{{ classId }} - {{ subjectId }}</ion-title>
+     </ion-toolbar>
+     <ion-item>
+          <ion-input type="text" placeholder="Tìm kiếm"></ion-input>
+
+          <ion-select value="student-name">
+               <ion-select-option value="student-name">Theo tên</ion-select-option>
+               <ion-select-option value="student-id">Theo mã sinh viên</ion-select-option>
+          </ion-select>
+
+     </ion-item>
 </ion-header>
 
-<ion-content class="ion-padding">
-    <!-- <ion-list *ngFor="let student of listStudentStatis">
-        <ion-item (click)="onViewDetailStudent({id: student?.student_id, count: student?.count})">
-            <ion-label
-              slot="start"
-              [color]="+student?.count >= 3 ? 'danger' : 'default'">
-              {{ student?.student_name }}
-            </ion-label>
-        </ion-item>
-    </ion-list> -->
+<ion-content>
+     <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+          <ion-refresher-content></ion-refresher-content>
+        </ion-refresher>
+     <div
+          class="item2"
+          *ngFor="let student of listStudentStatis"
+          [appWarning]="+student?.count > 0 ? true : false"
+          (click)="onViewDetailStudent({id: student?.student_id, count: student?.count})">
+          <div class="wrap">
+               <ion-avatar>
+                   <img [src]="!student?.student_avatar ? +student?.student_gender === 1 ? 'assets/images/avatar-male.webp' : 'assets/images/avatar-female.webp' : url + student?.student_avatar" />
+               </ion-avatar>
+               <div class="info">
+                   <div class="name">{{ student?.student_name }}</div>
+                   <div class="id">{{ student?.student_id }}</div>
+               </div>
+               <div class="number">{{ student?.count ?? 0 }}/{{ totalSession }}</div>
+           </div>
+           <div class="item2-content" *ngIf="+student?.count > 0">
+               <div class="detail" *ngFor="let detail of detailLeaveDate; index as idx">
+                    <div class="detail-date">
+                         Nghỉ lần {{ idx + 1 }}: {{ detail?.leave_date | date:'dd-MM-YYYY' }}
+                    </div>
+                    <div class="detail-state">
+                         <span>Trạng thái: </span> {{ +detail?.is_enable === 1 ? 'Đồng ý' : !detail?.leave_reason ? 'Không phép' : 'Từ chối' }}
+                    </div>
+                    <div class="detail-reason" *ngIf="detail?.leave_reason">
+                         <span>Lý do: </span> {{ detail?.leave_reason }}
+                    </div>
+               </div>
+          </div>
+     </div>
 
-    <ion-virtual-scroll [items]="listStudentStatis" approxItemHeight="320px">
-      <ion-item
-        *virtualItem="let student; let itemBounds = bounds;"
-        (click)="onViewDetailStudent({id: student?.student_id, count: student?.count})">
-        <ion-label
-        slot="start"
-        [color]="+student?.count >= 3 ? 'danger' : 'default'">
-        {{ student?.student_name }}
-      </ion-label>
-      </ion-item>
-    </ion-virtual-scroll>
+     <ion-infinite-scroll (ionInfinite)="loadData($event)">
+          <ion-infinite-scroll-content
+            loadingSpinner="dots"
+            loadingText="Đang tải dữ liệu...">
+          </ion-infinite-scroll-content>
+     </ion-infinite-scroll>
+
+     
+     <div id="print"
+          style="font-family: test !important; width: 100%; display: flex; flex-direction: column; padding: 0 16px; display: none;">
+          <style>
+               @font-face {
+                    font-family: test;
+                    src: url(../../../../../assets/times.ttf) format("truetype");
+                    font-weight: 200;
+               }
+          </style>
+          <div class="slogan"
+               style="font-family: test !important; width: 100%; display: flex; justify-content: space-around; align-items: center;">
+               <div class="title" style="font-family: test !important; font-size: 14px;">
+                    BỘ GIÁO DỤC VÀ ĐÀO TẠO
+                    <div class="i"
+                         style="font-family: test !important; font-size: 13px; font-weight: 700; text-decoration: underline; text-align: center;">
+                         TRƯỜNG ĐẠI HỌC KINH BẮC
+                    </div>
+               </div>
+               <div class="title" style="font-family: test !important; font-size: 14px;">
+                    CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
+                    <div class="i"
+                         style="font-family: test !important; font-size: 13px; font-weight: 700; text-decoration: underline; text-align: center;">
+                         ĐỘC
+                         LẬP TỰ DO HẠNH PHÚC</div>
+               </div>
+          </div>
 
 
+          <h1
+               style="font-family: test !important;  font-size: 18px; font-weight: 700; text-align: center; margin: 16px 0 4px 0;">
+               BẢNG ĐIỂM QUÁ TRÌNH</h1>
+          <h2
+               style="font-family: test !important;  font-size: 16px; font-weight: 600; text-align: center;  margin: 4px 0 4px 0;">
+               Lần học: 1 Học kỳ: 2 -
+               Năm học: 2020 -2021</h2>
+          <div style="font-family: test !important; text-align: center; font-weight: bold;">
+               Học phần:.........................................................
+               (Số tín chỉ:......) - Lớp: <span style="color: red;">{{ classId }}</span>
+          </div>
 
+          <table border="1px"
+               style="font-family: test !important; width: 100%; border: 1px solid #333; border-collapse: collapse;  margin-top: 16px;">
+               <thead>
+                    <tr style="text-align: center;">
+                         <th rowspan="2">TT</th>
+                         <th rowspan="2">MSV</th>
+                         <th rowspan="2">Họ tên</th>
+                         <th rowspan="2">Ngày sinh</th>
+                         <th colspan="3">Điểm quá trình</th>
+                         <th rowspan="2">Ký tên</th>
+                    </tr>
+                    <tr style="text-align: center;">
+                         <th>KT1</th>
+                         <th>KT2</th>
+                         <th>CC</th>
+                    </tr>
+               </thead>
 
+               <tbody>
+                    <tr *ngFor="let student of listStudentStatis; index as idx" style="text-align: center;">
+                         <td style="padding: 4px 0;">{{ idx + 1 }}</td>
+                         <td style="padding: 4px 0;">{{ student?.student_id }}</td>
+                         <td class="name" style=" text-align: left; padding: 4px 0; padding-left: 8px;">
+                              {{ student?.student_name }}
+                         </td>
+                         <td>{{ student?.student_birthday }}</td>
+                         <td style="padding: 4px 0;"></td>
+                         <td style="padding: 4px 0;"></td>
+                         <td style="padding: 4px 0;"></td>
+                         <td style="padding: 4px 0;"></td>
+                    </tr>
+               </tbody>
+          </table>
 
-    <div id="print"
-    style="font-family: test !important; width: 100%; display: flex; flex-direction: column; padding: 0 16px; display: none;">
-    <style>
-      @font-face {
-      font-family: test;
-      src: url(../../../../../assets/times.ttf) format("truetype");
-      font-weight: 200;
-    }
-    </style>
-    <div class="slogan" style="font-family: test !important; width: 100%; display: flex; justify-content: space-around; align-items: center;">
-      <div class="title" style="font-family: test !important; font-size: 14px;">
-        BỘ GIÁO DỤC VÀ ĐÀO TẠO
-        <div class="i" style="font-family: test !important; font-size: 13px; font-weight: 700; text-decoration: underline; text-align: center;">
-          TRƯỜNG ĐẠI HỌC KINH BẮC
-        </div>
-      </div>
-      <div class="title" style="font-family: test !important; font-size: 14px;">
-        CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
-        <div class="i" style="font-family: test !important; font-size: 13px; font-weight: 700; text-decoration: underline; text-align: center;">ĐỘC
-          LẬP TỰ DO HẠNH PHÚC</div>
-      </div>
-    </div>
-
-
-    <h1 style="font-family: test !important;  font-size: 18px; font-weight: 700; text-align: center; margin: 16px 0 4px 0;">BẢNG ĐIỂM QUÁ TRÌNH</h1>
-    <h2 style="font-family: test !important;  font-size: 16px; font-weight: 600; text-align: center;  margin: 4px 0 4px 0;">Lần học: 1 Học kỳ: 2 -
-      Năm học: 2020 -2021</h2>
-    <div style="font-family: test !important; text-align: center; font-weight: bold;">
-      Học phần:.........................................................
-      (Số tín chỉ:......) - Lớp: <span style="color: red;">{{ classId }}</span>
-    </div>
-
-    <table border="1px" style="font-family: test !important; width: 100%; border: 1px solid #333; border-collapse: collapse;  margin-top: 16px;">
-      <thead>
-        <tr style="text-align: center;">
-          <th rowspan="2">TT</th>
-          <th rowspan="2">MSV</th>
-          <th rowspan="2">Họ tên</th>
-          <th rowspan="2">Ngày sinh</th>
-          <th colspan="3">Điểm quá trình</th>
-          <th rowspan="2">Ký tên</th>
-        </tr>
-        <tr style="text-align: center;">
-          <th>KT1</th>
-          <th>KT2</th>
-          <th>CC</th>
-        </tr>
-      </thead>
-
-      <tbody>
-        <tr *ngFor="let student of listStudentStatis; index as idx" style="text-align: center;">
-          <td style="padding: 4px 0;">{{ idx + 1 }}</td>
-          <td style="padding: 4px 0;">{{ student?.student_id }}</td>
-          <td class="name" style=" text-align: left; padding: 4px 0; padding-left: 8px;">
-            {{ student?.student_name }}
-          </td>
-          <td>{{ student?.student_birthday }}</td>
-          <td style="padding: 4px 0;"></td>
-          <td style="padding: 4px 0;"></td>
-          <td style="padding: 4px 0;"></td>
-          <td style="padding: 4px 0;"></td>
-        </tr>
-      </tbody>
-    </table>
-
-    <div class="footer"
-      style="font-family: test !important; width: 100%; padding: 0 32px; margin-top: 16px; display: flex; flex-direction: column; align-items: flex-end;">
-      <div class="pen" style="font-family: test !important; font-size: 14px; font-weight: 600;">
-        Bắc Ninh, Ngày ..... tháng ..... năm 2021
-      </div>
-      <h2 class="teacher"
-        style="font-family: test !important; text-align: center; font-size: 18px; text-transform: uppercase; margin-top: 16px; margin-right: 80px;">
-        giảng viên</h2>
-    </div>
-  </div>
+          <div class="footer"
+               style="font-family: test !important; width: 100%; padding: 0 32px; margin-top: 16px; display: flex; flex-direction: column; align-items: flex-end;">
+               <div class="pen" style="font-family: test !important; font-size: 14px; font-weight: 600;">
+                    Bắc Ninh, Ngày ..... tháng ..... năm 2021
+               </div>
+               <h2 class="teacher"
+                    style="font-family: test !important; text-align: center; font-size: 18px; text-transform: uppercase; margin-top: 16px; margin-right: 80px;">
+                    giảng viên</h2>
+          </div>
+     </div>
 </ion-content>

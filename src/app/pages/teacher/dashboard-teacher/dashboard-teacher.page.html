@@ -11,8 +11,8 @@
         </div>
         <div class="faculty-name">Khoa: CNTT</div>
       </div>
-      <div class="profile">
-        <ion-icon name="ellipsis-vertical-outline"  (click)="onReset()"></ion-icon>
+      <div class="profile" (click)="openMenu()">
+        <ion-icon name="ellipsis-vertical-outline"></ion-icon>
       </div>
     </header>
 
@@ -53,12 +53,6 @@
         <div class="feture-name">lấy mã QR</div>
       </div>
 
-      <div class="feture" (click)="onLogout()">
-        <ion-thumbnail>
-          <img src="assets/images/logout.png" />
-        </ion-thumbnail>
-        <div class="feture-name">đăng xuất</div>
-      </div>
     </div>
 
   </div>

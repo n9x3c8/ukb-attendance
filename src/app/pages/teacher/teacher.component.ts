@@ -30,10 +30,10 @@ export class TeacherComponent implements OnInit, OnDestroy {
         let currentTime: string = this._sharedService.getDatetime();
         let listStudent$ = await this._teacherService.listStudentTakeLeave(currentTime);
         this.subscription = listStudent$.subscribe((res: any) => {
-            if (res) {
-                this.studentTakeLeave = [...res];
+            if(res.state === -403) {
                 return;
             }
+            this.studentTakeLeave = [...res];
         });
     }
 

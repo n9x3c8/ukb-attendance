@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { Storage } from '@ionic/storage';
 import { AlertController, IonRouterOutlet, Platform } from '@ionic/angular';
 import { App } from '@capacitor/app';
 import { SplashScreen } from '@capacitor/splash-screen';
@@ -14,6 +15,7 @@ export class AppComponent implements OnInit {
   @ViewChild(IonRouterOutlet, { static : true }) routerOutlet: IonRouterOutlet;
 
   constructor(
+    private storage: Storage,
     private platform: Platform,
     private alertCtrl: AlertController
 
@@ -24,6 +26,7 @@ export class AppComponent implements OnInit {
 
   async ngOnInit() {
     this.statusBar();
+    await this.storage.create();
   }
 
   private async statusBar() {

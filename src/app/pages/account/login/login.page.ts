@@ -3,10 +3,8 @@ import { Router } from '@angular/router';
 import { AccountService } from 'src/app/shared/services/account.service';
 import { StorageService } from 'src/app/shared/services/storage.service';
 import { SharedService } from 'src/app/shared/services/shared.service';
-import { timer } from 'rxjs';
 import { ViewDidEnter } from '@ionic/angular';
 import { Device } from '@capacitor/device';
-import { registerPlugin } from '@capacitor/core';
 
 @Component({
   selector: 'attendance-login',
@@ -16,15 +14,13 @@ import { registerPlugin } from '@capacitor/core';
 export class LoginPage implements ViewDidEnter {
   public isShowPassword: boolean;
   constructor(
+    private router: Router,
     private _accountService: AccountService,
     private _storageService: StorageService,
-    private _sharedService: SharedService,
-    private router: Router,
+    private _sharedService: SharedService
   ) { }
 
   ionViewDidEnter() {
-    Device.getId().then(res => console.log(res));
-    
     this.checkLogged();
   }
   
@@ -58,9 +54,8 @@ export class LoginPage implements ViewDidEnter {
     if(!username || !password) {
       return this._sharedService.showToast('Bạn cần nhập đủ thông tin!', 'danger', '');
     }
-    await this._sharedService.showLoading('Đang đăg nnhập...');
+    await this._sharedService.showLoading('Đang đăng nhập...');
     (await this._accountService.login(username, password, SERIAL)).subscribe( async (res: any) => {
-       
       let errors = new Map();
       errors.set(-1, 'Tên tài khoản không tồn tại!');
       errors.set(-2, 'Mật khẩu sai, xin nhập lại!');
@@ -91,8 +86,6 @@ export class LoginPage implements ViewDidEnter {
         await this._sharedService.showToast('Đăng nhập thành công!', 'success');
       }
     });
-    return timer(1800).subscribe(() => {
-      this._sharedService.loading.dismiss();
-    });
+    return this._sharedService.loading.dismiss();
   }
 }

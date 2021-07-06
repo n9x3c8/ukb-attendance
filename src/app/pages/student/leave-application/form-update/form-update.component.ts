@@ -13,7 +13,7 @@ export class FormUpdateComponent implements OnInit {
     public month: string;
     public d: string;
     public date: string;
-
+    public currentDate: string;
     @Input('itemTakeLeave') itemTakeLeave: ILeaveApplication;
 
     constructor(
@@ -23,6 +23,11 @@ export class FormUpdateComponent implements OnInit {
 
     ngOnInit() {
         this.date = this.itemTakeLeave?.take_leave_date;
+        const date: Date = new Date();
+        let year: number = date.getFullYear();
+        let month: string = this._sharedService.formatDate(date.getMonth() + 1);
+        let day: string = this._sharedService.formatDate(date.getDate());
+        this.currentDate = `${year}-${month}-${day}`;
     }
 
     getTakeLeaveDateTime(v) {

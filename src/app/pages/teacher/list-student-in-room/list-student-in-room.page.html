@@ -1,81 +1,53 @@
 <ion-header>
-  <ion-toolbar color="appbar">
-    <ion-buttons slot="start" [routerLink]="['/teacher/dashboard']">
-      <ion-back-button defaultHref></ion-back-button>
-    </ion-buttons>
-    <ion-title>Chi tiết buổi học</ion-title>
-  </ion-toolbar>
+     <ion-toolbar color="appbar">
+          <ion-buttons slot="start" [routerLink]="['/teacher/dashboard']">
+               <ion-back-button defaultHref></ion-back-button>
+          </ion-buttons>
+          <ion-title class="ion-text-start">
+               Chi tiết buổi học
+          </ion-title>
+     </ion-toolbar>
+     <div class="filter">
+          <ion-item>
+               <ion-input type="text" placeholder="Tìm kiếm..."></ion-input>
+               <ion-select value="all" interface="action-sheet" (ionChange)="onFilter($event)">
+                    <ion-select-option
+                         *ngFor="let option of options"
+                         [value]="option.value">
+                         {{ option.text }}
+                    </ion-select-option>
+               </ion-select>
+          </ion-item>
+     </div>
 </ion-header>
-<ion-content class="ion-padding">
-  <ion-refresher
-    slot="fixed"
-    pullFactor="0.5"
-    pullMin="100"
-    pullMax="200"
-    (ionRefresh)="doRefresh($event)">
-    <ion-refresher-content></ion-refresher-content>
-  </ion-refresher>
 
+<ion-content>
+     <ion-refresher
+          slot="fixed"
+          pullFactor="0.5"
+          pullMin="100"
+          pullMax="200"
+          (ionRefresh)="doRefresh($event)">
+          <ion-refresher-content></ion-refresher-content>
+     </ion-refresher>
 
-  <div class="filter">
-    <div class="filter_box" (click)="onChangeState('all')">
-      <div class="filter_box-title">Tất cả</div>
-      <div class="filter_box-text">
-        Lớp có <span>30</span> sinh viên
-      </div>
-    </div>
-
-    <div class="filter_box" (click)="onChangeState('agree')">
-      <div class="filter_box-title">Đã đồng ý</div>
-      <div class="filter_box-text">
-        Đã đồng ý <span>3</span> sinh viên
-      </div>
-    </div>
-  </div>
-
-  <div class="filter">
-    <div class="filter_box" (click)="onChangeState('denine')">
-      <div class="filter_box-title">Đã từ chối</div>
-      <div class="filter_box-text">
-        Đã từ chối <span>6</span> sinh viên
-      </div>
-    </div>
-
-    <div class="filter_box" (click)="onChangeState('withoutPermission')">
-      <div class="filter_box-title">Nghỉ không phép</div>
-      <div class="filter_box-text text-12">
-        Có <span>4</span> sinh viên nghỉ không phép
-      </div>
-    </div>
-  </div>
-
-  
-  <ion-list>
-    <ion-item
-      *ngFor="let student of listStudent; index as idx; trackBy: trackByFn"
-      (click)="onViewDetailByID(student)">
-      <ion-avatar>
-        <img src="assets/images/avatar.jpg" />
-      </ion-avatar>
-
-      <!---     state khi chưa tắt điểm danh là 1, sau khi tắt điểm danh là 0 (sv nghỉ)     -->
-      <ion-label
-        [ngStyle]="{color: student?.state == 0 ? 'red' : 'inherit'}">
-      {{ idx + 1 }} - {{ student?.student_name }}
-    </ion-label>
-
-      <ion-button
-        *ngIf="isUpdate"
-        (click)="onUpdateStateStudent(student, idx)">
-        Cập nhật
-      </ion-button>
-    </ion-item>
-  </ion-list>
-  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
-    <ion-infinite-scroll-content
-      loadingSpinner="dots"
-      loadingText="Đang tải dữ liệu...">
-    </ion-infinite-scroll-content>
-  </ion-infinite-scroll>
-
+     <section class="main">
+          <div class="item2" *ngFor="let student of listStudent; index as idx; trackBy: trackByFn">
+               <ion-avatar>
+                    <img src="assets/images/avatar.jpg" />
+               </ion-avatar>
+               <div class="info">
+                    <div class="name">{{ student?.student_name }}</div>
+               </div>
+               <div class="delete" *ngIf="isUpdate" (click)="onUpdateStateStudent(student, idx)">
+                    <ion-icon color="danger" name="close-circle-outline"></ion-icon>
+               </div>
+          </div>
+          <ion-infinite-scroll (ionInfinite)="loadData($event)">
+               <ion-infinite-scroll-content
+                 loadingSpinner="dots"
+                 loadingText="Đang tải dữ liệu...">
+               </ion-infinite-scroll-content>
+          </ion-infinite-scroll>
+     </section>
 </ion-content>

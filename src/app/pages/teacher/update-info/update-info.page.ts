@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { Router } from "@angular/router";
 import { ViewDidEnter } from "@ionic/angular";
 import { Subscription } from "rxjs";
@@ -13,12 +13,20 @@ import { TeacherService } from "src/app/shared/services/teacher.service";
 })
 export class UpdateInfoPage implements ViewDidEnter, OnDestroy{
     private subscription: Subscription;
-    public infoTeacher: IinfoTeacher;
+    public teacher: IinfoTeacher;
+    public image: File;
+    public isEnableUpdate: boolean;
+
+    @ViewChild('inputfile', {static: true}) inputFile: ElementRef<HTMLInputElement>;
+
+
     constructor(
         private _router: Router,
         private _shareService: SharedService,
         private readonly _teacherService: TeacherService
-    ) {}
+    ) {
+        this.isEnableUpdate = true;
+    }
 
     ionViewDidEnter() {
         this.init();
@@ -29,22 +37,34 @@ export class UpdateInfoPage implements ViewDidEnter, OnDestroy{
         const info = await this._teacherService.infoTeacher()
         this.subscription = info.subscribe((res: IinfoTeacher[]) => {
             if(res) {
-                this.infoTeacher = {...res[0]};
+                this.teacher = {...res[0]};
+                console.log(this.teacher);
+                
                 this._shareService.loading.dismiss();
                 return;
             }
         });
     }
 
-    public async onUpdateProfile(address: TypeForm, numphone: TypeForm, email: TypeForm) {
+    public onPickFile() {
+        this.inputFile.nativeElement.click();
+    }
+
+    public selectFile(event) {
+        if (event.target.files && event.target.files.length) {
+            return this.image = event.target.files[0];
+        }
+    }
+
+    public async onUpdateProfile(address: TypeForm, numphone: TypeForm, email: TypeForm, birthday) {
         await this._shareService.showLoading('Xin chờ...');
         let updateInfo = await this._teacherService.updateTeacher(address, numphone, email);
         this.subscription = updateInfo.subscribe(async (res: {state: string}) => {
             const state: number = parseInt(res.state);
             if(state !== -1) {
                 this._shareService.loading.dismiss();
-                this._shareService.showToast('Cập nhật thông tin thành công!', 'success');
-                return this._router.navigate(['teacher', 'dashboard']);
+                this.isEnableUpdate = false;
+                return this._shareService.showToast('Cập nhật thông tin thành công!', 'success');
             }
             return this._shareService.showToast('Cập nhật không thành công', 'danger');
         });

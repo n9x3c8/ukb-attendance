@@ -2,6 +2,7 @@ export interface IinfoStateAT {
     attendance_id_last: number;
     count_number_session: string;
     timeserver: number;
+    radius: number;
     dateServer: string;
     infoClass: {
         class_id: string;
@@ -22,6 +23,8 @@ export interface IinfoAT {
 
 
 export interface IinfoTeacher {
+    teacher_birthday: string;
+    teacher_gender: number;
     teacher_address: string;
     teacher_avatar: string;
     teacher_email: string;
@@ -40,4 +43,12 @@ export interface IStatusUpdateProfile {
 export interface Ipagination {
     currentPage?: number;
     length?: number
+}
+
+export interface IOptionsFilter {
+    classId: string;
+    subjectId: string;
+    currentDate: string;
+    isEnable: number;
+    leave_denine: string;
 }

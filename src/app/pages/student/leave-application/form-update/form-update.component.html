@@ -3,46 +3,35 @@
         <ion-buttons slot="start" (click)="onDismiss()">
             <ion-back-button defaultHref></ion-back-button>
         </ion-buttons>
-        <ion-title>Update Take leave</ion-title>
+        <ion-title>Cập nhật đơn xin nghỉ</ion-title>
     </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
+<ion-content>
     <form (ngSubmit)="onUpdateTakeLeave(takeReason)">
-        <ion-item>
-            <ion-label position="floating">
-                Tên môn:  
-            </ion-label>
-            <ion-input
-                required
-                disabled
-                type="text"
-                [value]="itemTakeLeave?.subject_name">
-            </ion-input>
-        </ion-item>
+        <ion-input
+            required
+            disabled
+            type="text"
+            [value]="itemTakeLeave?.subject_name">
+        </ion-input>
 
-        <ion-item>
-            <ion-label position="floating">Ngày muốn xin nghỉ</ion-label>
-            <ion-datetime 
-                displayFormat="DD/MM/YYYY" 
-                [value]="itemTakeLeave?.take_leave_date"
-                (ionChange)="getTakeLeaveDateTime($event)">
-            </ion-datetime>
-        </ion-item>
+        <ion-datetime 
+            displayFormat="DD/MM/YYYY" 
+            [min]="currentDate"
+            [value]="itemTakeLeave?.take_leave_date"
+            (ionChange)="getTakeLeaveDateTime($event)">
+        </ion-datetime>
 
-        <ion-item>
-            <ion-label position="floating">
-                Lý do:  
-            </ion-label>
-            <ion-textarea 
-                required  
-                type="text"
-                #takeReason
-                [value]="itemTakeLeave?.leave_reason">
-            </ion-textarea>
-        </ion-item>
         
-        <ion-button block color="primary" type="submit">
+        <ion-textarea 
+            required  
+            type="text"
+            #takeReason
+            [value]="itemTakeLeave?.leave_reason">
+        </ion-textarea>
+        
+        <ion-button expand="block" color="appbar" type="submit">
             Cập nhật
         </ion-button>
     </form>

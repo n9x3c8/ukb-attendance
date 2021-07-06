@@ -85,9 +85,21 @@ export class NotificationsComponent implements ViewDidEnter, OnDestroy {
     });
   }
 
-  public onHandleNoData(ev: boolean) {
-    if(ev) {
-      return this.init();
+  public onHandleNoData(data: {state: boolean, complete: Function}) {
+    console.log(data.complete);
+    
+    if(typeof data.complete === 'function') {
+      data.complete();
+      console.log('ok');
+      
+    }
+
+    return;
+    
+    if(data.state) {
+      this.init();
+      // data.ev.target.complete();
+      return;
     }
   }
 
