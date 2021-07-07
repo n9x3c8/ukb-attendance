@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from "@angular/core";
+import { NavController } from "@ionic/angular";
 
 @Component({
     selector: 'attendance-nav-bottom',
@@ -22,7 +23,7 @@ export class NavigationBottomComponent implements OnInit {
     @Input('tab4') tab4: string[];
     @Input('iconTab4') iconTab4: string;
 
-    constructor() {}
-
+    constructor(private _navCtrl: NavController) {}
+    
     ngOnInit() {}
 }

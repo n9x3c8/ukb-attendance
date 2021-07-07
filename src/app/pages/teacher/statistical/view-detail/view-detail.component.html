@@ -29,7 +29,7 @@
      <div
           class="item2"
           *ngFor="let student of listStudentStatis"
-          [appWarning]="+student?.count > 0 ? true : false"
+          [appWarning]="+student?.count > 0"
           (click)="onViewDetailStudent({id: student?.student_id, count: student?.count})">
           <div class="wrap">
                <ion-avatar>
@@ -41,16 +41,21 @@
                </div>
                <div class="number">{{ student?.count ?? 0 }}/{{ totalSession }}</div>
            </div>
+
            <div class="item2-content" *ngIf="+student?.count > 0">
-               <div class="detail" *ngFor="let detail of detailLeaveDate; index as idx">
-                    <div class="detail-date">
-                         Nghỉ lần {{ idx + 1 }}: {{ detail?.leave_date | date:'dd-MM-YYYY' }}
-                    </div>
-                    <div class="detail-state">
-                         <span>Trạng thái: </span> {{ +detail?.is_enable === 1 ? 'Đồng ý' : !detail?.leave_reason ? 'Không phép' : 'Từ chối' }}
-                    </div>
-                    <div class="detail-reason" *ngIf="detail?.leave_reason">
-                         <span>Lý do: </span> {{ detail?.leave_reason }}
+               <div class="detail" *ngFor="let detail of detailLeaveDate | keyvalue;">
+                    <div *ngIf="detail.key === student?.student_id">
+                         <div class="line" *ngFor="let detail of detail.value; index as idx">
+                              <div class="detail-date">
+                                   Nghỉ lần {{ idx + 1 }}: {{ detail?.leave_date| date:'dd-MM-YYYY' }}
+                              </div>
+                              <div class="detail-state">
+                                   <span>Trạng thái: </span> {{ +detail?.is_enable === 1 ? 'Đồng ý' : !detail?.leave_reason ? 'Không phép' : 'Từ chối' }}
+                              </div>
+                              <div class="detail-reason" *ngIf="detail?.leave_reason">
+                                   <span>Lý do: </span> {{ detail?.leave_reason }}
+                              </div>
+                         </div>
                     </div>
                </div>
           </div>

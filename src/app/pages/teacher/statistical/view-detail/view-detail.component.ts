@@ -18,7 +18,7 @@ export class ViewDetailComponent extends DomainAPI implements OnInit {
     public classId: string;
     public subjectId: string;
     public listStudentStatis: IStudentStatistical[];
-    public detailLeaveDate: IDetailLeaveData[];
+    public detailLeaveDate: Map<string, IDetailLeaveData[]>;
     public totalSession: number;
 
     public html: string;
@@ -34,7 +34,7 @@ export class ViewDetailComponent extends DomainAPI implements OnInit {
         this.currentPage = 1;
         this.length = 10;
         this.listStudentStatis = [];
-        this.detailLeaveDate = [];
+        this.detailLeaveDate = new Map;
     }
 
     ngOnInit() {
@@ -83,12 +83,12 @@ export class ViewDetailComponent extends DomainAPI implements OnInit {
             let listLeaveDate$ = await this._teacherService.getListLeaveDate(data.id, this.subjectId, currentDate);
             listLeaveDate$.subscribe((res: IDetailLeaveData[]) => {
                 if(res.length !== 0) {
-                    this.detailLeaveDate = [...res];
+                    this.detailLeaveDate.set(data.id, res);
                     console.log(this.detailLeaveDate);
+                    
                 }
                 
             })
-            
         }
     }
 
@@ -114,6 +114,7 @@ interface IStudentStatistical {
 }
 
 interface IDetailLeaveData {
+    student_id: string;
     is_enable: string;
     leave_date: string;
     leave_reason: string;
