@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
+import { NavController } from "@ionic/angular";
 import { Subscription } from "rxjs";
 import { IinfoStateAT, IOptionsFilter, Ipagination } from "src/app/shared/defined/info.define";
 import { AttendanceService } from "src/app/shared/services/attendance.service";
@@ -26,6 +27,7 @@ export class ListStudentInRoomPage implements OnInit, OnDestroy {
 
     constructor(
         private _router: Router,
+        private _navCtrl: NavController,
         private _activedRoute: ActivatedRoute,
         private _attendanceService: AttendanceService,
         private _sharedService: SharedService,
@@ -100,7 +102,6 @@ export class ListStudentInRoomPage implements OnInit, OnDestroy {
                 this.filterWithoutPermission();
                 return complete();
             }
-
             return this.getAllStudent(this.classId, this.subjectId, this.currentTime, complete);
         })
     }
@@ -110,8 +111,6 @@ export class ListStudentInRoomPage implements OnInit, OnDestroy {
         listStudent.subscribe((res: any) => {
             this.totalPage = res.total_page;
             this.listStudent = this.listStudent.concat(res.data);
-            console.log(res.data);
-
             if (typeof complete === 'function') {
                 complete();
             }
@@ -147,6 +146,7 @@ export class ListStudentInRoomPage implements OnInit, OnDestroy {
         this.listStudent = [];
         if (value === 'all') {
             this.isUpdate = false;
+            this.setQueryParam();
             return this.getAllStudent(this.classId, this.subjectId, this.currentTime);
         }
 
@@ -159,7 +159,7 @@ export class ListStudentInRoomPage implements OnInit, OnDestroy {
             this.setQueryParam('denine');
             return this.filterDenine();
         }
-
+        this.isUpdate = false;
         this.setQueryParam('without-permission');
         return this.filterWithoutPermission();
     }
@@ -181,7 +181,6 @@ export class ListStudentInRoomPage implements OnInit, OnDestroy {
             isEnable: 1,
             leave_denine: ''
         };
-        this.listStudent = [];
         return this.filterListStudent(options);
     }
     
@@ -193,7 +192,6 @@ export class ListStudentInRoomPage implements OnInit, OnDestroy {
             isEnable: 0,
             leave_denine: 'NOT'
         };
-        this.listStudent = [];
         return this.filterListStudent(options);
     }
 
@@ -205,7 +203,7 @@ export class ListStudentInRoomPage implements OnInit, OnDestroy {
             isEnable: 0,
             leave_denine: ''
         };
-        this.listStudent = [];
+        this.isUpdate = true;
         return this.filterListStudent(options);
     }
 
@@ -223,12 +221,20 @@ export class ListStudentInRoomPage implements OnInit, OnDestroy {
         });
     }
 
-    private setQueryParam(value: string) {
-        this._router.navigate([], {
-            queryParams: { filter: value }
-        });
+    public onGoBack() {
+        this._navCtrl.pop();
     }
 
+    private setQueryParam(value?: string) {
+        if(value) {
+            return this._router.navigate([], {
+                queryParams: { filter: value }
+            });
+        }
+        this._navCtrl.navigateForward('teacher/list-student-in-room');
+        // this._navCtrl.navigateForward('teacher/list-student-in-room', {queryParams: {filter: value}});
+    }
+    
     public trackByFn(index: number, student: any): number {
         return student?.student_id;
     }

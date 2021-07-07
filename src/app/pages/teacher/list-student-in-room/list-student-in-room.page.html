@@ -1,6 +1,6 @@
 <ion-header>
      <ion-toolbar color="appbar">
-          <ion-buttons slot="start" [routerLink]="['/teacher/dashboard']">
+          <ion-buttons slot="start" (click)="onGoBack()">
                <ion-back-button defaultHref></ion-back-button>
           </ion-buttons>
           <ion-title class="ion-text-start">

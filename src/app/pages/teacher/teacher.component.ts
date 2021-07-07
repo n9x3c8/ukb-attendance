@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { Subscription, timer } from "rxjs";
+import { Subscription } from "rxjs";
 import { IStudentTakeLeave } from "src/app/shared/defined/student.define";
 import { SharedService } from "src/app/shared/services/shared.service";
 import { TeacherService } from "src/app/shared/services/teacher.service";

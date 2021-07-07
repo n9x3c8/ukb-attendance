@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
-import { AlertController, IonButton, ViewDidEnter } from '@ionic/angular';
+import { AlertController, IonButton, NavController, ViewDidEnter } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { Geolocation, GeolocationOptions } from '@ionic-native/geolocation/ngx';
 import { LocalNotifications } from '@capacitor/local-notifications';
@@ -38,6 +38,7 @@ export class AttendanceOptionPage implements ViewDidEnter, OnDestroy {
 
     constructor(
         private _router: Router,
+        private _navCtrl: NavController,
         private _geolocation: Geolocation,
         private _activedRoute: ActivatedRoute,
         private _alertCtrl: AlertController,
@@ -212,7 +213,8 @@ export class AttendanceOptionPage implements ViewDidEnter, OnDestroy {
         this.subscription = stopAttendance.subscribe((res: any) => {
             this._sharedService.loading.dismiss();
             this._sharedService.showToast('Tắt điểm danh thành công!', 'success');
-            return this._router.navigate(['teacher', 'dashboard']);
+            this.onGoBack();
+            // return this._router.navigate(['teacher', 'dashboard']);
         });
     }
 
@@ -280,6 +282,10 @@ export class AttendanceOptionPage implements ViewDidEnter, OnDestroy {
             ]
         });
         return await alert.present();
+    }
+
+    public onGoBack() {
+        return this._navCtrl.pop();
     }
 
     ngOnDestroy() {
