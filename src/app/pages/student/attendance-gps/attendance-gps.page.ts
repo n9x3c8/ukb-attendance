@@ -3,6 +3,7 @@ import { Geolocation, GeolocationOptions } from '@ionic-native/geolocation/ngx';
 import { AttendanceService } from "src/app/shared/services/attendance.service";
 import { SharedService } from "src/app/shared/services/shared.service";
 import { Subscription } from "rxjs";
+import { take } from "rxjs/operators";
 
 @Component({
   selector: 'attendance-gps',
@@ -36,7 +37,7 @@ export class AttendanceGPSPage implements OnInit, OnDestroy {
   private async init() {
     let currentDate: string = this._sharedService.getDatetime();
     const infoAttendance$ = await this._attendanceService.getInfoDetailsAttendance(currentDate);
-    infoAttendance$.subscribe((res: any) => {
+    this.subscription = infoAttendance$.subscribe((res: any) => {
       if(res?.length !== 0) {
         this.infoDetailAttendance = [...res];
         let leaveSession: number = this.infoDetailAttendance[0]?.leave_session;

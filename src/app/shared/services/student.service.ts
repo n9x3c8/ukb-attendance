@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { take } from 'rxjs/operators';
 import { DomainAPI } from 'src/app/shared/class/domain.class';
 import { StorageService } from './storage.service';
 
@@ -13,27 +14,19 @@ export class StudentService extends DomainAPI {
       'Content-Type': 'application/x-www-form-urlencoded'
     })
   }
+  
   constructor(private http: HttpClient, private _storageService: StorageService) {
     super();
     this.init();
   }
 
-  //Student
   public async infoStudent() {
     this.username = await this._storageService.get('username');
     let uuid: any = await this.getIdDevice();
     
     let url: string = `${this.domain}/mvc/public/account/info_details_student/${this.username}/${uuid}`;
-    return this.http.get(url);
+    return this.http.get(url).pipe( take(1) );
   }
-
-  // async updateStudent(id: string, name: string, address: any, email: any, phone: any) {
-  //   this.username = await this._storage.get('username');
-  //   let url: string = `${this.domain}/mvc/public/account/update_profile_student`;
-  //   let data = { id, name, address, email, phone };
-  //   return await this.http.post(url, data);
-  // }
-
 
   public async countTakeLeave(subject_id: string) {
     this.username = await this._storageService.get('username');
@@ -81,7 +74,7 @@ export class StudentService extends DomainAPI {
     this.username = await this._storageService.get('username');
     let uuid: any = await this.getIdDevice();
     const URL: string = `${this.domain}/mvc/public/notifications/notify_for_student/${this.username}/${uuid}`;
-    return this.http.get(URL);
+    return this.http.get(URL).pipe( take(1) );
   }
 
 

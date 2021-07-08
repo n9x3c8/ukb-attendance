@@ -3,8 +3,9 @@ import { Router } from '@angular/router';
 import { AccountService } from 'src/app/shared/services/account.service';
 import { StorageService } from 'src/app/shared/services/storage.service';
 import { SharedService } from 'src/app/shared/services/shared.service';
-import { ViewDidEnter } from '@ionic/angular';
+import { AlertController, Platform, ViewDidEnter } from '@ionic/angular';
 import { Device } from '@capacitor/device';
+import { App } from '@capacitor/app';
 
 @Component({
   selector: 'attendance-login',
@@ -14,6 +15,8 @@ import { Device } from '@capacitor/device';
 export class LoginPage implements ViewDidEnter {
   public isShowPassword: boolean;
   constructor(
+    private platform: Platform,
+    private alertCtrl: AlertController,
     private router: Router,
     private _accountService: AccountService,
     private _storageService: StorageService,
@@ -48,9 +51,9 @@ export class LoginPage implements ViewDidEnter {
     if(password.toString().length < 3) {
       return this._sharedService.showToast('Mật khẩu phải lớn hơn 8 ký tự!', 'danger', '');
     }
-    
-    username = username.toString().toUpperCase();
-    password = password.toString().toUpperCase();
+
+    username = (username as string).toUpperCase();
+
     if(!username || !password) {
       return this._sharedService.showToast('Bạn cần nhập đủ thông tin!', 'danger', '');
     }
@@ -87,5 +90,35 @@ export class LoginPage implements ViewDidEnter {
       }
     });
     return this._sharedService.loading.dismiss();
+  }
+
+   private backButton() {
+    this.platform.backButton.subscribeWithPriority(-1, () => {
+        this.presentAlertConfirm();
+    });
+  }
+
+
+  private async presentAlertConfirm() {
+    const alert = await this.alertCtrl.create({
+      header: 'Thông báo!',
+      message: 'Message <strong>Bạn có muốn thoát ứng dụng không</strong>???',
+      buttons: [
+        {
+          text: 'Hủy',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (blah) => {
+            
+          }
+        }, {
+          text: 'Đồng ý',
+          handler: () => {
+            App.exitApp();
+          }
+        }
+      ]
+    });
+    await alert.present();
   }
 }

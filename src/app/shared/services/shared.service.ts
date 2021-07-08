@@ -84,6 +84,7 @@ export class SharedService extends DomainAPI {
   async showLoading(message: string) {
     this.loading = await this._loading.create({
       message,
+      duration: 10000,
       mode: 'ios'
     });
     await this.loading.present();

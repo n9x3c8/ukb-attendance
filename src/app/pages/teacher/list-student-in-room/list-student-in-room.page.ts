@@ -1,22 +1,25 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-import { NavController } from "@ionic/angular";
 import { Subscription } from "rxjs";
+import { DomainAPI } from "src/app/shared/class/domain.class";
 import { IinfoStateAT, IOptionsFilter, Ipagination } from "src/app/shared/defined/info.define";
 import { AttendanceService } from "src/app/shared/services/attendance.service";
 import { SharedService } from "src/app/shared/services/shared.service";
 import { TeacherService } from "src/app/shared/services/teacher.service";
+import { take } from 'rxjs/operators';
 
 @Component({
     selector: 'attendance-list-student-in-room',
     templateUrl: 'list-student-in-room.page.html',
     styleUrls: ['list-student-in-room.page.scss']
 })
-export class ListStudentInRoomPage implements OnInit, OnDestroy {
+export class ListStudentInRoomPage extends DomainAPI implements OnInit, OnDestroy {
     private currentPage: number;
     private length: number;
     private totalPage: number;
     private subscription: Subscription;
+    public url: string;
+    public loading: boolean;
     public listStudent: any[];
     public classId: string;
     public subjectId: string;
@@ -27,15 +30,17 @@ export class ListStudentInRoomPage implements OnInit, OnDestroy {
 
     constructor(
         private _router: Router,
-        private _navCtrl: NavController,
         private _activedRoute: ActivatedRoute,
         private _attendanceService: AttendanceService,
         private _sharedService: SharedService,
         private _teacherService: TeacherService,
     ) {
+        super();
         this.listStudent = [];
         this.currentPage = 1;
         this.length = 10;
+        this.loading = true;
+        this.url = `${this.domain}/mvc/public/images/`;
         this.options = [
             {
                 value: 'all',
@@ -63,12 +68,13 @@ export class ListStudentInRoomPage implements OnInit, OnDestroy {
     private async init() {
         this.currentTime = this._sharedService.getDatetime();
         let info = await this._attendanceService.getInfoStateAttendance(this.currentTime);
-        this.subscription = info.subscribe(async (res: IinfoStateAT) => {
+        this.subscription = info
+        .pipe( take(1) )
+        .subscribe(async (res: IinfoStateAT) => {
             let hours: number = (new Date).getHours();
 
             this.classId = res?.infoClass.class_id;
             this.subjectId = res?.infoSubject.subject_id;
-
 
             const HOURS_INVALID: boolean = hours >= 8 && hours <= 16 || true;
             const IS_START_AT = res?.infoClass.class_id;
@@ -82,10 +88,13 @@ export class ListStudentInRoomPage implements OnInit, OnDestroy {
     public doRefresh(ev) {
         this.listStudent = [];
         this.currentPage = 1;
+        this.loading = true;
         this.currentTime = this._sharedService.getDatetime();
         const complete = () => ev.target.complete();
 
-        this._activedRoute.queryParams.subscribe(param => {
+        this._activedRoute.queryParams
+        .pipe( take(1) )
+        .subscribe(param => {
             const { filter } = param;
             if (filter === 'agree') {
                 this.filterAgree();
@@ -108,9 +117,12 @@ export class ListStudentInRoomPage implements OnInit, OnDestroy {
 
     private async getAllStudent(classId: string, subjectId: string, currentTime: string, complete?: Function, pagination?: Ipagination) {
         let listStudent = await this._teacherService.getListStudent(classId, subjectId, currentTime, pagination);
-        listStudent.subscribe((res: any) => {
+        listStudent
+        .pipe( take(1) )
+        .subscribe((res: any) => {
             this.totalPage = res.total_page;
             this.listStudent = this.listStudent.concat(res.data);
+            this.loading = false;
             if (typeof complete === 'function') {
                 complete();
             }
@@ -151,25 +163,34 @@ export class ListStudentInRoomPage implements OnInit, OnDestroy {
         }
 
         if (value === 'agree') {
+            this.isUpdate = false;
+            this.loading = true;
             this.setQueryParam('agree');
             return this.filterAgree();
         }
 
         if (value === 'denine') {
+            this.isUpdate = false;
+            this.loading = true;
             this.setQueryParam('denine');
             return this.filterDenine();
         }
         this.isUpdate = false;
+        this.loading = true;
         this.setQueryParam('without-permission');
         return this.filterWithoutPermission();
     }
 
     private async filterListStudent(options: IOptionsFilter) {
         let filterStudents$ = await this._teacherService.getStudentsByOptions(options);
-        this.subscription = filterStudents$.subscribe((res: any[]) => {
+        this.subscription = filterStudents$
+        .pipe( take(1) )
+        .subscribe((res: any[]) => {
             if (res?.length) {
                 this.listStudent = [...res];
+                return;
             }
+            this.loading = false;
         });
     }
 
@@ -181,7 +202,7 @@ export class ListStudentInRoomPage implements OnInit, OnDestroy {
             isEnable: 1,
             leave_denine: ''
         };
-        return this.filterListStudent(options);
+        this.filterListStudent(options);
     }
     
     private filterDenine() {
@@ -222,7 +243,7 @@ export class ListStudentInRoomPage implements OnInit, OnDestroy {
     }
 
     public onGoBack() {
-        this._navCtrl.pop();
+        this._router.navigate(['teacher', 'dashboard']);
     }
 
     private setQueryParam(value?: string) {
@@ -231,8 +252,7 @@ export class ListStudentInRoomPage implements OnInit, OnDestroy {
                 queryParams: { filter: value }
             });
         }
-        this._navCtrl.navigateForward('teacher/list-student-in-room');
-        // this._navCtrl.navigateForward('teacher/list-student-in-room', {queryParams: {filter: value}});
+        return this._router.navigate([]);
     }
     
     public trackByFn(index: number, student: any): number {
@@ -243,5 +263,4 @@ export class ListStudentInRoomPage implements OnInit, OnDestroy {
         this.subscription.unsubscribe();
     }
 }
-
 

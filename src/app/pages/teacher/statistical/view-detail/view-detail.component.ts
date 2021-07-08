@@ -84,10 +84,7 @@ export class ViewDetailComponent extends DomainAPI implements OnInit {
             listLeaveDate$.subscribe((res: IDetailLeaveData[]) => {
                 if(res.length !== 0) {
                     this.detailLeaveDate.set(data.id, res);
-                    console.log(this.detailLeaveDate);
-                    
                 }
-                
             })
         }
     }

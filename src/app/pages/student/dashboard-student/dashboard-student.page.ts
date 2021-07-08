@@ -7,6 +7,7 @@ import { SharedService } from 'src/app/shared/services/shared.service';
 import { DomainAPI } from 'src/app/shared/class/domain.class';
 import { Router } from '@angular/router';
 import { StorageService } from 'src/app/shared/services/storage.service';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'attendance-attendance',
@@ -34,7 +35,8 @@ export class DashboardStudentPage extends DomainAPI implements OnInit, ViewDidEn
   async ngOnInit() {
     await this.checkLogged();
     const infoStudent$ = await this._studentService.infoStudent();
-    infoStudent$.subscribe((res: any) => {
+    infoStudent$
+    .subscribe((res: any) => {
       if (res.length !== 0) {
         this.student = res[0];
         if(!this.student?.student_avatar) {
@@ -66,7 +68,8 @@ export class DashboardStudentPage extends DomainAPI implements OnInit, ViewDidEn
     // load info attendance
     let currentDate: string = this._sharedService.getDatetime();
     const infoAttendance$ = await this._attendanceService.getInfoDetailsAttendance(currentDate);
-    infoAttendance$.subscribe((res: any) => {
+    infoAttendance$
+    .subscribe((res: any) => {
       if(res?.length !== 0) {
         this.infoAttendance = [...res];
       }      

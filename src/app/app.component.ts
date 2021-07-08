@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { AlertController, IonRouterOutlet, Platform } from '@ionic/angular';
-import { App } from '@capacitor/app';
+// import { App } from '@capacitor/app';
 import { SplashScreen } from '@capacitor/splash-screen';
 import { StatusBar, BackgroundColorOptions } from '@capacitor/status-bar';
 
@@ -21,7 +21,7 @@ export class AppComponent implements OnInit {
 
   ) {
     this.initializeApp();
-    this.backButton();
+    // this.backButton();
   }
 
   async ngOnInit() {
@@ -42,35 +42,35 @@ export class AppComponent implements OnInit {
     });
   }
 
-  private backButton() {
-    this.platform.backButton.subscribeWithPriority(-1, () => {
-      if(!this.routerOutlet.canGoBack()) {
-        this.presentAlertConfirm();
-      }
-    });
-  }
+  // private backButton() {
+  //   this.platform.backButton.subscribeWithPriority(-1, () => {
+  //     if(!this.routerOutlet.canGoBack()) {
+  //       this.presentAlertConfirm();
+  //     }
+  //   });
+  // }
 
 
-  private async presentAlertConfirm() {
-    const alert = await this.alertCtrl.create({
-      header: 'Thông báo!',
-      message: 'Message <strong>Bạn có muốn thoát ứng dụng không</strong>???',
-      buttons: [
-        {
-          text: 'Hủy',
-          role: 'cancel',
-          cssClass: 'secondary',
-          handler: (blah) => {
+  // private async presentAlertConfirm() {
+  //   const alert = await this.alertCtrl.create({
+  //     header: 'Thông báo!',
+  //     message: 'Message <strong>Bạn có muốn thoát ứng dụng không</strong>???',
+  //     buttons: [
+  //       {
+  //         text: 'Hủy',
+  //         role: 'cancel',
+  //         cssClass: 'secondary',
+  //         handler: (blah) => {
             
-          }
-        }, {
-          text: 'Đồng ý',
-          handler: () => {
-            App.exitApp();
-          }
-        }
-      ]
-    });
-    await alert.present();
-  }
+  //         }
+  //       }, {
+  //         text: 'Đồng ý',
+  //         handler: () => {
+  //           App.exitApp();
+  //         }
+  //       }
+  //     ]
+  //   });
+  //   await alert.present();
+  // }
 }

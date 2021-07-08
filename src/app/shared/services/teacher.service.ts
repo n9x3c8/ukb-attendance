@@ -89,13 +89,6 @@ export class TeacherService  extends DomainAPI{
       return this.http.get(URL);
     }
 
-    // lay ra buoi nghi cua sinh vien
-    // public async getLeaveSession(studentId: string, subjectId: string) {
-    //   this.username = await this._storageService.get('username');
-    //   let uuid = await this.getIdDevice();
-    //   const URL: string = `${this.domain}/mvc/public/student/leave_session/${this.username}/${uuid}/${studentId}/${subjectId}`;
-    //   return this.http.get(URL);
-    // }
 
     //lay ra ds sinh vien cua tung lop-mon (trong statistical)
     public async getStudentStatistical(classId: string, subjectId: string, currentDate: string, pagination?: {currentPage: number, length: number}) {

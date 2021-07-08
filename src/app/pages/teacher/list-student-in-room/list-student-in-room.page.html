@@ -4,7 +4,7 @@
                <ion-back-button defaultHref></ion-back-button>
           </ion-buttons>
           <ion-title class="ion-text-start">
-               Chi tiết buổi học
+              {{ classId }} - {{ subjectId }}
           </ion-title>
      </ion-toolbar>
      <div class="filter">
@@ -32,17 +32,79 @@
      </ion-refresher>
 
      <section class="main">
-          <div class="item2" *ngFor="let student of listStudent; index as idx; trackBy: trackByFn">
-               <ion-avatar>
-                    <img src="assets/images/avatar.jpg" />
-               </ion-avatar>
-               <div class="info">
-                    <div class="name">{{ student?.student_name }}</div>
+          <ng-container *ngIf="!loading">
+               <div class="item2" *ngFor="let student of listStudent; index as idx; trackBy: trackByFn">
+                    <ion-avatar>
+                         <img [src]="!student?.student_avatar ? +student?.student_gender === 1 ? 'assets/images/avatar-male.webp' : 'assets/images/avatar-female.webp' : url + student?.student_avatar" />
+                    </ion-avatar>
+                    <div class="info">
+                         <div class="name">{{ student?.student_name }}</div>
+                    </div>
+                    <div class="delete" *ngIf="isUpdate" (click)="onUpdateStateStudent(student, idx)">
+                         <ion-icon color="danger" name="close-circle-outline"></ion-icon>
+                    </div>
                </div>
-               <div class="delete" *ngIf="isUpdate" (click)="onUpdateStateStudent(student, idx)">
-                    <ion-icon color="danger" name="close-circle-outline"></ion-icon>
+          </ng-container>
+
+          <ion-list *ngIf="loading">
+               <div class="fake-box">
+                   <ion-item class="item">
+                       <ion-thumbnail class="image">
+                           <ion-skeleton-text class="avt-fake"></ion-skeleton-text>
+                       </ion-thumbnail>
+                       <ion-skeleton-text class="nofification-title-fake" animated style="width: 80%"></ion-skeleton-text>
+                   </ion-item>
                </div>
-          </div>
+               <div class="fake-box">
+                    <ion-item class="item">
+                        <ion-thumbnail class="image">
+                            <ion-skeleton-text class="avt-fake"></ion-skeleton-text>
+                        </ion-thumbnail>
+                        <ion-skeleton-text class="nofification-title-fake" animated style="width: 80%"></ion-skeleton-text>
+                    </ion-item>
+                </div>
+                <div class="fake-box">
+                    <ion-item class="item">
+                        <ion-thumbnail class="image">
+                            <ion-skeleton-text class="avt-fake"></ion-skeleton-text>
+                        </ion-thumbnail>
+                        <ion-skeleton-text class="nofification-title-fake" animated style="width: 80%"></ion-skeleton-text>
+                    </ion-item>
+                </div>
+                <div class="fake-box">
+                    <ion-item class="item">
+                        <ion-thumbnail class="image">
+                            <ion-skeleton-text class="avt-fake"></ion-skeleton-text>
+                        </ion-thumbnail>
+                        <ion-skeleton-text class="nofification-title-fake" animated style="width: 80%"></ion-skeleton-text>
+                    </ion-item>
+                </div>
+                <div class="fake-box">
+                    <ion-item class="item">
+                        <ion-thumbnail class="image">
+                            <ion-skeleton-text class="avt-fake"></ion-skeleton-text>
+                        </ion-thumbnail>
+                        <ion-skeleton-text class="nofification-title-fake" animated style="width: 80%"></ion-skeleton-text>
+                    </ion-item>
+                </div>
+                <div class="fake-box">
+                    <ion-item class="item">
+                        <ion-thumbnail class="image">
+                            <ion-skeleton-text class="avt-fake"></ion-skeleton-text>
+                        </ion-thumbnail>
+                        <ion-skeleton-text class="nofification-title-fake" animated style="width: 80%"></ion-skeleton-text>
+                    </ion-item>
+                </div>
+                <div class="fake-box">
+                    <ion-item class="item">
+                        <ion-thumbnail class="image">
+                            <ion-skeleton-text class="avt-fake"></ion-skeleton-text>
+                        </ion-thumbnail>
+                        <ion-skeleton-text class="nofification-title-fake" animated style="width: 80%"></ion-skeleton-text>
+                    </ion-item>
+                </div>
+           </ion-list>
+
           <ion-infinite-scroll (ionInfinite)="loadData($event)">
                <ion-infinite-scroll-content
                  loadingSpinner="dots"

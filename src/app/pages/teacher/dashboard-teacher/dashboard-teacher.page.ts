@@ -7,7 +7,7 @@ import { IinfoStateAT } from 'src/app/shared/defined/info.define';
 import { TeacherService } from 'src/app/shared/services/teacher.service';
 import { AttendanceService } from 'src/app/shared/services/attendance.service';
 import { StorageService } from 'src/app/shared/services/storage.service';
-import { ActionSheetController, NavController, ViewDidEnter } from '@ionic/angular';
+import { ActionSheetController, ViewDidEnter } from '@ionic/angular';
 import { NavigationOptions } from '@ionic/angular/providers/nav-controller';
 
 @Component({
@@ -23,7 +23,6 @@ export class DashboardTeacherPage implements OnInit, OnDestroy, ViewDidEnter {
 
   constructor(
     private _router: Router,
-    private _navCtrl: NavController,
     private _accountService: AccountService,
     private _sharedService: SharedService,
     private _actionSheetController: ActionSheetController,
@@ -112,10 +111,9 @@ export class DashboardTeacherPage implements OnInit, OnDestroy, ViewDidEnter {
     let options: NavigationOptions = {
       queryParams: {atIdLast: this.info?.attendance_id_last}
     }
-    return this._navCtrl.navigateForward(`teacher/attendance-options`, options)
-    // this._router.navigate(['teacher/attendance-options'], {
-      // queryParams: { atIdLast: this.info?.attendance_id_last }
-    // });
+    this._router.navigate(['teacher/attendance-options'], {
+      queryParams: { atIdLast: this.info?.attendance_id_last }
+    });
   }
 
   private async getInfoTeacher() {
@@ -154,8 +152,7 @@ export class DashboardTeacherPage implements OnInit, OnDestroy, ViewDidEnter {
     let atIdLast: number = this.info.attendance_id_last;
     
     if(atIdLast) {
-      return this._navCtrl.navigateForward(`teacher/list-student-in-room/${atIdLast}/${subjectId}`);
-      // return this._router.navigate(['teacher', 'list-student-in-room', atIdLast, subjectId]);
+      return this._router.navigate(['teacher', 'list-student-in-room', atIdLast, subjectId]);
     }
     return this._sharedService.showToast(`Thầy/cô chưa bật điểm danh`, 'danger');  
   }

@@ -1,59 +1,81 @@
-<ion-content [fullscreen]="true">
+<ion-content>
   <div id="container">
     <header>
-      <ion-avatar>
-        <img
+      <div class="header">
+        <ion-avatar>
+          <img
           src="assets/images/avatar.jpg" />
-      </ion-avatar>
-      <div class="info">
-        <div class="teacher-name">
-          Giảng viên: <span>{{ teacher?.teacher_name   }}</span>
+        </ion-avatar>
+        <div class="info">
+          <div class="name">
+            <span>Giảng viên: </span>
+            {{ teacher?.teacher_name }}
+          </div>
+          <div class="academic">
+            <span>Khoa: </span>
+            CNTT
+          </div>
         </div>
-        <div class="faculty-name">Khoa: CNTT</div>
+        <div class="menu">
+          <ion-icon name="ellipsis-vertical-outline" (click)="openMenu()"></ion-icon>
+        </div>
       </div>
-      <div class="profile" (click)="openMenu()">
-        <ion-icon name="ellipsis-vertical-outline"></ion-icon>
-      </div>
+      <div class="control-panel">Bảng điều khiển</div>
     </header>
 
+    <section class="main">
+      <ion-grid fixed>
+        <ion-row>
+          <ion-col size="6">
+            <div class="wrap-click" (click)="openTurnOnAttendance()">
+              <ion-thumbnail>
+                <img src="assets/images/turn-on-attendance.png" />
+              </ion-thumbnail>
+              <div class="feature-name">điểm danh GPS</div>
+            </div>
+          </ion-col>
 
-    <div class="dashboard-name">Bảng điều khiển</div>
+          <ion-col size="6">
+            <div class="wrap-click" (click)="onGotoHandMadeAT()">
+              <ion-thumbnail>
+                <img src="assets/images/attendance.png" />
+              </ion-thumbnail>
+              <div class="feature-name">điểm danh thủ công</div>
+            </div>
+          </ion-col>
+        </ion-row>
 
-    <div class="main-dashboard">
-      <div class="feture" (click)="openTurnOnAttendance()">
-        <ion-thumbnail>
-          <img src="assets/images/turn-on-attendance.png" />
-        </ion-thumbnail>
-        <div class="feture-name">điểm danh GPS</div>
-      </div>
+        <ion-row>
+          <ion-col size="6">
+            <div class="wrap-click" (click)="onGoToListStudentInRoom()">
+              <ion-thumbnail>
+                <img src="assets/images/list-student.png" />
+              </ion-thumbnail>
+              <div class="feature-name">chi tiết buổi học</div>
+            </div>
+          </ion-col>
 
-      <div class="feture" (click)="onGotoHandMadeAT()">
-        <ion-thumbnail>
-          <img src="assets/images/attendance.png" />
-        </ion-thumbnail>
-        <div class="feture-name">điểm danh thủ công</div>
-      </div>
+          <ion-col size="6">
+            <div class="wrap-click" [routerLink]="['/teacher/statistical']">
+              <ion-thumbnail>
+                <img src="assets/images/statistical.png" />
+              </ion-thumbnail>
+              <div class="feature-name">thống kê</div>
+            </div>
+          </ion-col>
+        </ion-row>
 
-      <div class="feture" (click)="onGoToListStudentInRoom()">
-        <ion-thumbnail>
-          <img src="assets/images/list-student.png" />
-        </ion-thumbnail>
-        <div class="feture-name">chi tiết buổi học</div>
-      </div>
-
-      <div class="feture" [routerLink]="['/teacher/statistical']">
-        <ion-thumbnail>
-          <img src="assets/images/statistical.png" />
-        </ion-thumbnail>
-        <div class="feture-name">thống kê</div>
-      </div>
-
-      <div class="feture" (click)="goToGeneratorQR()">
-        <ion-icon style="width: 46px; height: 46px;" name="qr-code-outline"></ion-icon>
-        <div class="feture-name">lấy mã QR</div>
-      </div>
-
-    </div>
-
+        <ion-row>
+          <ion-col size="6">
+            <div class="wrap-click" (click)="goToGeneratorQR()">
+              <ion-thumbnail>
+                <ion-icon style="width: 46px; height: 46px;" name="qr-code-outline"></ion-icon>
+              </ion-thumbnail>
+              <div class="feature-name">mã QR</div>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </section>
   </div>
 </ion-content>

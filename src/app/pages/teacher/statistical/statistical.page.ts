@@ -26,8 +26,6 @@ export class StatisticalPage implements OnInit, OnDestroy {
 
     public async init() {
         await this._sharedService.showLoading('Xin chờ...');
-        // let year: number = (new Date).getFullYear();
-        // let statistical = await this._teacherService.statistical(year);
         let statistical = await this._teacherService.statistical();
         
         this.subscription = statistical.subscribe((res: any) => {

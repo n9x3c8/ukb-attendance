@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { take } from 'rxjs/operators';
 import { DomainAPI } from 'src/app/shared/class/domain.class';
 import { IinfoAT, IinfoStateAT } from '../defined/info.define';
 import { StorageService } from './storage.service';
@@ -23,7 +24,7 @@ export class AttendanceService extends DomainAPI {
         this.username = await this._storageService.get('username');
         let uuid: any = await this.getIdDevice();
         let url: string = `${this.domain}/mvc/public/attendance/info_details_attendance_student/${this.username}/${currentDate}/${uuid}`;
-        return await this.http.get(url);
+        return await this.http.get(url).pipe( take(1) );
     }
 
     async isExistInRoom() {
@@ -34,23 +35,23 @@ export class AttendanceService extends DomainAPI {
     }
 
 
-    // kiem tra sv co phong hoc hay ko.
+    // Kiểm tra sv có phòng học hay chưa
     public async checkIDExistInRoom() {
         let username = await this._storageService.get('username');
         let uuid: any = await this.getIdDevice();
         let url: string = `${this.domain}/mvc/public/attendance/exist_in_attendance_student/${username}/${uuid}`;
-        return await this.http.get(url);
+        return await this.http.get(url).pipe( take(1) );
     }
 
-    //  diem danh sv
+    // Cập nhật trạng thái điểm danh sv
     public async updateStateAttendance() {
         let username = await this._storageService.get('username');
         let uuid: any = await this.getIdDevice();
         let url: string = `${this.domain}/mvc/public/attendance/state_attendance_student/${username}/${uuid}`;
-        return await this.http.get(url);
+        return await this.http.get(url).pipe( take(1) );
     }
 
-    // lay thong tin count, thong tin mon hoc va lop hoc
+    // Lấy thông tin count, thông tin môn, lớp học.
     public async getInfoStateAttendance(datetime: string) {
         this.username = await this._storageService.get('username');
         let uuid: any = await this.getIdDevice();
@@ -114,37 +115,22 @@ export class AttendanceService extends DomainAPI {
     }
 
 
-    public async getTimeServer() {
-        this.username = await this._storageService.get('username');
-        let date = new Date();
-        let month = this.formatDate(date.getMonth() + 1);
-        let day = this.formatDate(date.getDate());
-        let datetime: string = `${date.getFullYear()}${month}${day}`;
-        let url: string = `${this.domain}/mvc/public/account/datetime_server`;
-        let data = {
-            teacher_id: this.username,
-            date: datetime
-        };
-        return this.http.post(url, data, this.options);
-    }
-
-    private formatDate(num: number): string {
-        return num < 10 ? '0' + num : '' + num;
-    }
-
-
-    // public async stateTurnOnAttendante(classId: string, subjectId: string, day: number) {
+    // public async getTimeServer() {
     //     this.username = await this._storageService.get('username');
-    //     let url: string = `${this.domain}/mvc/public/attendance/state_turn_on_attendance/${classId}/${subjectId}/${this.username}/${day}`;
-    //     return this.http.get(url);
+    //     let date = new Date();
+    //     let month = this.formatDate(date.getMonth() + 1);
+    //     let day = this.formatDate(date.getDate());
+    //     let datetime: string = `${date.getFullYear()}${month}${day}`;
+    //     let url: string = `${this.domain}/mvc/public/account/datetime_server`;
+    //     let data = {
+    //         teacher_id: this.username,
+    //         date: datetime
+    //     };
+    //     return this.http.post(url, data, this.options);
     // }
 
-
-    // lay ra ngay gio phut server
-    // async getDatetimeAttendance1(classId: string, subjectId: string, teacherId: string, day: number) {
-    //     this.username = await this._storageService.get('username');
-    //     let url: string = `${this.domain}/mvc/public/attendance/datetime_attendance_last/${classId}/${subjectId}/${teacherId}/${day}`;
-    //     return this.http.get(url);
+    // private formatDate(num: number): string {
+    //     return num < 10 ? '0' + num : '' + num;
     // }
 
     async addAttendance(classId: string, subjectId: string, attendanceTime: string, latitude: number, longitude: number, radius: number) {
@@ -174,10 +160,6 @@ export class AttendanceService extends DomainAPI {
 
 
     //kiem tra trang thai gv tat diem danh - check_stop_attendance
-    // public onCheckStopAttendance(classId: string, subjectId: string) {
-    //     const URL: string = `${this.domain}/mvc/public/attendance/check_stop_attendance/${classId}/${subjectId}/${this.username}`;        
-    //     return this.http.get(URL);
-    // }
     public onCheckStopAttendance(atIdLast: number) {
         const URL: string = `${this.domain}/mvc/public/attendance/check_stop_attendance/${atIdLast}`;
         return this.http.get(URL);
