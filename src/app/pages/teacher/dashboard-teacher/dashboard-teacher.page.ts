@@ -9,16 +9,18 @@ import { AttendanceService } from 'src/app/shared/services/attendance.service';
 import { StorageService } from 'src/app/shared/services/storage.service';
 import { ActionSheetController, ViewDidEnter } from '@ionic/angular';
 import { NavigationOptions } from '@ionic/angular/providers/nav-controller';
+import { DomainAPI } from 'src/app/shared/class/domain.class';
 
 @Component({
   selector: 'attendance-dashboard-teacher',
   templateUrl: 'dashboard-teacher.page.html',
   styleUrls: ['dashboard-teacher.page.scss'],
 })
-export class DashboardTeacherPage implements OnInit, OnDestroy, ViewDidEnter {
+export class DashboardTeacherPage extends DomainAPI implements OnInit, OnDestroy, ViewDidEnter {
   private subscription: Subscription;
   public stateEnableAttendance: number;
   public teacher: any;
+  public avatarUrl: string;
   public info: IinfoStateAT;
 
   constructor(
@@ -29,14 +31,16 @@ export class DashboardTeacherPage implements OnInit, OnDestroy, ViewDidEnter {
     private _storageService: StorageService,
     private readonly _teacherService: TeacherService,
     private readonly _attendanceService: AttendanceService,
-  ) { }
+  ) {
+    super();
+  }
 
   async ngOnInit() {
     this.checkLogged();
-    this.getInfoTeacher();
   }
 
   ionViewDidEnter() {
+    this.getInfoTeacher();
     this.getInfoStateAT();
   }
 
@@ -118,7 +122,12 @@ export class DashboardTeacherPage implements OnInit, OnDestroy, ViewDidEnter {
 
   private async getInfoTeacher() {
     await (await this._teacherService.infoTeacher()).subscribe((res: any) => {
-      if (res) this.teacher = { ...res[0] };
+      if(!res) {
+        return this._sharedService.showToast('Có lỗi xảy ra!', 'danger');
+      }
+      this.teacher = { ...res[0] };
+      let url = `${this.domain}/mvc/public/images/${this.teacher?.teacher_avatar}`;
+      this.avatarUrl = !this.teacher?.teacher_avatar ? this.teacher?.teacher_gender === 1 ? 'assets/images/teacher-male.webp' : 'assets/images/teacher-female.webp' : url;
     });
   }
 

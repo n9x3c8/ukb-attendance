@@ -8,7 +8,7 @@
                 Thông tin cá nhân
                 <div class="upload-avatar">
                     <ion-avatar>
-                        <img [src]="'assets/images/avatar.jpg'" />
+                        <img [src]="avatarUrl" />
                     </ion-avatar>
                     <div class="file" (click)="onPickFile()">
                         <ion-icon name="camera-reverse-outline"></ion-icon>
@@ -19,7 +19,7 @@
             <button
                 class="save"
                 [disabled]="!isEnableUpdate"
-                (click)="onUpdateProfile(address.value, phone.value, email.value, birthday)">
+                (click)="onUpdateProfile(address.value, phone.value, email.value, birthday.value)">
                 <ion-icon [name]="isEnableUpdate ? 'save-outline' : 'save'"></ion-icon>
             </button>
         </section>
@@ -35,7 +35,10 @@
             </div>
             <div class="item">
                 <label>Giới tính</label>
-                <input type="text" disabled [placeholder]="+teacher?.teacher_gender === 1 ? 'Nam' : 'Nữ'" />
+                <ion-select interface="action-sheet" [(ngModel)]="gender">
+                    <ion-select-option value="male">Nam</ion-select-option>
+                    <ion-select-option value="female">Nữ</ion-select-option>
+                </ion-select>
             </div>
             <div class="item">
                 <label>Ngày sinh</label>

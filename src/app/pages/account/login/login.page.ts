@@ -21,7 +21,9 @@ export class LoginPage implements ViewDidEnter {
     private _accountService: AccountService,
     private _storageService: StorageService,
     private _sharedService: SharedService
-  ) { }
+  ) {
+    this.backButton();
+  }
 
   ionViewDidEnter() {
     this.checkLogged();

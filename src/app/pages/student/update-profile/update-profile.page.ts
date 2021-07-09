@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { DomainAPI } from 'src/app/shared/class/domain.class';
 import { IStatusUpdateProfile } from 'src/app/shared/defined/info.define';
 import { StorageService } from "src/app/shared/services/storage.service";
+import { AccountService } from "src/app/shared/services/account.service";
 
 @Component({
     selector: 'attendance-update-profile',
@@ -14,18 +15,19 @@ import { StorageService } from "src/app/shared/services/storage.service";
 })
 export class UpdateProfilePage extends DomainAPI implements ViewDidEnter {
     private image: File | null;
+
+    private avatarCurrent: string;
+
     public avatarUrl: string;
     public isEnableUpdate: boolean;
     public student: IStudent;
+    public gender: string;
     @ViewChild('inputfile', { static: true }) inputFile: ElementRef<HTMLInputElement>;
 
-    public onClick() {
-        this.inputFile.nativeElement.click();
-    }
-
     constructor(
-        private _storageService: StorageService,
         private http: HttpClient,
+        private _storageService: StorageService,
+        private _accountService: AccountService,
         private readonly _sharedService: SharedService,
         private _studentService: StudentService,
     ) {
@@ -39,6 +41,7 @@ export class UpdateProfilePage extends DomainAPI implements ViewDidEnter {
         infoStudent.subscribe((res: IStudent[]) => {
             if (res.length !== 0) {
                 this.student = res[0];
+                this.gender = +res[0].student_gender === 1 ? 'male' : 'female';
 
                 if (!this.student?.student_avatar) {
                     let avatarDefault: string = +this.student?.student_gender === 1 ? 'avatar-male.webp' : 'avatar-female.webp';
@@ -53,15 +56,44 @@ export class UpdateProfilePage extends DomainAPI implements ViewDidEnter {
         });
     }
 
+    public onClick() {
+        this.inputFile.nativeElement.click();
+    }
+
     public selectFile(event) {
-        if (event.target.files && event.target.files.length) {
-            return this.image = event.target.files[0];
-        }
+        const onHandleAgree = async () => {
+            if (!event.target.files && !event.target.files.length) {
+                return;
+            }
+            this.image = event.target.files[0];
+            let avatar: string = this.avatarCurrent ?? this.student?.student_avatar;
+            const PERMISSION_ID = await this._storageService.get('permission_id');
+            const username = await this._storageService.get('username');
+
+            let url: string = `${this.domain}/mvc/public/account/upload_avatar/${PERMISSION_ID}/${avatar}`;
+            const formData = new FormData();
+            formData.append('image', this.image);
+            formData.append('permission_id', PERMISSION_ID);
+            formData.append('username', username);
+
+
+            this.http.post(url, formData).subscribe((rs: { state: string, filename: string }) => {
+                if (rs?.state !== 'upload_success') {
+                    return this._sharedService.showToast(rs.state, 'danger');
+                }
+
+                this.avatarUrl = `${this.domain}/mvc/public/images/${rs.filename}`;
+                this.avatarCurrent = rs.filename;
+            });
+        };
+
+        let msg: string = '<strong>Bạn có muốn thay đổi ảnh đại diện?</strong>';
+        this._sharedService.showAlert(msg, 'Thông báo', onHandleAgree);
     }
 
     public async onUpdateProfile(address, numphone, email, inputBirthday) {
         await this._sharedService.showLoading('Đang cập nhật...');
-
+        let permission = await this._storageService.get('permission_id');
         const { value } = inputBirthday.el;
         const ARRAY_BIRTHDAY: string[] = value.split('T');
         let birthday: string = ARRAY_BIRTHDAY[0].split('-').join('');
@@ -73,35 +105,23 @@ export class UpdateProfilePage extends DomainAPI implements ViewDidEnter {
             return this._sharedService.showToast('Không được để trống dữ liệu!', 'danger');
         }
 
-        let url: string = `${this.domain}/mvc/public/account/update_profile_student`;
-        const PERMISSION_ID = await this._storageService.get('permission_id');
         const formData = new FormData();
-        formData.append('image', this.image);
-        formData.append('student_id', this.student.student_id);
-        formData.append('permission_id', PERMISSION_ID);
-        formData.append('student_name', this.student.student_name);
-        formData.append('student_address', address);
-        formData.append('student_numphone', numphone);
-        formData.append('student_email', email);
-        formData.append('student_birthday', birthday);
-        formData.append('student_avatar', this.student?.student_avatar);
-
-        this.http.post(url, formData).subscribe((rs: IStatusUpdateProfile) => {
+        formData.append('id', this.student.student_id);
+        formData.append('permission', permission);
+        formData.append('gender', this.gender === 'male' ? '1' : '0');
+        formData.append('birthday', birthday);
+        formData.append('address', address);
+        formData.append('phone', numphone);
+        formData.append('email', email);
+        
+        let update$ = await this._accountService.updateProfile(formData);
+        update$.subscribe((rs: IStatusUpdateProfile) => {
             this._sharedService.loading.dismiss();
-            console.log(rs);
-
-            if (rs?.upload_state_avatar != 1 && rs?.upload_state_avatar !== 'file_not_found') {
-                let msg: string = `Upload không thành công - ${rs?.upload_state_avatar}!!!`;
-                return this._sharedService.showToast(msg, 'danger');
-            }
-
             if (rs?.update_state_info !== 1) {
                 let msg: string = `Cập nhật không thành công!!!`;
                 return this._sharedService.showToast(msg, 'danger');
             }
-            if (rs?.upload_state_avatar !== 'file_not_found') {
-                this.avatarUrl = `${this.domain}/mvc/public/images/${rs.avatar_new}`;
-            }
+
             this.isEnableUpdate = false;
             let msg: string = `Cập nhật thành công!!!`;
             return this._sharedService.showToast(msg, 'success');

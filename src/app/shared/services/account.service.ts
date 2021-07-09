@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { take } from 'rxjs/operators';
 import { DomainAPI } from 'src/app/shared/class/domain.class';
 import { StorageService } from './storage.service';
 
@@ -28,6 +29,12 @@ export class AccountService extends DomainAPI {
     }
     
     return await this.http.post(`${this.domain}/mvc/public/account/login`, data,  options);
+  }
+
+
+  public updateProfile(data: FormData) {
+    let url: string = `${this.domain}/mvc/public/account/update_profile`;
+    return this.http.post(url, data).pipe(take(1));
   }
 
 

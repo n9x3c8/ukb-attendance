@@ -33,10 +33,16 @@
                 <label>Họ tên</label>
                 <input type="text" disabled [placeholder]="student?.student_name" />
             </div>
+            
+
             <div class="item">
                 <label>Giới tính</label>
-                <input type="text" disabled [placeholder]="+student?.student_gender === 1 ? 'Nam' : 'Nữ'" />
+                <ion-select value="male" interface="action-sheet" [(ngModel)]="gender">
+                    <ion-select-option value="male">Nam</ion-select-option>
+                    <ion-select-option value="female">Nữ</ion-select-option>
+                </ion-select>
             </div>
+
             <div class="item">
                 <label>Ngày sinh</label>
                 <ion-datetime

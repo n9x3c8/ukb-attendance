@@ -164,19 +164,19 @@ export class ListStudentInRoomPage extends DomainAPI implements OnInit, OnDestro
 
         if (value === 'agree') {
             this.isUpdate = false;
-            this.loading = true;
+            this.loading = false;
             this.setQueryParam('agree');
             return this.filterAgree();
         }
 
         if (value === 'denine') {
             this.isUpdate = false;
-            this.loading = true;
+            this.loading = false;
             this.setQueryParam('denine');
             return this.filterDenine();
         }
         this.isUpdate = false;
-        this.loading = true;
+        this.loading = false;
         this.setQueryParam('without-permission');
         return this.filterWithoutPermission();
     }
@@ -184,10 +184,10 @@ export class ListStudentInRoomPage extends DomainAPI implements OnInit, OnDestro
     private async filterListStudent(options: IOptionsFilter) {
         let filterStudents$ = await this._teacherService.getStudentsByOptions(options);
         this.subscription = filterStudents$
-        .pipe( take(1) )
         .subscribe((res: any[]) => {
             if (res?.length) {
                 this.listStudent = [...res];
+                this.loading = false;
                 return;
             }
             this.loading = false;

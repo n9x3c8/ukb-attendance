@@ -47,11 +47,11 @@ export class TeacherService  extends DomainAPI{
     return this.http.get(url);
   }
 
-  public updateTeacher(address: any, phone: any, email: any) {
-    let url: string = `${this.domain}/mvc/public/account/update_profile_teacher`;
-    const data = { id: this.username, address, phone, email };
-    return this.http.post(url, data, this.options);
-  }
+  // public updateTeacher(address: any, phone: any, email: any) {
+  //   let url: string = `${this.domain}/mvc/public/account/update_profile_teacher`;
+  //   const data = { id: this.username, address, phone, email };
+  //   return this.http.post(url, data, this.options);
+  // }
 
   public async statistical(year?: number) {
     this.username = await this._storageService.get('username');
