@@ -10,6 +10,7 @@ import { AccountService } from 'src/app/shared/services/account.service';
 
 import { LoginPage } from './login.page';
 import { SharedService } from 'src/app/shared/services/shared.service';
+import { StorageService } from 'src/app/shared/services/storage.service';
 
 @NgModule({
   imports: [
@@ -19,6 +20,10 @@ import { SharedService } from 'src/app/shared/services/shared.service';
     LoginPageRoutingModule
   ],
   declarations: [LoginPage],
-  providers: [AccountService, SharedService]
+  providers: [
+    AccountService,
+    SharedService,
+    StorageService
+  ]
 })
 export class LoginPageModule {}

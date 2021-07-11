@@ -4,6 +4,8 @@ import { IonicModule } from '@ionic/angular';
 import { StatisticalRoutingModule } from './statistical-routing.module';
 import { StatisticalPage } from './statistical.page';
 import { ConvertMonthToSemesterPipe } from '../../../shared/pipe/convert-month-to-semester.pipe';
+import { TeacherService } from 'src/app/shared/services/teacher.service';
+import { SharedService } from 'src/app/shared/services/shared.service';
 @NgModule({
     declarations: [
         StatisticalPage,
@@ -14,6 +16,10 @@ import { ConvertMonthToSemesterPipe } from '../../../shared/pipe/convert-month-t
         IonicModule,
         StatisticalRoutingModule
     ],
-    exports: [StatisticalPage]
+    exports: [StatisticalPage],
+    providers: [
+        TeacherService,
+        SharedService
+    ]
 })
 export class StatisticalModule {}

@@ -7,7 +7,6 @@ import { SharedService } from 'src/app/shared/services/shared.service';
 import { DomainAPI } from 'src/app/shared/class/domain.class';
 import { Router } from '@angular/router';
 import { StorageService } from 'src/app/shared/services/storage.service';
-import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'attendance-attendance',

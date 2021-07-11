@@ -4,6 +4,8 @@ import { IonicModule } from "@ionic/angular";
 import { AttendanceGPSPage } from "./attendance-gps.page";
 import { AttendanceGPSRoutingModule } from './attendance-gps-routing.module';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { AttendanceService } from "src/app/shared/services/attendance.service";
+import { SharedService } from "src/app/shared/services/shared.service";
 
 @NgModule({
     declarations: [
@@ -14,6 +16,10 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
         IonicModule,
         AttendanceGPSRoutingModule
     ],
-    providers: [Geolocation]
+    providers: [
+        Geolocation,
+        AttendanceService,
+        SharedService
+    ]
 })
 export class AttendanceGPSModule {}

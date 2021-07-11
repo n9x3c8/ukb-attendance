@@ -30,9 +30,9 @@ export class ListStudentTakeLeavePage extends DomainAPI implements ViewDidEnter,
     public subscription$: Subscription;
     constructor(
         private _router: Router,
+        private _http: HttpClient,
         private _modalCtrl: ModalController,
         private _sharedService: SharedService,
-        private _http: HttpClient,
         private readonly _teacherService: TeacherService,
         private _storage: StorageService
     ) {

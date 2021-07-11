@@ -12,7 +12,6 @@
         <ion-select 
             placeholder="Chọn môn"
             interface="action-sheet" 
-            [disabled]="!isEnableSend"
             [(ngModel)]="selectedSubject"
             (ionChange)="onChangeSubject($event)">
             <ion-select-option *ngFor="let subject of subjects" [value]="subject?.subject_id">
@@ -22,16 +21,16 @@
 
         <ion-datetime
             placeholder="Ngày muốn nghỉ"
+            cancelText="Hủy"
+            doneText="Đồng ý"   
             [min]="currentDate"
             [max]="maxDate"
-            [disabled]="!isEnableSend"
             (ionChange)="getTakeLeaveDateTime($event)"
             displayFormat="DD/MM/YYYY">
         </ion-datetime>
 
         <ion-textarea
             placeholder='Lý do nghỉ...'
-            [disabled]="!isEnableSend"
             (ionChange)="validLeaveReason($event)">
         </ion-textarea>
 

@@ -6,6 +6,8 @@ import { IonicModule } from '@ionic/angular';
 import { HandmadeAttendancePageRoutingModule } from './handmade-attendance-routing.module';
 
 import { HandmadeAttendancePage } from './handmade-attendance.page';
+import { AttendanceService } from 'src/app/shared/services/attendance.service';
+import { SharedService } from 'src/app/shared/services/shared.service';
 
 @NgModule({
   imports: [
@@ -13,6 +15,10 @@ import { HandmadeAttendancePage } from './handmade-attendance.page';
     IonicModule,
     HandmadeAttendancePageRoutingModule
   ],
-  declarations: [HandmadeAttendancePage]
+  declarations: [HandmadeAttendancePage],
+  providers: [
+    AttendanceService,
+    SharedService
+  ]
 })
 export class HandmadeAttendancePageModule {}

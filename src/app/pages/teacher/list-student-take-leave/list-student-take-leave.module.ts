@@ -8,6 +8,9 @@ import { FormDeninePage } from './form-denine/form-denine.page';
 import { CustomPipeModule } from 'src/app/shared/pipe/custom-pipe.module';
 import { ViewDetailModule } from 'src/app/components/view-detail/view-detail.module';
 import { NoDataModule } from 'src/app/components/no-data/no-data.module';
+import { SharedService } from 'src/app/shared/services/shared.service';
+import { TeacherService } from 'src/app/shared/services/teacher.service';
+import { StorageService } from 'src/app/shared/services/storage.service';
 @NgModule({
     declarations: [
         ListStudentTakeLeavePage,
@@ -22,6 +25,11 @@ import { NoDataModule } from 'src/app/components/no-data/no-data.module';
         CustomPipeModule,
         NoDataModule
     ],
-    exports: [ListStudentTakeLeavePage]
+    exports: [ListStudentTakeLeavePage],
+    providers: [
+        SharedService,
+        TeacherService,
+        StorageService
+    ]
 })
 export class ListStudentTakeLeaveModule {}

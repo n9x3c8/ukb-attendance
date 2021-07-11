@@ -7,6 +7,8 @@ import { TeacherService } from '../../../shared/services/teacher.service';
 import { DashboardTeacherRoutingModule } from './dashboard-teacher-routing.module';
 import { DashboardTeacherPage } from './dashboard-teacher.page';
 import { FormsModule } from '@angular/forms';
+import { AccountService } from 'src/app/shared/services/account.service';
+import { AttendanceService } from 'src/app/shared/services/attendance.service';
 
 @NgModule({
   imports: [
@@ -19,7 +21,9 @@ import { FormsModule } from '@angular/forms';
     DashboardTeacherPage
   ],
   providers: [
+    AccountService,
     StorageService,
+    AttendanceService,
     TeacherService,
     SharedService
   ]

@@ -34,6 +34,22 @@ export class AttendanceService extends DomainAPI {
         return await this.http.get(url);
     }
 
+    // kiem tra xem hien tai gv bat diem danh hay chua
+    public async checkTurnOnAT(subjectId: string, currentDate: string) {
+        this.username = await this._storageService.get('username');
+        let uuid: any = await this.getIdDevice();
+        let url: string = `${this.domain}/mvc/public/attendance/check_turn_on_at/${this.username}/${subjectId}/${currentDate}/${uuid}`;
+        return this.http.get(url).pipe(take(1));
+    }
+
+    // kiem tra xem lop hoc da co gv nao bat diem danh hay chua
+    public async existClassInAT(classId: string, dateTimeStart: string, dateTimeEnd: string) {
+        this.username = await this._storageService.get('username');
+        let uuid: any = await this.getIdDevice();
+        let url: string = `${this.domain}/mvc/public/attendance/exist_class_in_at/${this.username}/${classId}/${dateTimeStart}/${dateTimeEnd}/${uuid}`;
+        return this.http.get(url).pipe(take(1));
+    }
+
 
     // Kiểm tra sv có phòng học hay chưa
     public async checkIDExistInRoom() {
@@ -42,6 +58,8 @@ export class AttendanceService extends DomainAPI {
         let url: string = `${this.domain}/mvc/public/attendance/exist_in_attendance_student/${username}/${uuid}`;
         return await this.http.get(url).pipe( take(1) );
     }
+
+
 
     // Cập nhật trạng thái điểm danh sv
     public async updateStateAttendance() {

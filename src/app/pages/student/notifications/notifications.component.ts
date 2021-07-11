@@ -46,13 +46,15 @@ export class NotificationsComponent implements ViewDidEnter, OnDestroy {
   }
 
   public async onViewDetail(notificaton: Notification, idx: number) {
-    if(notificaton?.is_seen === '1') {
+    if(+notificaton?.is_seen === 1) {
       return this.modalDetail(notificaton, idx);
     }
     
-    const listLeaveId: number = parseInt(notificaton?.list_leave_id);
+    const listLeaveId: number = +notificaton?.list_leave_id;
     let update$ = await this._studentService.updateSeenNotify(listLeaveId);
     this.subscription = update$.subscribe((res: { state: number }) => {
+      console.log(res);
+      
       if (res.state !== -1) {
         this.setQueryParam(idx);
         return this.modalDetail(notificaton, idx);

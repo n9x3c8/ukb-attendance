@@ -5,6 +5,8 @@ import { IonicModule } from "@ionic/angular";
 import { AttendanceOptionPage } from "./attendace-options.page";
 import { AttendanceOptionsRoutingModule } from "./attendance-options-routing.module";
 import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { SharedService } from "src/app/shared/services/shared.service";
+import { AttendanceService } from "src/app/shared/services/attendance.service";
 
 
 @NgModule({
@@ -17,6 +19,10 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
         IonicModule,
         AttendanceOptionsRoutingModule
     ],
-    providers: [Geolocation]
+    providers: [
+        Geolocation,
+        SharedService,
+        AttendanceService
+    ]
 })
 export class AttendanceOptionsModule {}

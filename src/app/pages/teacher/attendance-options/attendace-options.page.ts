@@ -24,6 +24,7 @@ export class AttendanceOptionPage implements ViewDidEnter, OnDestroy {
 
     public isEnableSelectSubject: boolean;
     public isEnableAttendance: boolean;
+    public isDisabledBtn: boolean;
     public validEmptyTakeLeave: number;
     public validHandMadeAT: number;
 
@@ -117,18 +118,45 @@ export class AttendanceOptionPage implements ViewDidEnter, OnDestroy {
         await this._sharedService.showLoading('Xin chờ...');
         this.selectedClass = v.detail.value;
         this.isEnableSelectSubject = !this.isEnableAttendance ? false : true;
+        this.isDisabledBtn = false;
         if (!this.info.infoClass.class_id) {
-    
-            // lay du lieu mon hoc tu server
-            let subject = await this._sharedService.getSubjects(this.selectedClass);
-            this.subscription = subject.subscribe((res: Subject[]) => {
-                this.subjects = [...res];
-                this.selectedSubject = res[0].subject_id;
-                this._sharedService.loading.dismiss();
-            });
-            return;
+            let dateTime = this.checkTimeAT();
+            let checkExistClassInAT$ = await this._attendanceService.existClassInAT(this.selectedClass, dateTime.dateTimeStart, dateTime.dateTimeEnd);
+            checkExistClassInAT$.subscribe((res: any) => {                
+                if(Array.isArray(res) && res.length !== 0) {
+                    let msg: string = `Chọn lớp thất bại. </br> Lớp <strong>${this.selectedClass}</strong> đang bật điểm danh bởi giảng viên <strong>${res[0].teacher_name}</strong> - Sđt: <strong>${res[0].teacher_numphone}</strong>`;
+                    this._sharedService.showAlert(msg, 'Thông báo');
+                    this.isDisabledBtn = true;
+                    return;
+                }
+            }); 
+
+            return this.getSubjects();
         }
         return this._sharedService.loading.dismiss();
+    }
+
+    private checkTimeAT(): {dateTimeStart: string, dateTimeEnd: string} {
+        let dateCurrent: string = this._sharedService.getDatetime();
+        let hoursCurrent: number = (new Date).getHours();
+        let dateTimeStart, dateTimeEnd;
+        if(hoursCurrent >= 8 && hoursCurrent <= 11) {
+            dateTimeStart = `${dateCurrent}080000`;
+            dateTimeEnd = `${dateCurrent}110000`;
+        } else if(hoursCurrent >= 13 && hoursCurrent <= 16) {
+            dateTimeStart = `${dateCurrent}130000`;
+            dateTimeEnd = `${dateCurrent}180000`;
+        }
+        return {dateTimeStart, dateTimeEnd};
+    }
+
+    private async getSubjects() {
+        let subject = await this._sharedService.getSubjects(this.selectedClass);
+        this.subscription = subject.subscribe((res: Subject[]) => {
+            this.subjects = [...res];
+            this.selectedSubject = res[0].subject_id;
+            this._sharedService.loading.dismiss();
+        });
     }
 
     public onChangeRadius(v: any) {
@@ -189,18 +217,18 @@ export class AttendanceOptionPage implements ViewDidEnter, OnDestroy {
     private async notifications() {
         return await LocalNotifications.schedule({
             notifications: [
-               {
-                   id: 1,
-                   title: 'Hãy tắt điểm danh',
-                   body: 'Đã đến giờ, xin Thầy/Cô tắt điểm danh',
-                   schedule: {
-                       on: {
-                           hour: 12,
-                           minute: 30
-                       },
-                       allowWhileIdle: true,
-                   }
-               }
+                {
+                    id: 1,
+                    title: 'Hãy tắt điểm danh',
+                    body: 'Đã đến giờ, xin Thầy/Cô tắt điểm danh',
+                    schedule: {
+                        on: {
+                            hour: 12,
+                            minute: 30
+                        },
+                        allowWhileIdle: true,
+                    }
+                }
             ],
         })
     }
@@ -249,7 +277,7 @@ export class AttendanceOptionPage implements ViewDidEnter, OnDestroy {
 
     private processTurnOffAT() {
         // if (this.validHandMadeAT === -1) {
-            // return this._sharedService.showToast(`Thầy/cô phải duyệt điểm danh thủ công trước!`, 'danger');
+        // return this._sharedService.showToast(`Thầy/cô phải duyệt điểm danh thủ công trước!`, 'danger');
         // }
         if (this.validEmptyTakeLeave === -1) {
             return this._sharedService.showToast('Thầy/Cô phải xét duyệt sinh viên nghỉ trước!', 'danger');
@@ -267,7 +295,7 @@ export class AttendanceOptionPage implements ViewDidEnter, OnDestroy {
             header: 'Xác thực!',
             message: '<strong>Thầy/Cô có muốn tắt điểm danh?</strong>!!!',
             buttons: [
-                 {
+                {
                     text: 'Đồng ý',
                     handler: async () => {
                         this.processTurnOffAT();
@@ -275,7 +303,7 @@ export class AttendanceOptionPage implements ViewDidEnter, OnDestroy {
                 }, {
                     text: 'Hủy',
                     role: 'cancel',
-                    handler: () => {}
+                    handler: () => { }
                 },
             ]
         });

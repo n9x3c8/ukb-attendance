@@ -3,9 +3,8 @@ import { Router } from '@angular/router';
 import { AccountService } from 'src/app/shared/services/account.service';
 import { StorageService } from 'src/app/shared/services/storage.service';
 import { SharedService } from 'src/app/shared/services/shared.service';
-import { AlertController, Platform, ViewDidEnter } from '@ionic/angular';
+import { ViewDidEnter } from '@ionic/angular';
 import { Device } from '@capacitor/device';
-import { App } from '@capacitor/app';
 
 @Component({
   selector: 'attendance-login',
@@ -15,15 +14,11 @@ import { App } from '@capacitor/app';
 export class LoginPage implements ViewDidEnter {
   public isShowPassword: boolean;
   constructor(
-    private platform: Platform,
-    private alertCtrl: AlertController,
     private router: Router,
     private _accountService: AccountService,
     private _storageService: StorageService,
     private _sharedService: SharedService
-  ) {
-    this.backButton();
-  }
+  ) {}
 
   ionViewDidEnter() {
     this.checkLogged();
@@ -92,35 +87,5 @@ export class LoginPage implements ViewDidEnter {
       }
     });
     return this._sharedService.loading.dismiss();
-  }
-
-   private backButton() {
-    this.platform.backButton.subscribeWithPriority(-1, () => {
-        this.presentAlertConfirm();
-    });
-  }
-
-
-  private async presentAlertConfirm() {
-    const alert = await this.alertCtrl.create({
-      header: 'Thông báo!',
-      message: 'Message <strong>Bạn có muốn thoát ứng dụng không</strong>???',
-      buttons: [
-        {
-          text: 'Hủy',
-          role: 'cancel',
-          cssClass: 'secondary',
-          handler: (blah) => {
-            
-          }
-        }, {
-          text: 'Đồng ý',
-          handler: () => {
-            App.exitApp();
-          }
-        }
-      ]
-    });
-    await alert.present();
   }
 }

@@ -2,6 +2,7 @@ import { Component } from "@angular/core";
 import { Router } from "@angular/router";
 import { AlertController, ViewDidEnter } from "@ionic/angular";
 import { Subject } from "src/app/shared/defined/subject.define";
+import { AttendanceService } from "src/app/shared/services/attendance.service";
 import { SharedService } from "src/app/shared/services/shared.service";
 import { StudentService } from "src/app/shared/services/student.service";
 import { SubjectService } from "src/app/shared/services/subject.service";
@@ -20,9 +21,9 @@ export class TakeLeavePage implements ViewDidEnter {
     public maxDate: string;
 
     public isEnableSend: boolean;
+
     // ngay muon nghi
     public date: string;
-
     private year: number | string;
     private month: number | string;
     // date
@@ -35,6 +36,7 @@ export class TakeLeavePage implements ViewDidEnter {
         private readonly _sharedService: SharedService,
         private readonly _studentService: StudentService,
         private readonly _subjectService: SubjectService,
+        private readonly _attendanceService: AttendanceService
     ) {
         this.isEnableSend = true;
         let year: number = (new Date).getFullYear();
@@ -76,20 +78,48 @@ export class TakeLeavePage implements ViewDidEnter {
         this.month = time[1];
         this.year = time[0];
         this.date = `${this.year}${this.month}${this.d}`;
+        this.isEnableSend = true;
+        this.handleExitstAT(this.date);
     }
+
+    // kiểm tra ngày hiện tại sv đã điểm danh hay chưa
+    private async handleExitstAT(dateSelected: string) {
+        let currentDate: string = this._sharedService.getDatetime();
+        if(dateSelected !== currentDate) {
+            return;
+        }
+
+        if(!this.selectedSubject) {
+            return;
+        }
+
+        let checkExistInRoom$ = await this._attendanceService.checkTurnOnAT(this.selectedSubject, currentDate);
+
+        checkExistInRoom$.subscribe((res: {state: string}) => {
+            let msg: string = '<strong>Xin nghỉ thất bại. Môn học bạn xin nghỉ đang trong giờ học!</strong>';
+            if(+res?.state !== 1) {
+                return;
+            }
+            this.isEnableSend = false;
+            this.presentActionSheet(msg, 'Cảnh báo');
+        });
+
+    }
+
 
 
 
     public async onChangeSubject(v) {
         let count = await this._studentService.countTakeLeave(this.selectedSubject);
+        this.isEnableSend = true;
         count.subscribe(async (res: any) => {
             if (res.state !== -1) {
                 let count: number = parseInt(res[0].quantity_take_leave_subject);
                 if (count > 3) {
-                    this.subjects = [];
+                    this.subjects.length = 0;
                     let message: string = `Môn ${this.selectedSubject} bạn đã nộp đơn xin nghỉ ${count} lần rồi !!`;
                     let cb = () => {
-                        this._router.navigate(['dashboard-student']);
+                        this.isEnableSend = false;
                     }
                     return this.presentActionSheet(message, 'Cảnh báo', cb);
                 }

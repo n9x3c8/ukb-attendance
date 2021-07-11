@@ -82,7 +82,7 @@ export class StudentService extends DomainAPI {
   public async updateSeenNotify(list_leave_id: number) {
     this.username = await this._storageService.get('username');
     let uuid: any = await this.getIdDevice();
-    const URL: string = ` ${this.domain}/mvc/public/notifications/check_seen_notification/${this.username}/${uuid}/${list_leave_id}`;
+    const URL: string = ` ${this.domain}/mvc/public/notifications/check_seen_notification/${this.username}/${list_leave_id}/${uuid}`;
     return this.http.get(URL);
   }
 

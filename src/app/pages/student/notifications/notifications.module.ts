@@ -8,6 +8,8 @@ import { NavigationBottomModule } from 'src/app/components/navigation-bottom/nav
 import { NotificationsRoutingModule } from './notifications-routing.module';
 import { CustomPipeModule } from 'src/app/shared/pipe/custom-pipe.module';
 import { NoDataModule } from 'src/app/components/no-data/no-data.module';
+import { StudentService } from 'src/app/shared/services/student.service';
+import { SharedService } from 'src/app/shared/services/shared.service';
 @NgModule({
     declarations: [
         NotificationsComponent
@@ -24,6 +26,10 @@ import { NoDataModule } from 'src/app/components/no-data/no-data.module';
     ],
     exports: [
         NotificationsComponent
+    ],
+    providers: [
+        StudentService,
+        SharedService
     ]
     
 })

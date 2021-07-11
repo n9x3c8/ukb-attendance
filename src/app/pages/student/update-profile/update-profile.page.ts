@@ -62,6 +62,7 @@ export class UpdateProfilePage extends DomainAPI implements ViewDidEnter {
 
     public selectFile(event) {
         const onHandleAgree = async () => {
+            await this._sharedService.showLoading('Đang tải lên...');
             if (!event.target.files && !event.target.files.length) {
                 return;
             }
@@ -81,9 +82,10 @@ export class UpdateProfilePage extends DomainAPI implements ViewDidEnter {
                 if (rs?.state !== 'upload_success') {
                     return this._sharedService.showToast(rs.state, 'danger');
                 }
-
                 this.avatarUrl = `${this.domain}/mvc/public/images/${rs.filename}`;
                 this.avatarCurrent = rs.filename;
+                this._sharedService.loading.dismiss();
+                return this._sharedService.showToast('Thay đổi ảnh đại diện thành công!', 'success');
             });
         };
 

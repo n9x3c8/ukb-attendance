@@ -69,6 +69,7 @@ export class UpdateInfoPage extends DomainAPI implements ViewDidEnter, OnDestroy
 
     public selectFile(event) {
         const onHandleAgree = async () => {
+            await this._sharedService.showLoading('Đang tải lên...');
             if (!event.target.files && !event.target.files.length) {
                 return;
             }
@@ -91,6 +92,8 @@ export class UpdateInfoPage extends DomainAPI implements ViewDidEnter, OnDestroy
 
                 this.avatarUrl = `${this.domain}/mvc/public/images/${rs.filename}`;
                 this.avatarCurrent = rs.filename;
+                this._sharedService.loading.dismiss();
+                return this._sharedService.showToast('Thay đổi ảnh đại diện thành công!', 'success');
             });
         };
 

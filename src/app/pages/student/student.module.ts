@@ -2,6 +2,7 @@ import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { IonicModule } from "@ionic/angular";
 import { NavigationBottomModule } from "src/app/components/navigation-bottom/navigation-bottom.module";
+import { StudentService } from "src/app/shared/services/student.service";
 import { StudentRoutingModule } from "./student-routing.module";
 import { StudentComponent } from "./student.component";
 
@@ -16,6 +17,9 @@ import { StudentComponent } from "./student.component";
     ],
     exports: [
         StudentComponent
+    ],
+    providers: [
+        StudentService
     ]
 })
 export class StudentModule {}
