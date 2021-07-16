@@ -6,12 +6,14 @@
         <input type="checkbox" id="tab-one" checked/>
         <label for="tab-one">
           <div class="number">1</div>
-          <span>Tại sao chọn UKBApp?</span>
+          <span>Ứng dụng UKB Attendance là gì?</span>
         </label>
         <div class="tab-content">
-          <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eligendi cupiditate illo esse amet nemo optio
-            obcaecati, repellat consectetur provident ipsam minus, architecto neque sint explicabo quibusdam officia error
-            laudantium corporis.</p>
+          <p>
+            Ứng dụng <strong>{{ appTitle }}</strong> ra đời nhằm mục đích giúp giảng viên điểm danh sinh viên một cách <i>dễ dàng</i>, <i>chính xác, </i>
+            <i>nhanh chóng, </i> và <i>hiệu quả cao!</i> Ứng dụng {{ appTitle }} sử dụng công nghệ <i>GPS (Global Positioning System - Hệ thống định vị toàn cầu)</i>
+            nên việc điểm danh sẽ tốt hơn so với việc điểm danh theo kiểu truyền thống của trường Đại Học.
+          </p>
         </div>
       </div>
   
@@ -19,28 +21,16 @@
         <input type="checkbox" id="tab-two" />
         <label for="tab-two">
           <div class="number">2</div>
-          <span>Ứng dụng của UKBApp là gì?</span>
+          <span>Điểm danh GPS là gì?</span>
         </label>
         <div class="tab-content">
-          <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eligendi cupiditate illo esse amet nemo optio
-            obcaecati, repellat consectetur provident ipsam minus, architecto neque sint explicabo quibusdam officia error
-            laudantium corporis.</p>
+          <p>
+            Ứng dụng UKB Attendance sử dụng công nghệ GPS, ứng dụng sẽ lấy tọa độ vị trí (vĩ độ & kinh độ), bán kính của giảng viên,
+            sinh viên rồi tính toán xem sinh viên hiện tại có nằm trong bán kính mà giảng viên đưa ra trước đó hay không.
+            ({{appTitle}} là an toàn, không theo dõi người sử dụng.)
+          </p>
         </div>
       </div>
-  
-      <div class="tab">
-        <input type="checkbox" id="tab-three" />
-        <label for="tab-three">
-          <div class="number">3</div>
-          <span>Em ăn cơm chưa?</span>
-        </label>
-        <div class="tab-content">
-          <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eligendi cupiditate illo esse amet nemo optio
-            obcaecati, repellat consectetur provident ipsam minus, architecto neque sint explicabo quibusdam officia error
-            laudantium corporis.</p>
-        </div>
-      </div>
-
       <ng-content></ng-content>
     </div>
   </ion-content>

@@ -7,11 +7,9 @@ import { WarningDirective } from 'src/app/shared/directives/warning.directive';
 import { ViewDetailRoutingModule } from './view-detail-routing.module';
 
 import { ViewDetailComponent } from './view-detail.component';
-import { PrintComponent } from '../print/print.component';
 @NgModule({
     declarations: [
         ViewDetailComponent,
-        PrintComponent,
         WarningDirective
     ],
     imports: [

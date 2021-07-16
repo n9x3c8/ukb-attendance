@@ -16,7 +16,7 @@
           </div>
         </div>
         <div class="menu">
-          <ion-icon name="ellipsis-vertical-outline"></ion-icon>
+          <ion-icon name="ellipsis-vertical-outline" (click)="openMenu()"></ion-icon>
         </div>
       </div>
       <div class="control-panel">Bảng điều khiển</div>
@@ -28,7 +28,7 @@
           <ion-col size="6">
             <div class="wrap-click" (click)="onAttendanceGPS()">
               <ion-thumbnail>
-                <img src="assets/images/attendance-student.png" />
+                <img src="assets/images/attendance.png" />
               </ion-thumbnail>
               <div class="feature-name">điểm danh</div>
             </div>
@@ -48,7 +48,7 @@
           <ion-col size="6">
             <div class="wrap-click" [routerLink]="['/student/statistical']">
               <ion-thumbnail>
-                <img src="assets/images/statistical.png" />
+                <img src="assets/images/report.png" />
               </ion-thumbnail>
               <div class="feature-name">thống kê</div>
             </div>
@@ -57,23 +57,16 @@
           <ion-col size="6">
             <div class="wrap-click" [routerLink]="['/student/leave-application']">
               <ion-thumbnail>
-                <img src="assets/images/take-leave.png" />
+                <img src="assets/images/statistical.png" />
               </ion-thumbnail>
-              <div class="feature-name">danh sách đơn xin nghỉ</div>
+              <div class="feature-name">Đơn xin nghỉ</div>
             </div>
           </ion-col>
         </ion-row>
 
         <ion-row>
-          <ion-col size="6">
-            <div class="wrap-click" (click)="onLogout()">
-              <ion-thumbnail>
-                <img src="assets/images/logout.png" />
-              </ion-thumbnail>
-              <div class="feature-name">đăng xuất</div>
-            </div>
-          </ion-col>
         </ion-row>
+
       </ion-grid>
     </section>
   </div>

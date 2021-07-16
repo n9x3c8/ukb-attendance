@@ -18,16 +18,15 @@ export class AttendanceGPSPage implements OnInit, OnDestroy {
   public radius: number;
 
   public isEnableAttendance: boolean;
-  public subscription: Subscription;
-
   public infoDetailAttendance: any;
+  public subscription: Subscription;
 
   constructor(
     private _geolocation: Geolocation,
     private _alertCtrl: AlertController,
     private _attendanceService: AttendanceService,
     private _sharedService: SharedService
-  ) { }
+  ) {}
 
   public async ngOnInit() {
     await this.init();

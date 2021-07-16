@@ -8,11 +8,8 @@ ion-toolbar {
         color: #f5e3c8;
     }
     ion-title {
-        font-size: 1.6rem;
-        // font-size: 4vw;
-        font-weight: 700;
-        padding-left: 9rem;
         color: #f5e3c8;
+        font-size: 1.6rem;
     }
 }
 
@@ -32,6 +29,7 @@ ion-content {
             --padding-start: 0;
             --padding-end: 0;
             margin: 0;
+            color: #002723;
             border-bottom: 0.1rem solid rgba(0, 121, 107, 87%);
             img, .image {
                 width: 5.6rem;
@@ -45,16 +43,13 @@ ion-content {
                 border-radius: 50%;
             }
             .detail {
-                // height: 7.2rem;
                 height: auto;
                 .notification-title {
                     font-size: 1.6rem;
-                    // font-size: 4vw;
                     padding: 0.8rem 1.6rem 0.4rem 1.6rem;
                 }
                 .take-leave-reason {
                     font-size: 1.4rem;
-                    // font-size: 3.8vw;
                     padding: 0 1.6rem 0.4rem 1.6rem;
                 }
                 .notification-title-fake {

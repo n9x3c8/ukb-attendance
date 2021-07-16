@@ -80,6 +80,7 @@ export class UpdateProfilePage extends DomainAPI implements ViewDidEnter {
 
             this.http.post(url, formData).subscribe((rs: { state: string, filename: string }) => {
                 if (rs?.state !== 'upload_success') {
+                    this._sharedService.loading.dismiss();
                     return this._sharedService.showToast(rs.state, 'danger');
                 }
                 this.avatarUrl = `${this.domain}/mvc/public/images/${rs.filename}`;

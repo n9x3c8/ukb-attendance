@@ -6,6 +6,7 @@ import { Component, Input } from "@angular/core";
     styleUrls: ['accordion-list.component.scss']
 })
 export class AccordionListComponent {
+    public appTitle: string = 'UKB Attendance';
     @Input('title') title: string;
     constructor() {}
 }

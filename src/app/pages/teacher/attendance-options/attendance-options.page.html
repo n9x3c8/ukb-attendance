@@ -1,7 +1,7 @@
 <ion-header>
     <ion-toolbar color="appbar">
         <ion-buttons slot="start" [routerLink]="['/teacher/dashboard']">
-            <ion-back-button defaultHref></ion-back-button>
+            <ion-back-button icon="chevron-back-outline" defaultHref></ion-back-button>
         </ion-buttons>
         <ion-title>Điểm danh GPS</ion-title>
     </ion-toolbar>
@@ -13,6 +13,7 @@
             placeholder="Chọn lớp"
             interface="action-sheet"
             [disabled]="!isEnableAttendance"
+            [(ngModel)]="selectedClass"
             (ionChange)="onChangeClass($event)">
             <ion-select-option
                 *ngFor="let c of class"

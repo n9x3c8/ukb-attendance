@@ -11,38 +11,38 @@ const routes: Routes = [
         children: [
             {
                 path: 'dashboard',
-                loadChildren: () => import('./dashboard-student/dashboard-student.module').then( m => m.DashboardStudentModule )
+                loadChildren: () => import('./dashboard-student/dashboard-student.module').then(m => m.DashboardStudentModule)
             },
             {
                 path: 'attendance-gps',
-                loadChildren: () => import('./attendance-gps/attendance-gps.module').then( m => m.AttendanceGPSModule )
+                loadChildren: () => import('./attendance-gps/attendance-gps.module').then(m => m.AttendanceGPSModule)
             },
             {
                 path: 'notifications',
-                loadChildren: () => import('./notifications/notifications.module').then( m => m.NotificationsModule )
+                loadChildren: () => import('./notifications/notifications.module').then(m => m.NotificationsModule)
             },
             {
                 path: 'take-leave',
-                loadChildren: () => import('./take-leave/take-leave.module').then( m => m.TakeLeaveModule )
+                loadChildren: () => import('./take-leave/take-leave.module').then(m => m.TakeLeaveModule)
             },
             {
                 path: 'update-profile',
-                loadChildren: () => import('./update-profile/update-profile.module').then( m => m.UpdateProfileModule )
+                loadChildren: () => import('./update-profile/update-profile.module').then(m => m.UpdateProfileModule)
             },
             {
                 path: 'statistical',
-                loadChildren: () => import('./statistical/statistical.module').then( m => m.StatisticalModule )
+                loadChildren: () => import('./statistical/statistical.module').then(m => m.StatisticalModule)
             },
             {
                 path: 'leave-application',
-                loadChildren: () => import('./leave-application/leave-application.module').then( m => m.LeaveApplicationPageModule )
+                loadChildren: () => import('./leave-application/leave-application.module').then(m => m.LeaveApplicationPageModule)
+            },
+            {
+                path: 'q-and-a',
+                loadChildren: () => import('./q-and-a/q-and-a.module').then( m => m.QAndAModule )
             }
         ]
-    },
-  {
-    path: 'leave-application',
-    loadChildren: () => import('./leave-application/leave-application.module').then( m => m.LeaveApplicationPageModule)
-  }
+    }
 ];
 
 @NgModule({
@@ -53,4 +53,4 @@ const routes: Routes = [
         RouterModule
     ]
 })
-export class StudentRoutingModule {}
+export class StudentRoutingModule { }

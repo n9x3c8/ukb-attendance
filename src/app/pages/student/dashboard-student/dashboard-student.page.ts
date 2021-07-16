@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { ViewDidEnter } from '@ionic/angular';
+import { Router } from '@angular/router';
+import { ActionSheetController, ViewDidEnter } from '@ionic/angular';
+import { App } from '@capacitor/app';
 import { AccountService } from '../../../shared/services/account.service';
 import { StudentService } from 'src/app/shared/services/student.service';
 import { AttendanceService } from 'src/app/shared/services/attendance.service';
 import { SharedService } from 'src/app/shared/services/shared.service';
 import { DomainAPI } from 'src/app/shared/class/domain.class';
-import { Router } from '@angular/router';
 import { StorageService } from 'src/app/shared/services/storage.service';
+
 
 @Component({
   selector: 'attendance-attendance',
@@ -21,6 +23,7 @@ export class DashboardStudentPage extends DomainAPI implements OnInit, ViewDidEn
   public countNewNotify: number;
   constructor(
     private _router: Router,
+    private _actionSheetController: ActionSheetController,
     private _storageService: StorageService,
     private _accountService: AccountService,
     private _attendanceService: AttendanceService,
@@ -98,6 +101,30 @@ export class DashboardStudentPage extends DomainAPI implements OnInit, ViewDidEn
       const savePassword: Function = () => this._storageService.set('logged', 1);
       return this._sharedService.showAlert(msgAgree, 'Lưu mật khẩu', savePassword, msgCancel);
     }
+  }
+
+  public async openMenu() {
+    const actionSheet = await this._actionSheetController.create({
+      buttons: [{
+        text: 'Đổi mật khẩu',
+        icon: 'key-outline',
+        handler: () => {
+          this._sharedService.showToast('Đang phát triển', 'danger');
+        }
+      }, {
+        text: 'Đăng Xuất',
+        icon: 'log-out-outline',
+        handler: () => this.onLogout()
+      }, {
+        text: 'Hủy',
+        icon: 'close',
+        role: 'cancel',
+        handler: () => {
+          console.log('Cancel clicked');
+        }
+      }]
+    });
+    return await actionSheet.present();
   }
 
   public onLogout() {

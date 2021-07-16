@@ -1,7 +1,7 @@
-<ion-header>
+<!-- <ion-header>
   <ion-toolbar color="appbar">
     <ion-buttons slot="start" [routerLink]="['/student/dashboard']">
-      <ion-back-button defaultHref></ion-back-button>
+      <ion-back-button icon="chevron-back-outline" defaultHref></ion-back-button>
     </ion-buttons>
     <ion-title>Danh sách đơn xin nghỉ</ion-title>
   </ion-toolbar>
@@ -56,4 +56,52 @@
 
     </ion-card-content>
   </ion-card>
+</ion-content> -->
+
+<ion-header>
+  <ion-toolbar color="appbar">
+    <ion-buttons slot="start" [routerLink]="['/student/dashboard']">
+      <ion-back-button icon="chevron-back-outline" defaultHref></ion-back-button>
+    </ion-buttons>
+    <ion-title>Thống kê</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content>
+  <div class="item" *ngFor="let itemTakeLeave of listLeaveApp; index as idx; trackBy: trackByFn">
+    <div class="info">
+      Môn: <span>{{ itemTakeLeave?.subject_name }}</span>
+    </div>
+    <div class="info">
+      Ngày gửi đơn: <span>{{ itemTakeLeave?.leave_time | date:'dd-MM-YYYY' }}</span>
+    </div>
+    <div class="info">
+      Ngày muốn nghỉ: <span>{{ itemTakeLeave?.take_leave_date | date:'dd-MM-YYYY' }}</span>
+    </div>
+    <div class="info">
+      Lý do: <span>{{ itemTakeLeave?.leave_reason }}</span>
+    </div>
+    <div class="info">
+      GV Phản hồi: <span>{{ itemTakeLeave?.is_enable == 1 ? 'Đồng ý' : itemTakeLeave?.is_enable == 0 ? 'Từ chối' : 'Chưa phê duyệt' }}</span>
+    </div>
+
+    <div class="info" *ngIf="itemTakeLeave?.is_enable != 1 && itemTakeLeave?.is_enable != null">
+      Lý do bị từ chối: <span>{{ itemTakeLeave?.denine_reason }}</span>
+    </div>
+
+    <div class="button">
+      <ion-button color="appbar" slot="end" *ngIf="!itemTakeLeave?.leave_id_list_leave"
+        (click)="onHandleEdit(itemTakeLeave, idx)">
+        <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+      </ion-button>
+
+      <ion-button color="danger" *ngIf="itemTakeLeave?.isDelete == 1"
+        (click)="onHandleDel(itemTakeLeave?.leave_id_leaves, idx)">
+        <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+      </ion-button>
+    </div>
+
+  </div>
+
 </ion-content>

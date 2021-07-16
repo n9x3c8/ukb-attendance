@@ -1,76 +1,35 @@
 <ion-header>
   <ion-toolbar color="appbar">
     <ion-buttons slot="start" [routerLink]="['/teacher/dashboard']">
-      <ion-back-button defaultHref></ion-back-button>
+      <ion-back-button icon="chevron-back-outline" defaultHref></ion-back-button>
     </ion-buttons>
-    <ion-title>Thống kê...</ion-title>
+    <ion-title>Thống kê</ion-title>
   </ion-toolbar>
 </ion-header>
 
 
-<ion-content class="ion-padding">
-  <!-- <ion-card
-    *ngFor="let statis of infoStatistical"
-    (click)="onViewDetail(statis?.class_id, statis?.subject_id, statis?.subject_credit)"
-    >
-    <ion-card-header>
+<ion-content>
+  <div class="item" *ngFor="let statis of infoStatistical"
+    (click)="onViewDetail(statis?.class_id, statis?.subject_id, statis?.subject_credit)">
+    <div class="info">
+      Môn: <span>{{ statis?.subject_name }}</span>
+    </div>
+    <div class="info">
+      Mã lớp: <span>{{ statis?.class_id }}</span>
+    </div>
+    <div class="info">
+      Tên lớp: <span>{{ statis?.class_name }}</span>
+    </div>
+    <div class="info" *ngIf="statis?.year">
+      {{ statis?.month | convertMonthToSemester }}
+      -
+      {{ statis?.year }}
+    </div>
 
-      <ion-card-subtitle>
-        Tên môn:
-        <span>{{ statis?.subject_name }}</span>
-      </ion-card-subtitle>
-    </ion-card-header>
+    <div class="info">
+      Tổng buổi đã giảng dạy:
+      {{ !statis?.learn_session ? 0 : statis?.learn_session }}/{{ +statis?.subject_credit === 3 ? 12 : 8 }}
+    </div>
+  </div>
 
-    <ion-card-content>
-      <div class="info">
-        Mã lớp: {{ statis?.class_id }}
-      </div>
-      <div class="info">
-        Tên lớp: {{ statis?.class_name }}
-      </div>
-      <div class="info" *ngIf="statis?.year">
-        {{ statis?.month | convertMonthToSemester }}
-        - 
-        {{ statis?.year }}
-      </div>
-
-      <div class="info">
-        Tổng buổi đã giảng dạy:
-        {{ !statis?.learn_session ? 0 : statis?.learn_session }}/{{ statis?.subject_credit == '3' ? '12' : 8 }}
-      </div>
-    </ion-card-content>
-  </ion-card> -->
-
-  <ion-virtual-scroll [items]="infoStatistical" approxItemHeight="320px">
-    <ion-card
-      *virtualItem="let statis; let itemBounds = bounds;"
-      (click)="onViewDetail(statis?.class_id, statis?.subject_id, statis?.subject_credit)">
-      <ion-card-header>
-
-        <ion-card-subtitle>
-          Tên môn:
-          <span>{{ statis?.subject_name }}</span>
-        </ion-card-subtitle>
-      </ion-card-header>
-  
-      <ion-card-content>
-        <div class="info">
-          Mã lớp: {{ statis?.class_id }}
-        </div>
-        <div class="info">
-          Tên lớp: {{ statis?.class_name }}
-        </div>
-        <div class="info" *ngIf="statis?.year">
-          {{ statis?.month | convertMonthToSemester }}
-          - 
-          {{ statis?.year }}
-        </div>
-  
-        <div class="info">
-          Tổng buổi đã giảng dạy:
-          {{ !statis?.learn_session ? 0 : statis?.learn_session }}/{{ statis?.subject_credit == '3' ? '12' : 8 }}
-        </div>
-      </ion-card-content>
-    </ion-card>
-  </ion-virtual-scroll>
 </ion-content>

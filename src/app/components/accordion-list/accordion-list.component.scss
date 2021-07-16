@@ -33,6 +33,9 @@ label {
     span {
         padding-left: .8rem;
     }
+    span.s-14 {
+        font-size: 1.4rem;
+    }
 }
 
 label p {
@@ -94,7 +97,7 @@ label p:before {
 
 .tab-content p {
     margin: 0;
-    padding: .8rem 1.6rem;
+    padding: .8rem 1.2rem;
     text-align: justify;
 }
 

@@ -1,41 +1,30 @@
 <ion-header>
     <ion-toolbar color="appbar">
       <ion-buttons slot="start" [routerLink]="['/student/dashboard']">
-        <ion-back-button defaultHref></ion-back-button>
+        <ion-back-button icon="chevron-back-outline" defaultHref></ion-back-button>
       </ion-buttons>
-      <ion-title>Thông kê</ion-title>
+      <ion-title>Thống kê</ion-title>
     </ion-toolbar>
-</ion-header>
-
-
-<ion-content class="ion-padding">
-    <ion-card *ngFor="let statis of infoStatistical">
-      <ion-card-header>
+  </ion-header>
   
-        <ion-card-subtitle>
-          Tên môn:
-          <span>{{ statis?.subject_name }}</span>
-        </ion-card-subtitle>
-      </ion-card-header>
   
-      <ion-card-content>
-        
-        <div class="info">
-          Tên giảng viên: {{ statis?.teacher_name }}
-        </div>
-       
-        <div class="info">
-            Số buổi đã nghỉ: {{ !statis?.leave_session ? 0 : statis?.leave_session }}
-        </div>
-
-        <div class="info">
-            Buổi thứ: {{ !statis?.learn_session ? 0 : statis?.learn_session }}
-        </div>
-
-        <div class="info">
-          Tông só buôi phải học: 
-          {{ statis?.subject_credit == 2 ? 8 : 12 }}
-        </div>
-      </ion-card-content>
-    </ion-card>
+  <ion-content>
+    <div class="item" *ngFor="let statis of infoStatistical">
+      <div class="info">
+        Môn: <span>{{ statis?.subject_name }}</span>
+      </div>
+      <div class="info">
+        Giảng viên: <span>{{ statis?.teacher_name }}</span>
+      </div>
+      <div class="info">
+        Số buổi nghỉ: <span>{{ !statis?.leave_session ? 0 : statis?.leave_session }}</span>
+      </div>
+      <div class="info">
+        Buổi thứ: <span>{{ !statis?.learn_session ? 0 : statis?.learn_session }}</span>
+      </div>
+      <div class="info">
+        Tổng số buổi học: <span>{{ statis?.subject_credit == 2 ? 8 : 12 }}</span>
+      </div>
+    </div>
+  
   </ion-content>

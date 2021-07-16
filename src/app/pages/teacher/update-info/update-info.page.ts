@@ -87,6 +87,7 @@ export class UpdateInfoPage extends DomainAPI implements ViewDidEnter, OnDestroy
 
             this.http.post(url, formData).subscribe((rs: { state: string, filename: string }) => {
                 if (rs?.state !== 'upload_success') {
+                    this._sharedService.loading.dismiss();
                     return this._sharedService.showToast(rs.state, 'danger');
                 }
 

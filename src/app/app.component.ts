@@ -33,7 +33,7 @@ export class AppComponent implements OnInit, ViewDidEnter, ViewWillLeave {
   }
 
   ionViewDidEnter() {
-    // navigator['app'].clearHistory();
+    navigator['app'].clearHistory();
   }
 
   ionViewWillLeave() {
@@ -50,7 +50,7 @@ export class AppComponent implements OnInit, ViewDidEnter, ViewWillLeave {
     let options: BackgroundColorOptions = {
       color: '#1976D2',
     };
-    await StatusBar.setBackgroundColor(options);
+    // await StatusBar.setBackgroundColor(options);
   }
 
   
@@ -78,6 +78,7 @@ export class AppComponent implements OnInit, ViewDidEnter, ViewWillLeave {
 
   private async showToast(message: string, color?: string, duration?: number) {
     const toast = await this._toast.create({
+      cssClass: 'toast-custom-56',
       message,
       duration,
       color,
