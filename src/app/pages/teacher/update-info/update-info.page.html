@@ -44,6 +44,8 @@
                 <label>Ngày sinh</label>
                 <ion-datetime
                     slot="start"
+                    cancelText="Hủy"
+                    doneText="Đồng ý"
                     #birthday
                     display-format="DD/MM/YYYY"
                     [value]="teacher?.teacher_birthday | date:'YYYY-MM-dd' "

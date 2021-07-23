@@ -113,7 +113,7 @@ export class ListStudentTakeLeavePage extends DomainAPI implements ViewDidEnter,
                 this._sharedService.showToast(msg, 'success');
             });
         }
-        return this._sharedService.showToast('Bạn phải nhập lý do từ chối trước');
+        return this._sharedService.showToast('Thầy/Cô phải nhập lý do từ chối trước', 'danger');
     }
 
     private setQueryParam(value: number) {

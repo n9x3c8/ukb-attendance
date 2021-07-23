@@ -178,7 +178,8 @@ export class DashboardTeacherPage extends DomainAPI implements OnInit, OnDestroy
         text: 'Đăng Xuất',
         icon: 'log-out-outline',
         handler: () => this.onLogout()
-      }, {
+      },
+      {
         text: 'Reset',
         icon: 'log-out-outline',
         handler: () => this.onReset()
